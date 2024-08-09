@@ -16,8 +16,7 @@
  */
 package com.axana.nifi.processors;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.nifi.annotation.behavior.InputRequirement;
@@ -29,15 +28,12 @@ import org.apache.nifi.annotation.behavior.WritesAttributes;
 import org.apache.nifi.annotation.documentation.CapabilityDescription;
 import org.apache.nifi.annotation.documentation.SeeAlso;
 import org.apache.nifi.annotation.documentation.Tags;
-import org.apache.nifi.annotation.lifecycle.OnScheduled;
-import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
-import org.apache.nifi.processor.ProcessorInitializationContext;
 import org.apache.nifi.processor.Relationship;
-import org.apache.nifi.processor.util.StandardValidators;
+import org.apache.nifi.processor.exception.ProcessException;
 
 @Tags({"HL7 to Json Converter","Extract HL7 attributes to Json Format", "Convert HL7 segment id into actual HL7 Reflection"})
 @CapabilityDescription("Provide a description")
@@ -49,56 +45,40 @@ import org.apache.nifi.processor.util.StandardValidators;
 
 public class AxanaHL7ToJsonConverter extends AbstractProcessor {
 
-    public static final PropertyDescriptor MY_PROPERTY = new PropertyDescriptor
-            .Builder()
-            .name("My Property")
-            .displayName("My Property")
-            .description("Example Property")
-            .required(true)
-            .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
-            .build();
-
     public static final Relationship REL_SUCCESS = new Relationship.Builder()
-            .name("success")
-            .description("Success relationship")
+            .name("SUCCESS")
+            .description("Successfully processed files")
             .build();
 
-    private List<PropertyDescriptor> descriptors;
-
-    private Set<Relationship> relationships;
-
-    @Override
-    protected void init(final ProcessorInitializationContext context) {
-        descriptors = List.of(MY_PROPERTY);
-
-        relationships = Set.of(REL_SUCCESS);
-    }
-
+    public static final Relationship REL_FAILURE = new Relationship.Builder()
+            .name("FAILURE")
+            .description("Failed processing files")
+            .build();
     @Override
     public Set<Relationship> getRelationships() {
-        return Collections.singleton(REL_SUCCESS);
+        Set<Relationship> relationships = new HashSet<>();
+        relationships.add(REL_SUCCESS);
+        relationships.add(REL_FAILURE); // Ensure this is being added
+        return relationships;
     }
-
+    
     @Override
-    public final List<PropertyDescriptor> getSupportedPropertyDescriptors() {
-        return Collections.emptyList();
-    }
-
-    @OnScheduled
-    public void onScheduled(final ProcessContext context) {
-
-    }
-
-    @Override
-    public void onTrigger(final ProcessContext context, final ProcessSession session) {
+    public void onTrigger(final ProcessContext context, final ProcessSession session) throws ProcessException {
         FlowFile flowFile = session.get();
         if (flowFile == null) {
             return;
         }
-        // TODO implement
 
-        session.transfer(flowFile, REL_SUCCESS);
+        try {
+            // Your processing logic here
+
+            // If successful
+            session.transfer(flowFile, REL_SUCCESS);
+        } catch (Exception e) {
+            getLogger().error("Failed to process {}", new Object[]{flowFile, e});
+            // Route to failure relationship
+            session.transfer(flowFile, REL_FAILURE);
+        }
     }
-
 
 }
