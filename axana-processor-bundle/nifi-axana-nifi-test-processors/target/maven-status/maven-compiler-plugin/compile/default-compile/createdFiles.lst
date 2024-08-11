@@ -1,4 +1,6 @@
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension.class
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension$1.class
 com/axana/nifi/processors/AxanaHL7ToJsonConverter.class
+com/axana/nifi/processors/AxanaHL7ToJsonNameConvension_1_0_2$1.class
+com/axana/nifi/processors/AxanaHL7ToJsonNameConvension_1_0_2.class
 com/axana/nifi/processors/JSONObject.class
