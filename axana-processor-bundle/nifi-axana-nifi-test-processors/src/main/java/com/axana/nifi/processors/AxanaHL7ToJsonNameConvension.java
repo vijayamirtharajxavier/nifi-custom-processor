@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -23,6 +24,7 @@ import org.apache.nifi.processor.ProcessorInitializationContext;
 import org.apache.nifi.processor.Relationship;
 import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.io.OutputStreamCallback;
+import org.apache.nifi.processor.util.StandardValidators;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -30,6 +32,7 @@ import com.google.gson.JsonObject;
 
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.Composite;
+import ca.uhn.hl7v2.model.Group;
 import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.Primitive;
 import ca.uhn.hl7v2.model.Segment;
@@ -53,12 +56,21 @@ public class AxanaHL7ToJsonNameConvension extends AbstractProcessor {
             .name("fail")
             .description("Not processed files")
             .build();
-
+    public static final PropertyDescriptor MIME_TYPE = new PropertyDescriptor.Builder()
+        .name("Mime Type")
+        .description("Specifies the MIME type of the output content, e.g., application/json")
+        .required(false) // If you want to make it optional
+        .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
+        .defaultValue("application/json") // Default to application/json
+        .build();
 
     @Override
-    public List<PropertyDescriptor> getSupportedPropertyDescriptors() {
-        return Collections.emptyList(); // No properties needed for this processor
+    protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
+        final List<PropertyDescriptor> descriptors = new ArrayList<>();
+        descriptors.add(MIME_TYPE);
+        return Collections.unmodifiableList(descriptors);
     }
+
     @Override
     public Set<Relationship> getRelationships() {
         return Set.of(SUCCESS, FAILURE);
@@ -98,7 +110,13 @@ if (hl7Message.contains("<cr>")) {
                     out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8));
                 }
             });
-    
+
+        // Retrieve the MIME type from the processor's properties
+        String mimeType = context.getProperty(MIME_TYPE).getValue();
+
+        // Set the MIME type attribute
+        flowFile = session.putAttribute(flowFile, "mime.type", mimeType);
+            
             // Transfer the FlowFile to the SUCCESS relationship
             session.transfer(flowFile, SUCCESS);
         } catch (Exception e) {
@@ -121,6 +139,8 @@ private String readFlowFileContent(ProcessSession session, FlowFile flowFile) th
     });
     return sb.toString();
 }
+
+
 public JsonObject HL7toJson(String hl7Message) {
     Gson gson = new Gson();
     Map<String, JsonArray> jsonMap = new LinkedHashMap<>();
@@ -128,27 +148,29 @@ public JsonObject HL7toJson(String hl7Message) {
     try {
         Parser parser = new PipeParser();
         Message message = parser.parse(hl7Message);
-        String[] segmentNames = { "MSH", "PID", "OBX" };
 
-        for (String segmentName : segmentNames) {
-            getLogger().info("Processing segment: " + segmentName);
-            Structure[] structures = message.getAll(segmentName);
-            JsonArray segmentArray = new JsonArray();
+        // Process each structure in the message (segments or groups)
+        for (String structureName : message.getNames()) {
+            Structure[] structures = message.getAll(structureName);
+            JsonArray structureArray = new JsonArray();
 
-            for (int index = 0; index < structures.length; index++) {
-                Segment segment = (Segment) structures[index];
-                Class<?> segmentClass = getSegmentClass(segment.getName());
-                getLogger().info("Processing segment: " + segmentName);
-                
-                
-                if (segmentClass != null) {
-                    Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
-                    JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
-                    segmentArray.add(segmentJson);
+            for (Structure structure : structures) {
+                if (structure instanceof Segment) {
+                    Segment segment = (Segment) structure;
+                    Class<?> segmentClass = getSegmentClass(segment.getName());
+                    if (segmentClass != null) {
+                        Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
+                        JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
+                        structureArray.add(segmentJson);
+                    }
+                } else if (structure instanceof Group) {
+                    Group group = (Group) structure;
+                    JsonObject groupJson = processGroup(group);
+                    structureArray.add(groupJson);
                 }
             }
 
-            jsonMap.put(segmentName, segmentArray);
+            jsonMap.put(structureName, structureArray);
         }
 
         return gson.toJsonTree(jsonMap).getAsJsonObject();
@@ -157,6 +179,100 @@ public JsonObject HL7toJson(String hl7Message) {
         return new JsonObject(); 
     }
 }
+
+private JsonObject processGroup(Group group) {
+    Gson gson = new Gson();
+    JsonObject groupJson = new JsonObject();
+
+    try {
+        // Iterate over the structures in the group
+        for (String structureName : group.getNames()) {
+            Structure[] structures = group.getAll(structureName);
+            JsonArray structureArray = new JsonArray();
+
+            for (Structure structure : structures) {
+                if (structure instanceof Segment) {
+                    Segment segment = (Segment) structure;
+                    Class<?> segmentClass = getSegmentClass(segment.getName());
+                    if (segmentClass != null) {
+                        Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
+                        JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
+                        structureArray.add(segmentJson);
+                    }
+                } else if (structure instanceof Group) {
+                    // Recursively process nested groups
+                    JsonObject nestedGroupJson = processGroup((Group) structure);
+                    structureArray.add(nestedGroupJson);
+                }
+            }
+
+            groupJson.add(structureName, structureArray);
+        }
+    } catch (HL7Exception e) {
+        getLogger().error("Error processing group", e);
+    }
+
+    return groupJson;
+}
+
+
+/*
+public JsonObject HL7toJson(String hl7Message) {
+    Gson gson = new Gson();
+    Map<String, JsonArray> jsonMap = new LinkedHashMap<>();
+    try {
+        
+        // Replace newline with carriage return if necessary
+        hl7Message = hl7Message.replace("<cr>", "\r");
+        hl7Message = hl7Message.replace("\n", "\r");
+
+        Parser parser = new PipeParser();
+    
+        // Validate the HL7 version and segment structure before parsing
+        if (hl7Message == null || !hl7Message.startsWith("MSH")) {
+            throw new HL7Exception("Invalid HL7 message format.");
+        }
+    
+        Message message = parser.parse(hl7Message);
+        
+        for (String segmentName : message.getNames()) {
+            getLogger().info("Processing segment: " + segmentName);
+    
+            Structure[] structures = message.getAll(segmentName);
+            JsonArray segmentArray = new JsonArray();
+    
+            for (int index = 0; index < structures.length; index++) {
+                if (structures[index] instanceof Segment) {
+                    Segment segment = (Segment) structures[index];
+                    Class<?> segmentClass = getSegmentClass(segment.getName());
+    
+                    if (segmentClass != null) {
+                        Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
+                        JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
+                        segmentArray.add(segmentJson);
+                    } else {
+                        getLogger().warn("Segment class not found for segment: " + segmentName);
+                    }
+                } else {
+                    getLogger().warn("Structure is not a Segment: " + structures[index].getClass().getName());
+                }
+            }
+    
+            jsonMap.put(segmentName, segmentArray);
+        }
+    
+        return gson.toJsonTree(jsonMap).getAsJsonObject();
+    } catch (HL7Exception e) {
+        getLogger().error("HL7 Exception occurred: " + e.getMessage(), e);
+        return new JsonObject(); 
+    } catch (Exception e) {
+        getLogger().error("Error processing HL7 message", e);
+        return new JsonObject(); 
+    }
+        
+}
+
+*/
     // Function to retrieve field and subfield names from a segment
     private  Map<String, Object> getFieldNames(Segment segment, Class<?> segmentClass) {
         Map<String, Object> fieldNames = new LinkedHashMap<>();
