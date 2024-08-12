@@ -354,7 +354,7 @@ public JsonObject HL7toJson(String hl7Message) {
                         for (int k = 0; k < components.length; k++) {
                             Type component = components[k];
                             String componentIdentifier = Integer.toString(i) + "." + Integer.toString(k + 1);
-                            System.out.println("comp no: " + componentIdentifier);
+                      //      System.out.println("comp no: " + componentIdentifier);
                             
                             String submethodName = findMethodNameForSubfield(segmentClass, segment.getName(), componentIdentifier);
                             if (component instanceof Primitive) {
@@ -367,13 +367,16 @@ public JsonObject HL7toJson(String hl7Message) {
                                 }
                               //  compositeFields.put(submethodName.split("_")[1] , value);
                                 //compositeFields.put(componentIdentifier + " (" + primitiveName + ")" + "["+ submethodName.split("_")[1] + "]", value);
+                                if(submethodName!=null) {
                                 String underscore = camelToUnderscore(submethodName.split("_")[1]);
                                 compositeFields.put(underscore, value);
+                                }
                             }
                         }
+                        if(methodName!=null) {
                         String underscore = camelToUnderscore(methodName.split("_")[1]);
                         fieldNames.put(underscore, compositeFields);
-
+                        }
 //                        fieldNames.put(methodName.split("_")[1], compositeFields);
                     } else if (fields[j] instanceof Primitive) {
                         Primitive primitive = (Primitive) fields[j];
@@ -385,9 +388,10 @@ public JsonObject HL7toJson(String hl7Message) {
                         if ((primitiveName.contains("TS") || primitiveName.contains("DTM") || primitiveName.contains("DT"))) {
                             value = convertTimestamp(value);
                         }
+                        if(methodName!=null) {
                         String underscore = camelToUnderscore(methodName.split("_")[1]);
                         fieldNames.put(underscore, value);
-
+                        }
                         //fieldNames.put(methodName.split("_")[1], value);
                     }
                 }
