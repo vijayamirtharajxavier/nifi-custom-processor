@@ -109,7 +109,10 @@ public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
+
+
         ComponentLog logger = getLogger();
+
         FlowFile flowFile = session.get();
         if (flowFile == null) {
             return;
@@ -126,7 +129,7 @@ if (hl7Message.contains("<cr>")) {
     
 
 }
-            getLogger().info("HL7 Message: " + hl7Message);
+            logger.info("HL7 Message: " + hl7Message);
             // Convert HL7 message to JSON
             JsonObject jsonOutput = HL7toJson(hl7Message, context);
     
@@ -148,7 +151,7 @@ if (hl7Message.contains("<cr>")) {
             session.transfer(flowFile, SUCCESS);
         } catch (Exception e) {
             logger.error("Error processing flow file: "+ e.getMessage(),e);            
-            getLogger().error("Failed to convert HL7 to JSON" , e);
+            logger.error("Failed to convert HL7 to JSON" , e);
             session.transfer(flowFile, FAILURE);
         }
         }
