@@ -2,7 +2,6 @@ package com.axana.nifi.processors;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -33,11 +32,11 @@ import org.apache.nifi.processor.ProcessSession;
 import org.apache.nifi.processor.ProcessorInitializationContext;
 import org.apache.nifi.processor.Relationship;
 import org.apache.nifi.processor.exception.ProcessException;
-import org.apache.nifi.processor.io.OutputStreamCallback;
 import org.apache.nifi.processor.util.StandardValidators;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import ca.uhn.hl7v2.HL7Exception;
@@ -88,7 +87,14 @@ public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
         .addValidator(StandardValidators.NON_EMPTY_VALIDATOR)
         .defaultValue("PID=patients,NK1=nextofkin") // Default mappings
         .build();
-    
+
+@Override
+public void init(final ProcessorInitializationContext context) {
+    final List<PropertyDescriptor> descriptors = new ArrayList<>();
+    descriptors.add(MIME_TYPE);
+    descriptors.add(SEGMENT_MAPPING);
+    Collections.unmodifiableList(descriptors);
+}        
     @Override
     protected List<PropertyDescriptor> getSupportedPropertyDescriptors() {
         final List<PropertyDescriptor> descriptors = new ArrayList<>();
@@ -100,11 +106,6 @@ public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
     @Override
     public Set<Relationship> getRelationships() {
         return Set.of(SUCCESS, FAILURE);
-    }
-    @Override
-    protected void init(final ProcessorInitializationContext context) {
-        super.init(context);
-        // Initialization code here
     }
 
     @Override
@@ -119,6 +120,13 @@ public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
         }
 
         try {
+
+       // Get the mapping from the context
+       String mappingStr = context.getProperty(SEGMENT_MAPPING).getValue();
+       Map<String, String> segmentMapping = parseMappingString(mappingStr);
+
+
+
             // Read the content of the FlowFile
              String hl7Message = readFlowFileContent(session, flowFile);
             // Check if the message contains '\n' instead of '\r', which could happen due to improper handling
@@ -129,22 +137,27 @@ if (hl7Message.contains("<cr>")) {
     
 
 }
-            logger.info("HL7 Message: " + hl7Message);
+
+
+
+logger.info("HL7 Message: " + hl7Message);
             // Convert HL7 message to JSON
             JsonObject jsonOutput = HL7toJson(hl7Message, context);
             // Check if jsonOutput is empty or null
             if (jsonOutput == null || jsonOutput.size() == 0) {
                 throw new ProcessException("Conversion resulted in an empty JSON object.");
             }
-    
             // Write the JSON output to the FlowFile
-            flowFile = session.write(flowFile, new OutputStreamCallback() {
+            flowFile = session.write(flowFile, out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
+
+            // Write the JSON output to the FlowFile
+/*            flowFile = session.write(flowFile, new OutputStreamCallback() {
                 @Override
                 public void process(OutputStream out) throws IOException {
                     out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8));
                 }
             });
-
+*/
         // Retrieve the MIME type from the processor's properties
         String mimeType = context.getProperty(MIME_TYPE).getValue();
 
@@ -162,6 +175,19 @@ if (hl7Message.contains("<cr>")) {
         
         }
         }
+
+// Helper method to parse the mapping string
+private Map<String, String> parseMappingString(String mappingStr) {
+    Map<String, String> map = new LinkedHashMap<>();
+    String[] mappings = mappingStr.split(",");
+    for (String mapping : mappings) {
+        String[] parts = mapping.split("=");
+        if (parts.length == 2) {
+            map.put(parts[0].trim(), parts[1].trim());
+        }
+    }
+    return map;
+}
 
  // Helper method to read content from a FlowFile
 private String readFlowFileContent(ProcessSession session, FlowFile flowFile) throws IOException {
@@ -230,13 +256,47 @@ public JsonObject HL7toJson(String hl7Message,ProcessContext context) {
             jsonMap.put(customSegmentName, structureArray);
 //            jsonMap.put(structureName, structureArray);
         }
+        JsonObject resultJson = gson.toJsonTree(jsonMap).getAsJsonObject();
+        return applyMappingRecursively(resultJson, segmentMapping);
 
-        return gson.toJsonTree(jsonMap).getAsJsonObject();
+   //     return gson.toJsonTree(jsonMap).getAsJsonObject();
     } catch (Exception e) {
         getLogger().error("Error processing HL7 message", e);
         return new JsonObject(); 
     }
 }
+
+
+// Recursive method to apply mapping to nested JSON objects
+private static JsonObject applyMappingRecursively(JsonObject jsonObject, Map<String, String> segmentMapping) {
+    JsonObject mappedJson = new JsonObject();
+
+    for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+        String key = entry.getKey();
+        JsonElement value = entry.getValue();
+
+        String mappedKey = segmentMapping.getOrDefault(key, key);
+
+        if (value.isJsonObject()) {
+            mappedJson.add(mappedKey, applyMappingRecursively(value.getAsJsonObject(), segmentMapping));
+        } else if (value.isJsonArray()) {
+            JsonArray mappedArray = new JsonArray();
+            for (JsonElement element : value.getAsJsonArray()) {
+                if (element.isJsonObject()) {
+                    mappedArray.add(applyMappingRecursively(element.getAsJsonObject(), segmentMapping));
+                } else {
+                    mappedArray.add(element);
+                }
+            }
+            mappedJson.add(mappedKey, mappedArray);
+        } else {
+            mappedJson.add(mappedKey, value);
+        }
+    }
+
+    return mappedJson;
+}
+
 
 private JsonObject processGroup(Group group) {
     Gson gson = new Gson();
