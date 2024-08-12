@@ -26,6 +26,7 @@ import org.apache.nifi.annotation.documentation.SeeAlso;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
+import org.apache.nifi.logging.ComponentLog;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
@@ -108,6 +109,7 @@ public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
+        ComponentLog logger = getLogger();
         FlowFile flowFile = session.get();
         if (flowFile == null) {
             return;
@@ -145,7 +147,7 @@ if (hl7Message.contains("<cr>")) {
             // Transfer the FlowFile to the SUCCESS relationship
             session.transfer(flowFile, SUCCESS);
         } catch (Exception e) {
-            
+            logger.error("Error processing flow file: "+ e.getMessage(),e);            
             getLogger().error("Failed to convert HL7 to JSON" , e);
             session.transfer(flowFile, FAILURE);
         }
@@ -262,63 +264,6 @@ private JsonObject processGroup(Group group) {
 }
 
 
-/*
-public JsonObject HL7toJson(String hl7Message) {
-    Gson gson = new Gson();
-    Map<String, JsonArray> jsonMap = new LinkedHashMap<>();
-    try {
-        
-        // Replace newline with carriage return if necessary
-        hl7Message = hl7Message.replace("<cr>", "\r");
-        hl7Message = hl7Message.replace("\n", "\r");
-
-        Parser parser = new PipeParser();
-    
-        // Validate the HL7 version and segment structure before parsing
-        if (hl7Message == null || !hl7Message.startsWith("MSH")) {
-            throw new HL7Exception("Invalid HL7 message format.");
-        }
-    
-        Message message = parser.parse(hl7Message);
-        
-        for (String segmentName : message.getNames()) {
-            getLogger().info("Processing segment: " + segmentName);
-    
-            Structure[] structures = message.getAll(segmentName);
-            JsonArray segmentArray = new JsonArray();
-    
-            for (int index = 0; index < structures.length; index++) {
-                if (structures[index] instanceof Segment) {
-                    Segment segment = (Segment) structures[index];
-                    Class<?> segmentClass = getSegmentClass(segment.getName());
-    
-                    if (segmentClass != null) {
-                        Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
-                        JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
-                        segmentArray.add(segmentJson);
-                    } else {
-                        getLogger().warn("Segment class not found for segment: " + segmentName);
-                    }
-                } else {
-                    getLogger().warn("Structure is not a Segment: " + structures[index].getClass().getName());
-                }
-            }
-    
-            jsonMap.put(segmentName, segmentArray);
-        }
-    
-        return gson.toJsonTree(jsonMap).getAsJsonObject();
-    } catch (HL7Exception e) {
-        getLogger().error("HL7 Exception occurred: " + e.getMessage(), e);
-        return new JsonObject(); 
-    } catch (Exception e) {
-        getLogger().error("Error processing HL7 message", e);
-        return new JsonObject(); 
-    }
-        
-}
-
-*/
     // Function to retrieve field and subfield names from a segment
     private  Map<String, Object> getFieldNames(Segment segment, Class<?> segmentClass) {
         Map<String, Object> fieldNames = new LinkedHashMap<>();
