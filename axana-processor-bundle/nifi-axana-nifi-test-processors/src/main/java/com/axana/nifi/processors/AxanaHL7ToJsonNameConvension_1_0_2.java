@@ -132,6 +132,10 @@ if (hl7Message.contains("<cr>")) {
             logger.info("HL7 Message: " + hl7Message);
             // Convert HL7 message to JSON
             JsonObject jsonOutput = HL7toJson(hl7Message, context);
+            // Check if jsonOutput is empty or null
+            if (jsonOutput == null || jsonOutput.size() == 0) {
+                throw new ProcessException("Conversion resulted in an empty JSON object.");
+            }
     
             // Write the JSON output to the FlowFile
             flowFile = session.write(flowFile, new OutputStreamCallback() {
@@ -151,8 +155,11 @@ if (hl7Message.contains("<cr>")) {
             session.transfer(flowFile, SUCCESS);
         } catch (Exception e) {
             logger.error("Error processing flow file: "+ e.getMessage(),e);            
-            logger.error("Failed to convert HL7 to JSON" , e);
-            session.transfer(flowFile, FAILURE);
+        //    logger.error("Failed to convert HL7 to JSON" , e);
+        // Penalize the FlowFile and transfer it to FAILURE
+        flowFile = session.penalize(flowFile);
+        session.transfer(flowFile, FAILURE);
+        
         }
         }
 
