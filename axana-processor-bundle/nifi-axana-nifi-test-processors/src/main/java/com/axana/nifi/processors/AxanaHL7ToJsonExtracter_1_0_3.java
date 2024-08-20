@@ -56,7 +56,7 @@ import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
 
 
-@Tags({ "HL7 to Json Converter", "Extract HL7 attributes to Json Format with Naming Convention",
+@Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
         "It supports the following message types : ADT, ORU, SIU",
         "version compiled on NiFi 2.0.0-M4",
         "Set property based Mime_Type",
