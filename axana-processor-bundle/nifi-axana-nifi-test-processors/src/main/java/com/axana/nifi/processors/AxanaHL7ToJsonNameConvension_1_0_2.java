@@ -32,6 +32,7 @@ import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
 import org.apache.nifi.processor.ProcessorInitializationContext;
 import org.apache.nifi.processor.Relationship;
+import org.apache.nifi.processor.exception.FlowFileAccessException;
 import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
 
@@ -62,7 +63,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 @SupportsBatching
 
 public class AxanaHL7ToJsonNameConvension_1_0_2 extends AbstractProcessor {
-String version_no;
+    String version_no;
     public static final Relationship SUCCESS = new Relationship.Builder()
             .name("success")
             .description("Successfully processed files")
@@ -156,7 +157,7 @@ String version_no;
 
             // Transfer the FlowFile to the SUCCESS relationship
             session.transfer(flowFile, SUCCESS);
-        } catch (Exception e) {
+        } catch (IOException | FlowFileAccessException | ProcessException e) {
             logger.error("Error processing flow file: " + e.getMessage(), e);
             // logger.error("Failed to convert HL7 to JSON" , e);
             // Penalize the FlowFile and transfer it to FAILURE
@@ -219,28 +220,29 @@ String version_no;
         try {
             Parser parser = new PipeParser();
             Message message = parser.parse(hl7Message);
-         // Extract the version number
-         String version = message.getVersion();
-            if(version=="2.3")
-            {
-                version_no="v23";
-            }
-
-            if(version=="2.4")
-            {
-                version_no="v24";
-            }
-            if(version=="2.5")
-            {
-                version_no="v25";
-            }
-            if(version=="2.5.1")
-            {
-                version_no="v251";
-            }
-
+            // Extract the version number
+            String version = message.getVersion();
+            version_no = "v" + version.replace(".", "");
+            /*
+             * if(version=="2.3")
+             * {
+             * version_no="v" + version.replaceAll(".","") ;
+             * }
+             * 
+             * if(version=="2.4")
+             * {
+             * version_no="v24";
+             * }
+             * if(version=="2.5")
+             * {
+             * version_no="v25";
+             * }
+             * if(version=="2.5.1")
+             * {
+             * version_no="v251";
+             * }
+             */
             getLogger().info("version MSH : " + version_no);
-
 
             // Process each structure in the message (segments or groups)
             for (String structureName : message.getNames()) {
@@ -251,18 +253,21 @@ String version_no;
                 JsonArray structureArray = new JsonArray();
 
                 for (Structure structure : structures) {
-                    if (structure instanceof Segment) {
-                        Segment segment = (Segment) structure;
-                        Class<?> segmentClass = getSegmentClass(segment.getName());
-                        if (segmentClass != null) {
-                            Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
-                            JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
-                            structureArray.add(segmentJson);
+                    switch (structure) {
+                        case Segment segment -> {
+                            Class<?> segmentClass = getSegmentClass(segment.getName());
+                            if (segmentClass != null) {
+                                Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
+                                JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
+                                structureArray.add(segmentJson);
+                            }
                         }
-                    } else if (structure instanceof Group) {
-                        Group group = (Group) structure;
-                        JsonObject groupJson = processGroup(group);
-                        structureArray.add(groupJson);
+                        case Group group -> {
+                            JsonObject groupJson = processGroup(group);
+                            structureArray.add(groupJson);
+                        }
+                        default -> {
+                        }
                     }
                 }
                 jsonMap.put(customSegmentName, structureArray);
@@ -272,7 +277,7 @@ String version_no;
             return applyMappingRecursively(resultJson, segmentMapping);
 
             // return gson.toJsonTree(jsonMap).getAsJsonObject();
-        } catch (Exception e) {
+        } catch (HL7Exception e) {
             getLogger().error("Error processing HL7 message", e);
             return new JsonObject();
         }
@@ -319,18 +324,22 @@ String version_no;
                 JsonArray structureArray = new JsonArray();
 
                 for (Structure structure : structures) {
-                    if (structure instanceof Segment) {
-                        Segment segment = (Segment) structure;
-                        Class<?> segmentClass = getSegmentClass(segment.getName());
-                        if (segmentClass != null) {
-                            Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
-                            JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
-                            structureArray.add(segmentJson);
+                    switch (structure) {
+                        case Segment segment -> {
+                            Class<?> segmentClass = getSegmentClass(segment.getName());
+                            if (segmentClass != null) {
+                                Map<String, Object> fieldNames = getFieldNames(segment, segmentClass);
+                                JsonObject segmentJson = gson.toJsonTree(fieldNames).getAsJsonObject();
+                                structureArray.add(segmentJson);
+                            }
                         }
-                    } else if (structure instanceof Group) {
-                        // Recursively process nested groups
-                        JsonObject nestedGroupJson = processGroup((Group) structure);
-                        structureArray.add(nestedGroupJson);
+                        case Group group1 -> {
+                            // Recursively process nested groups
+                            JsonObject nestedGroupJson = processGroup(group1);
+                            structureArray.add(nestedGroupJson);
+                        }
+                        default -> {
+                        }
                     }
                 }
 
@@ -370,63 +379,63 @@ String version_no;
                     // System.out.println("No method found for field: " + fieldIdentifier);
                 }
 
-                for (int j = 0; j < fields.length; j++) {
-                    if (fields[j] instanceof Composite) {
-                        Composite composite = (Composite) fields[j];
-                        Map<String, Object> compositeFields = new LinkedHashMap<>();
-                        Type[] components = composite.getComponents();
+                for (Type field : fields) {
+                    switch (field) {
+                        case Composite composite -> {
+                            Map<String, Object> compositeFields = new LinkedHashMap<>();
+                            Type[] components = composite.getComponents();
+                            for (int k = 0; k < components.length; k++) {
+                                Type component = components[k];
+                                String componentIdentifier = Integer.toString(i) + "." + Integer.toString(k + 1);
+                                // System.out.println("comp no: " + componentIdentifier);
 
-                        for (int k = 0; k < components.length; k++) {
-                            Type component = components[k];
-                            String componentIdentifier = Integer.toString(i) + "." + Integer.toString(k + 1);
-                            // System.out.println("comp no: " + componentIdentifier);
+                                String submethodName = findMethodNameForSubfield(segmentClass, segment.getName(),
+                                        componentIdentifier);
+                                if (component instanceof Primitive primitive) {
+                                    String primitiveName = primitive.getName();
+                                    String value = primitive.encode();
 
-                            String submethodName = findMethodNameForSubfield(segmentClass, segment.getName(),
-                                    componentIdentifier);
-                            if (component instanceof Primitive) {
-                                Primitive primitive = (Primitive) component;
-                                String primitiveName = primitive.getName();
-                                String value = primitive.encode();
-
-                                if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
-                                        || primitiveName.contains("DT"))) {
-                                    value = convertTimestamp(value);
-                                }
-                                // compositeFields.put(submethodName.split("_")[1] , value);
-                                // compositeFields.put(componentIdentifier + " (" + primitiveName + ")" + "["+
-                                // submethodName.split("_")[1] + "]", value);
-                                if (submethodName != null) {
-                                    String underscore = camelToUnderscore(submethodName.split("_")[1]);
-                                    compositeFields.put(underscore, value);
+                                    if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
+                                            || primitiveName.contains("DT"))) {
+                                        value = convertTimestamp(value);
+                                    }
+                                    // compositeFields.put(submethodName.split("_")[1] , value);
+                                    // compositeFields.put(componentIdentifier + " (" + primitiveName + ")" + "["+
+                                    // submethodName.split("_")[1] + "]", value);
+                                    if (submethodName != null) {
+                                        String underscore = camelToUnderscore(submethodName.split("_")[1]);
+                                        compositeFields.put(underscore, value);
+                                    }
                                 }
                             }
+                            if (methodName != null) {
+                                String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                fieldNames.put(underscore, compositeFields);
+                            }
+                            // fieldNames.put(methodName.split("_")[1], compositeFields);
                         }
-                        if (methodName != null) {
-                            String underscore = camelToUnderscore(methodName.split("_")[1]);
-                            fieldNames.put(underscore, compositeFields);
+                        case Primitive primitive -> {
+                            getLogger().info("Field " + i + " content: " + field.encode());
+                            String primitiveName = primitive.getName();
+                            String value = primitive.encode();
+                            if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
+                                    || primitiveName.contains("DT"))) {
+                                value = convertTimestamp(value);
+                            }
+                            if (methodName != null) {
+                                String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                fieldNames.put(underscore, value);
+                            }
+                            // fieldNames.put(methodName.split("_")[1], value);
                         }
-                        // fieldNames.put(methodName.split("_")[1], compositeFields);
-                    } else if (fields[j] instanceof Primitive) {
-                        Primitive primitive = (Primitive) fields[j];
-
-                        getLogger().info("Field " + i + " content: " + fields[j].encode());
-                        String primitiveName = primitive.getName();
-                        String value = primitive.encode();
-
-                        if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
-                                || primitiveName.contains("DT"))) {
-                            value = convertTimestamp(value);
+                        default -> {
                         }
-                        if (methodName != null) {
-                            String underscore = camelToUnderscore(methodName.split("_")[1]);
-                            fieldNames.put(underscore, value);
-                        }
-                        // fieldNames.put(methodName.split("_")[1], value);
                     }
                 }
             }
         } catch (HL7Exception e) {
-            e.printStackTrace();
+            getLogger().info("HL7 Exception : " + e.getMessage());
+
         }
 
         return fieldNames;
@@ -446,14 +455,14 @@ String version_no;
     }
 
     // Method to dynamically get the segment class using reflection
-    private  Class<?> getSegmentClass(String segmentName) {
+    private Class<?> getSegmentClass(String segmentName) {
         try {
             // Construct the fully qualified class name
             String packageName = "ca.uhn.hl7v2.model." + version_no + ".segment"; // Replace with your actual package
             String className = packageName + "." + segmentName;
             return Class.forName(className);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            getLogger().info("Class Exception : " + e.getMessage());
             return null;
         }
     }
@@ -481,8 +490,7 @@ String version_no;
                     }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SecurityException e) {
         }
 
         return null;
@@ -506,7 +514,7 @@ String version_no;
             }
 
         } catch (ParseException e) {
-            e.printStackTrace();
+
             return hl7Timestamp; // Return original if parsing fails
         }
         return hl7Timestamp;
