@@ -58,7 +58,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
         "It supports the following message types : ADT, ORU, SIU",
-        "version compiled on NiFi 2.0.0-M4",
+        "version compiled for NiFi 2.0.0-M4",
         "Set property based Mime_Type",
         "Set property based Segment mapping name eg:PID=patients,NK1=nextofkin,MSH=message_header" })
 @CapabilityDescription("This custom process will do the conversion of HL7 message of v2.3 into JSON format with naming convention of segment,element data items as per HL7 structure and Group, it uses HAPI library for Reflection of HL7 standard v2.3")
@@ -645,7 +645,7 @@ public class AxanaHL7ToJsonExtracter_1_0_3 extends AbstractProcessor {
     private static String convertTimestamp(String hl7Timestamp) {
         SimpleDateFormat hl7Format = new SimpleDateFormat("yyyyMMddHHmm");
         SimpleDateFormat hl7DtFormat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat desiredFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat desiredDtFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             if (hl7Timestamp.length() != 0) {
