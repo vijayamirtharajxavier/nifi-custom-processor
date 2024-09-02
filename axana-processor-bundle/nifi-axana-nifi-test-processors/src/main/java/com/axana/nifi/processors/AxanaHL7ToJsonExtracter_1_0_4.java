@@ -465,6 +465,13 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                                     if(segment.getName().equals("SCH")) {
                                         logger.info("componentidentifer : " + componentIdentifier + ", value : " + value);
                                     }
+                                                                // Special handling for OBX-5.1
+                            if ("5.1".equals(componentIdentifier) && "OBX".equals(segment.getName())) {
+                                fieldNames.put("OBX-5.1", value);
+                            } else {
+                                compositeFields.put(componentIdentifier, value);
+                            }
+
                                     
                                     if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
                                             || primitiveName.contains("DT"))) {
