@@ -14,7 +14,7 @@ From: 'an unknown organization'
 
 From: 'Apache NiFi Project' (https://nifi.apache.org/)
 
-  - nifi-axana-nifi-hl7-processors (https://nifi.apache.org/nifi-bom/nifi-extension-bom/nifi-extension-bundles/axana-processor-bundle/nifi-axana-nifi-hl7-processors) com.axana.nifi:nifi-axana-nifi-hl7-processors:jar:1.0.3
+  - nifi-axana-nifi-hl7-processors (https://nifi.apache.org/nifi-bom/nifi-extension-bom/nifi-extension-bundles/axana-processor-bundle/nifi-axana-nifi-hl7-processors) com.axana.nifi:nifi-axana-nifi-hl7-processors:jar:1.0.4
     License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
 
   - nifi-standard-services-api-nar (https://nifi.apache.org/nifi-bom/nifi-extension-bom/nifi-extension-bundles/nifi-standard-services-api-bom/nifi-standard-services/nifi-standard-services-api-nar) org.apache.nifi:nifi-standard-services-api-nar:nar:2.0.0-M4

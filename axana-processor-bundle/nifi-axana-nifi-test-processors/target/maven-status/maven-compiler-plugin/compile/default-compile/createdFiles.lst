@@ -1,3 +1,4 @@
+com/axana/nifi/processors/AxanaHL7ToJsonExtracter_1_0_4.class
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension.class
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension$1.class
 com/axana/nifi/processors/AxanaHL7ToJsonConverter.class
