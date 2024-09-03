@@ -456,7 +456,8 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                     String key = methodName.split("_")[1];
                     logger.info("methodname : " + methodName +", obx-key : " + key + ", obx-5 value : " + fields[0].encode());
                     if(methodName.contains("ObservationValue")) {
-                        fieldNames.put(key, fields[0].encode());
+                        String underscore = camelToUnderscore(methodName.split("_")[1]);
+                        fieldNames.put(underscore, fields[0].encode());
 
                     }
                 } else {
