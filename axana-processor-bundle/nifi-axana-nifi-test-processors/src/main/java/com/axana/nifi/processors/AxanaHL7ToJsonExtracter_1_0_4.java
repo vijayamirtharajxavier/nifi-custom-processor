@@ -429,8 +429,16 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
             // System.out.println("Segment " + segment.getName() + " has " + numFields + "
             // fields.");
 
+            
             for (int i = 1; i <= numFields; i++) {
                 Type[] fields = segment.getField(i);
+                if (fields.length == 0) {
+                    continue;
+                }
+
+
+            //for (int i = 1; i <= numFields; i++) {
+                //Type[] fields = segment.getField(i);
                 String fieldIdentifier = Integer.toString(i).trim();
                 // System.out.println("main fieldId no: " + fieldIdentifier);
 
@@ -439,13 +447,23 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                 // Retrieve the method name for the field
                 String methodName = findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
 
+                
+                
                 // .findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
+                logger.info("Segment " + segment.getName() + " field " + i + " has " + fields.length + " subfields.");
 
-                if (methodName != null) {
-                    // System.out.println("Method Name for " + fieldIdentifier + ": " + methodName);
+                if (methodName != null && fields.length > 0) {
+                    String key = methodName.split("_")[1];
+                    logger.info("methodname : " + methodName +", obx-key : " + key + ", obx-5 value : " + fields[0].encode());
+                    if(methodName.contains("ObservationValue")) {
+                        fieldNames.put(key, fields[0].encode());
+
+                    }
                 } else {
-                    // System.out.println("No method found for field: " + fieldIdentifier);
+                    // Handle the case where the methodName is null or fields array is empty
+                    logger.warn("No method found for field: " + fieldIdentifier + " or fields array is empty");
                 }
+                
 
                 for (Type field : fields) {
                     switch (field) {
@@ -465,13 +483,6 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                                     if(segment.getName().equals("SCH")) {
                                         logger.info("componentidentifer : " + componentIdentifier + ", value : " + value);
                                     }
-                                                                // Special handling for OBX-5.1
-                            if ("5.1".equals(componentIdentifier) && "OBX".equals(segment.getName())) {
-                                fieldNames.put("OBX-5.1", value);
-                            } else {
-                                compositeFields.put(componentIdentifier, value);
-                            }
-
                                     
                                     if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
                                             || primitiveName.contains("DT"))) {
