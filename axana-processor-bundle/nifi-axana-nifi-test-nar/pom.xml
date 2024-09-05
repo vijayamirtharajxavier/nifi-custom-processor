@@ -22,15 +22,15 @@
         <version>1.0.4</version>
     </parent>
 
-    <artifactId>nifi-axana-nifi-hl7tojsonextracter-nar</artifactId>
-    <version>1.0.4</version>
+    <artifactId>nifi-axana-nifi-rdetojsonextracter-nar</artifactId>
+    <version>1.0.5</version>
     <packaging>nar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.axana.nifi</groupId>
             <artifactId>nifi-axana-nifi-hl7-processors</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.nifi</groupId>
