@@ -58,7 +58,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
-        "It supports the following message types : ADT, ORU, SIU",
+        "It supports the following message types : ADT, ORU, SIU, RDE",
         "version compiled for NiFi 2.0.0-M4",
         "Set property based Mime_Type",
         "Set property based Segment mapping name eg:PID=patients,NK1=nextofkin,MSH=message_header" })
@@ -128,6 +128,9 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
     @Override
     public void onTrigger(ProcessContext context, final ProcessSession session) throws ProcessException {
 
+        JsonObject jsonOutput;
+        String messageType;
+        String triggerEvent;
 
         FlowFile flowFile = session.get();
         if (flowFile == null) {
@@ -150,26 +153,55 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                 hl7Message = hl7Message.replace("<cr>", "\r");
 
             }
+            try {
+                Parser parser = new PipeParser();
+                Message message = parser.parse(hl7Message);
+                // Extract MSH segment
+                MSH mshSegment = (MSH) message.get("MSH");
+                
+                // Get message type (MSH-9)
+                 messageType = mshSegment.getMessageType().getMessageType().getValue();
+                 triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
 
-            getLogger().info("HL7 Message: " + hl7Message);
-            // Convert HL7 message to JSON
-            JsonObject jsonOutput = parseMessageToJson(hl7Message, context);
-            // Check if jsonOutput is empty or null
-            if (jsonOutput == null || jsonOutput.size() == 0) {
-                throw new ProcessException("Conversion resulted in an empty JSON object.");
+                 if(messageType.equals("RDE")) {
+                    jsonOutput = parseMessageToJson(hl7Message, context);
+                   // Check if jsonOutput is empty or null
+                   if (jsonOutput == null || jsonOutput.size() == 0) {
+                       throw new ProcessException("Conversion resulted in an empty JSON object.");
+                   }
+       
+
+               }
+               else
+               {
+                    jsonOutput = HL7toJson(hl7Message, context);
+                   // Check if jsonOutput is empty or null
+                   if (jsonOutput == null || jsonOutput.size() == 0) {
+                       throw new ProcessException("Conversion resulted in an empty JSON object.");
+                   }
+       
+               }
+
+               getLogger().info("HL7 Message: " + hl7Message);
+               // Write the JSON output to the FlowFile
+               flowFile = session.write(flowFile,
+                       out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
+   
+               // Retrieve the MIME type from the processor's properties
+               String mimeType = context.getProperty(MIME_TYPE).getValue();
+   
+               // Set the MIME type attribute
+               flowFile = session.putAttribute(flowFile, "mime.type", mimeType);
+   
+               // Transfer the FlowFile to the SUCCESS relationship
+               session.transfer(flowFile, SUCCESS);
+   
+            } catch (Exception e) {
             }
-            // Write the JSON output to the FlowFile
-            flowFile = session.write(flowFile,
-                    out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
 
-            // Retrieve the MIME type from the processor's properties
-            String mimeType = context.getProperty(MIME_TYPE).getValue();
+                
+    
 
-            // Set the MIME type attribute
-            flowFile = session.putAttribute(flowFile, "mime.type", mimeType);
-
-            // Transfer the FlowFile to the SUCCESS relationship
-            session.transfer(flowFile, SUCCESS);
         } catch (IOException | FlowFileAccessException | ProcessException e) {
             getLogger().error("Error processing flow file: " + e.getMessage(), e);
             // logger.error("Failed to convert HL7 to JSON" , e);
@@ -177,7 +209,6 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
             flowFile = session.penalize(flowFile);
             session.transfer(flowFile, FAILURE);
 
-        } catch (ClassNotFoundException ex) {
         }
     }
 
@@ -270,13 +301,19 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
     
                             for (Type field : fieldRepetitions) {
                                 String fieldValue = field.encode().trim();
+                                String dataType = field.getClass().getSimpleName();
                                 JsonObject fieldObject = new JsonObject();
                                 if (!fieldValue.isEmpty()) {
                                     if (fieldRepetitions.length ==1) {
                                         // Single value
                                    //     System.out.println("M--Method Name for " + fieldNum + ": " + methodName);
                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
-                                        segmentJson.addProperty(underscore, fieldValue);
+                                   dataType = field.getClass().getSimpleName();
+                                   if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
+                                    fieldValue = convertTimestamp(fieldValue);
+                                }
+
+                                   segmentJson.addProperty(underscore, fieldValue);
     
                                     //    System.out.println("Repeated elem : " + fieldValue);
                                     // Extract components and subcomponents
@@ -288,7 +325,12 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                         if (submethodName != null) {
                                           //  System.out.println("SubMethod Name for " + (i+1) + ": " + submethodName);
                                           String subunderscore = camelToUnderscore(submethodName.split("_")[1]);
-                                            fieldObject.addProperty(subunderscore, subComponents[i]);       
+                                          dataType = field.getClass().getSimpleName();
+                                          if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
+                                             subComponents[i] = convertTimestamp(subComponents[i]);
+                                          }
+                                                 
+                                          fieldObject.addProperty(subunderscore, subComponents[i]);       
                                         } else {
                                           //  System.out.println("No method found for field: " + i);
                                         }
