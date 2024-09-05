@@ -263,9 +263,9 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                             JsonArray fieldArray = new JsonArray();
     
                             if (methodName != null) {
-                                System.out.println("Main Method Name for " + fieldNum + ": " + methodName);
+                             //   System.out.println("Main Method Name for " + fieldNum + ": " + methodName);
                             } else {
-                                System.out.println("No main method found for field: " + fieldNum);
+                               // System.out.println("No main method found for field: " + fieldNum);
                             }
     
                             for (Type field : fieldRepetitions) {
@@ -274,11 +274,11 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                 if (!fieldValue.isEmpty()) {
                                     if (fieldRepetitions.length ==1) {
                                         // Single value
-                                        System.out.println("M--Method Name for " + fieldNum + ": " + methodName);
+                                   //     System.out.println("M--Method Name for " + fieldNum + ": " + methodName);
+                                   String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                        segmentJson.addProperty(underscore, fieldValue);
     
-                                        segmentJson.addProperty(methodName.split("_")[1], fieldValue);
-    
-                                        System.out.println("Repeated elem : " + fieldValue);
+                                    //    System.out.println("Repeated elem : " + fieldValue);
                                     // Extract components and subcomponents
                                     String[] subComponents = field.encode().split("\\^");
                                     for (int i = 0; i < subComponents.length; i++) {
@@ -286,14 +286,15 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                       String submethodName = findMethodNameForSubfield(segmentClass, segmentName,fieldNum + "." + (i + 1));
     
                                         if (submethodName != null) {
-                                            System.out.println("SubMethod Name for " + (i+1) + ": " + submethodName);
-                                            fieldObject.addProperty(submethodName.split("_")[1], subComponents[i]);       
+                                          //  System.out.println("SubMethod Name for " + (i+1) + ": " + submethodName);
+                                          String subunderscore = camelToUnderscore(submethodName.split("_")[1]);
+                                            fieldObject.addProperty(subunderscore, subComponents[i]);       
                                         } else {
                                           //  System.out.println("No method found for field: " + i);
                                         }
                                     }
                                     
-                                    System.out.println("sub object : " + fieldObject);
+                                   // System.out.println("sub object : " + fieldObject);
                                     if(fieldObject.size()>0)
                                     {
                                         fieldArray.add(fieldObject);
@@ -309,7 +310,8 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                             }
                             
                             if (fieldArray.size() > 0) {
-                                segmentJson.add(methodName.split("_")[1], fieldArray);
+                                 String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                segmentJson.add(underscore, fieldArray);
                             }
     
                             fieldNum++;
