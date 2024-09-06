@@ -339,8 +339,10 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                    // System.out.println("sub object : " + fieldObject);
                                     if(fieldObject.size()>0)
                                     {
-                                        fieldArray.add(fieldObject);
-                                    }
+                                      //  fieldArray.add(fieldObject);
+                                         underscore = camelToUnderscore(methodName.split("_")[1]);
+                                        segmentJson.add(underscore, fieldObject);
+                                            }
                                  
                                     } else {
                                     }
@@ -352,8 +354,8 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                             }
                             
                             if (fieldArray.size() > 0) {
-                                 String underscore = camelToUnderscore(methodName.split("_")[1]);
-                                segmentJson.add(underscore, fieldArray);
+                              //   String underscore = camelToUnderscore(methodName.split("_")[1]);
+                              //  segmentJson.add(underscore, fieldArray);
                             }
     
                             fieldNum++;
