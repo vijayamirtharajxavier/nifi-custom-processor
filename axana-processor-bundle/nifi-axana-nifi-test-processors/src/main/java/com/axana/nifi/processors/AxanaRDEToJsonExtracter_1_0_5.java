@@ -262,7 +262,6 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
 
         // Retrieve the segment mapping property
         String segmentMappingProperty = context.getProperty(SEGMENT_MAPPING).getValue();
-
         Map<String, String> segmentMapping = parseSegmentMapping(segmentMappingProperty);
 
         getLogger().info("Source FlowFile Data : " + hl7Message +", context: " + context);
@@ -278,6 +277,9 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
 
 
         for (String segmentName : message.getNames()) {
+            String customSegmentName = segmentMapping.getOrDefault(segmentName, segmentName);
+            getLogger().info("Processing segment: " + customSegmentName);
+
             Class<?> segmentClass = getSegmentClass(segmentName);
             JsonArray segmentArray = new JsonArray();
     
@@ -309,7 +311,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                    //     System.out.println("M--Method Name for " + fieldNum + ": " + methodName);
                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
                                    dataType = field.getClass().getSimpleName();
-                                   if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
+                                   if (dataType.contains("TQ") || dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
                                     fieldValue = convertTimestamp(fieldValue);
                                 }
 
@@ -326,7 +328,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                           //  System.out.println("SubMethod Name for " + (i+1) + ": " + submethodName);
                                           String subunderscore = camelToUnderscore(submethodName.split("_")[1]);
                                           dataType = field.getClass().getSimpleName();
-                                          if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
+                                          if (dataType.contains("TQ") || dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
                                              subComponents[i] = convertTimestamp(subComponents[i]);
                                           }
                                                  
@@ -353,11 +355,12 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                 
                             }
                             
-                            if (fieldArray.size() > 0) {
+                            //if (fieldArray.size() > 0) {
                               //   String underscore = camelToUnderscore(methodName.split("_")[1]);
                               //  segmentJson.add(underscore, fieldArray);
-                            }
-    
+                           // }
+                           
+
                             fieldNum++;
                         } catch (HL7Exception e) {
                             System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
@@ -366,13 +369,15 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                     }
     
                     segmentArray.add(segmentJson);
+                    
                 }
             }
     
             jsonObject.add(segmentName, segmentArray);
         }
     
-        return jsonObject;
+        //return jsonObject;
+        return applyMappingRecursively(jsonObject, segmentMapping);
     }
     catch (HL7Exception e) {
             getLogger().error("Error processing HL7 message", e);
@@ -661,7 +666,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                                         logger.info("componentidentifer : " + componentIdentifier + ", value : " + value);
                                     }
                                     
-                                    if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
+                                    if ((primitiveName.contains("DT") || primitiveName.contains("TQ") || primitiveName.contains("TS") || primitiveName.contains("DTM")
                                             || primitiveName.contains("DT"))) {
                                         value = convertTimestamp(value);
                                     }
@@ -684,7 +689,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                         //    getLogger().info("Field " + i + " content: " + field.encode());
                             String primitiveName = primitive.getName();
                             String value = primitive.encode();
-                            if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
+                            if ((primitiveName.contains("DT") || primitiveName.contains("TQ") || primitiveName.contains("TS") || primitiveName.contains("DTM")
                                     || primitiveName.contains("DT"))) {
                                 value = convertTimestamp(value);
                             }
