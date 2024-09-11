@@ -166,7 +166,8 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                  messageType = mshSegment.getMessageType().getMessageType().getValue();
                  triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
                  //jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
-                if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))) {
+
+                if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32"))) {
                     jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
                    // Check if jsonOutput is empty or null
                    if (jsonOutput == null || jsonOutput.size() == 0) {
@@ -243,7 +244,7 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
     }
 
     // Helper method to parse segment mappings
-    private Map<String, String> parseSegmentMapping(String mappingProperty) {
+    private static Map<String, String> parseSegmentMapping(String mappingProperty) {
         Map<String, String> mapping = new LinkedHashMap<>();
         if (mappingProperty != null && !mappingProperty.trim().isEmpty()) {
             String[] entries = mappingProperty.split(",");
@@ -265,6 +266,9 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
          Message message = parser.parse(hl7message);
         // Extract MSH segment
      //   MSH mshSegment = (MSH) message.get("MSH");
+        // Retrieve the segment mapping property
+        String segmentMappingProperty = context.getProperty(SEGMENT_MAPPING).getValue();
+        Map<String, String> segmentMapping = parseSegmentMapping(segmentMappingProperty);
 
 
         String msg_version = message.getVersion();
@@ -319,8 +323,9 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                                        if (dataType.contains("TQ") || dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
                                         fieldValue = convertTimestamp(fieldValue);
                                     }
+                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
         
-                                        segmentJson.addProperty(methodName.split("_")[1], fieldValue);
+                                        segmentJson.addProperty(underscore, fieldValue);
                                         logger.info("Repeated elem : " + fieldValue);
 //                                        System.out.println("Repeated elem : " + fieldValue);
                                     // Extract components and subcomponents
@@ -336,7 +341,11 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                                             subComponents[i] = convertTimestamp(subComponents[i]);
                                          }
     
-                                            fieldObject.addProperty(submethodName.split("_")[1], subComponents[i]);       
+                                            //fieldObject.addProperty(submethodName.split("_")[1], subComponents[i]);       
+                                             underscore = camelToUnderscore(submethodName.split("_")[1]);
+                                            fieldObject.addProperty(underscore, subComponents[i]);       
+                                            
+        
                                         } else {
                                           //  System.out.println("No method found for field: " + i);
                                         }
@@ -350,7 +359,10 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                                     logger.info("sub object : " + fieldObject);
                                     System.out.println("sub object : " + fieldObject);
                                   //  fieldArray.add(fieldObject);
-                                    segmentJson.add(methodName.split("_")[1], fieldObject);
+                                  //  segmentJson.add(methodName.split("_")[1], fieldObject);
+                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                    segmentJson.add(underscore,fieldObject);
+            
                                 }
                              
                                 } else {
@@ -367,7 +379,7 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                             fieldNum++;
                         } catch (HL7Exception e) {
                             logger.info("Error processing field " + fieldNum + " in segment " + segmentName);
-                            System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
+                            //System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
                             break;
                         }
                     }
