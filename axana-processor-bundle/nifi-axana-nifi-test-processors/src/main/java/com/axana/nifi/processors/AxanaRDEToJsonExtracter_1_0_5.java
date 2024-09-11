@@ -163,8 +163,8 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                  messageType = mshSegment.getMessageType().getMessageType().getValue();
                  triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
 
-                 if(messageType.equals("RDE")) {
-                    jsonOutput = parseMessageToJson(hl7Message, context);
+                 if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))) {
+                    jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
                    // Check if jsonOutput is empty or null
                    if (jsonOutput == null || jsonOutput.size() == 0) {
                        throw new ProcessException("Conversion resulted in an empty JSON object.");
@@ -256,7 +256,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
 
 
 
-    private  JsonObject parseMessageToJson(String hl7Message, ProcessContext context) throws ClassNotFoundException {
+    private  JsonObject parseMessageToJson(String hl7Message, ProcessContext context, String msg_type, String event_trigger) throws ClassNotFoundException {
         Gson gson = new Gson();
         Map<String, JsonArray> jsonMap = new LinkedHashMap<>();
 

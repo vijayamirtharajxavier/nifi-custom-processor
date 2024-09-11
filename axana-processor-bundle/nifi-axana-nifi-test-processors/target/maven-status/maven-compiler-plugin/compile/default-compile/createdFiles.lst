@@ -1,8 +1,9 @@
-com/axana/nifi/processors/AxanaHL7ToJsonExtracter_1_0_4.class
-com/axana/nifi/processors/AxanaHL7ToJsonNameConvension.class
 com/axana/nifi/processors/AxanaRDEToJsonExtracter_1_0_5.class
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension$1.class
+com/axana/nifi/processors/JSONObject.class
+com/axana/nifi/processors/AxanaHL7ToJsonExtracter_1_0_6.class
+com/axana/nifi/processors/AxanaHL7ToJsonExtracter_1_0_4.class
+com/axana/nifi/processors/AxanaHL7ToJsonNameConvension.class
 com/axana/nifi/processors/AxanaHL7ToJsonConverter.class
 com/axana/nifi/processors/AxanaHL7ToJsonNameConvension_1_0_2.class
 com/axana/nifi/processors/AxanaHL7ToJsonExtracter_1_0_3.class
-com/axana/nifi/processors/JSONObject.class
