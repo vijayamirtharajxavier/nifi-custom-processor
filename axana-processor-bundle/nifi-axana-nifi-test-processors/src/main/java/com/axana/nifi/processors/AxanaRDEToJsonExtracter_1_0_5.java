@@ -363,7 +363,7 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
 
                             fieldNum++;
                         } catch (HL7Exception e) {
-                            System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
+                            //System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
                             break;
                         }
                     }
@@ -373,11 +373,14 @@ public class AxanaRDEToJsonExtracter_1_0_5 extends AbstractProcessor {
                 }
             }
     
-            jsonObject.add(segmentName, segmentArray);
+            jsonObject.add(customSegmentName, segmentArray);
         }
     
         //return jsonObject;
         return applyMappingRecursively(jsonObject, segmentMapping);
+        //JsonObject resultJson = gson.toJsonTree(jsonMap).getAsJsonObject();
+        //return applyMappingRecursively(resultJson, segmentMapping);
+
     }
     catch (HL7Exception e) {
             getLogger().error("Error processing HL7 message", e);

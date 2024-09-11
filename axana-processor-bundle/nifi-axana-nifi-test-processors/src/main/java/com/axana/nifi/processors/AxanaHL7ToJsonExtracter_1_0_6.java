@@ -275,6 +275,9 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
         
     
         for (String segmentName : message.getNames()) {
+            String customSegmentName = segmentMapping.getOrDefault(segmentName, segmentName);
+            logger.info("Processing segment: " + customSegmentName);
+
             Class<?> segmentClass = getnewSegmentClass(segmentName,msg_type,trigger_event,msg_version);
             logger.info("ClassName Returned as : " + segmentClass);
             JsonArray segmentArray = new JsonArray();
@@ -388,10 +391,10 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                 }
             }
     
-            jsonObject.add(segmentName, segmentArray);
+            jsonObject.add(customSegmentName, segmentArray);
         }
-    
-        return jsonObject;
+        return applyMappingRecursively(jsonObject, segmentMapping);
+        //return jsonObject;
     }
     
    
