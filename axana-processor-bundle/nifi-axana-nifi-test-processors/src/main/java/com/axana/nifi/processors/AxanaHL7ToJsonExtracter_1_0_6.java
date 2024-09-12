@@ -61,7 +61,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
-        "It supports the following message types : ADT, ORU^R01,ORU^R30, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
+        "It supports the following message types : ADT, ORU^R01,ORU^R30,ORU^R32, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
         "version compiled for NiFi 2.0.0-M4",
         "Set property based Mime_Type",
         "Set property based Segment mapping name eg:PID=patients,NK1=nextofkin,MSH=message_header" })
@@ -167,7 +167,7 @@ public class AxanaHL7ToJsonExtracter_1_0_6 extends AbstractProcessor {
                  triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
                  //jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
 
-                if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32"))) {
+                if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32")) || (messageType.equals("ORU") && triggerEvent.equals("R40"))) {
                     jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
                    // Check if jsonOutput is empty or null
                    if (jsonOutput == null || jsonOutput.size() == 0) {
