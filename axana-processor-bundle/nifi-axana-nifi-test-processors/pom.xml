@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.axana.nifi</groupId>
         <artifactId>axana-processor-bundle</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7</version>
     </parent>
 
     <artifactId>nifi-axana-nifi-hl7-processors</artifactId>
