@@ -61,7 +61,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
-        "It supports the following message types : ADT, ORU^R01,ORU^R30,ORU^R32,ORU^R40, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
+        "It supports the following message types : ADT, ORU^R01,ORU^R30,ORU^R32,ORU^R40,ORU^42, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
         "version compiled for NiFi 2.0.0-M4",
         "Set property based Mime_Type",
         "Set property based Segment mapping name eg:PID=patients,NK1=nextofkin,MSH=message_header" })
@@ -142,6 +142,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
         try {
 
+
             // Get the mapping from the context
             String mappingStr = context.getProperty(SEGMENT_MAPPING).getValue();
             Map<String, String> segmentMapping = parseMappingString(mappingStr);
@@ -167,17 +168,22 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                  triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
                  //jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
 
-                if(messageType.equals("RDE") || (messageType.equals("ORU") && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32")) || (messageType.equals("ORU") && triggerEvent.equals("R40"))) {
+                if(messageType.equals("RDE") || messageType.equals("ORU"))
+                {
+                // && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32")) || (messageType.equals("ORU") && triggerEvent.equals("R40")) || (messageType.equals("ORU") && triggerEvent.equals("R42"))) {
+                    logger.info("FlowFile in If loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
                     jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
-                   // Check if jsonOutput is empty or null
+                    
+                    // Check if jsonOutput is empty or null
                    if (jsonOutput == null || jsonOutput.size() == 0) {
                        throw new ProcessException("Conversion resulted in an empty JSON object.");
                    }
        
-
+                   
                }
                else
                {
+                logger.info("FlowFile in Else loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
                     jsonOutput = HL7toJson(hl7Message, context);
                    // Check if jsonOutput is empty or null
                    if (jsonOutput == null || jsonOutput.size() == 0) {
@@ -201,6 +207,11 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                session.transfer(flowFile, SUCCESS);
    
             } catch (Exception e) {
+                   // In case of an error, transfer FlowFile to failure relationship
+    if (flowFile != null) {
+        session.transfer(flowFile, FAILURE);
+    }
+    getLogger().error("Processing failed due to: ", e);
             }
 
                 
@@ -212,7 +223,11 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             // Penalize the FlowFile and transfer it to FAILURE
             flowFile = session.penalize(flowFile);
             session.transfer(flowFile, FAILURE);
-
+   // In case of an error, transfer FlowFile to failure relationship
+   if (flowFile != null) {
+    session.transfer(flowFile, FAILURE);
+   }
+   getLogger().error("Processing failed due to: ", e);
         }
     }
 
@@ -526,7 +541,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30")) {
+            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42")) {
                 packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
                 logger.info("R30 - Pacakage Selected as : " + packageName);
                String className = packageName + "." + segmentName;
@@ -541,7 +556,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
              logger.info("Else - Pacakage Selected as : " + packageName);
              String className = packageName + "." + segmentName;
 
-             logger.info("Final - ClassName Selected as : " + className);
+             logger.info("ELSE Final - ClassName Selected as : " + className);
              return Class.forName(className);
 
             
