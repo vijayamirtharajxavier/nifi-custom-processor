@@ -19,18 +19,18 @@
     <parent>
         <groupId>com.axana.nifi</groupId>
         <artifactId>axana-processor-bundle</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.7</version>
     </parent>
 
     <artifactId>nifi-axana-nifi-hl7tojsonextracter-nar</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.7</version>
     <packaging>nar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.axana.nifi</groupId>
             <artifactId>nifi-axana-nifi-hl7-processors</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.nifi</groupId>

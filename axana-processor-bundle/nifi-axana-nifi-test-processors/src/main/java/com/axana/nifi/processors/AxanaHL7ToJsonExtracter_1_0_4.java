@@ -26,6 +26,7 @@ import org.apache.nifi.annotation.documentation.SeeAlso;
 import org.apache.nifi.annotation.documentation.Tags;
 import org.apache.nifi.components.PropertyDescriptor;
 import org.apache.nifi.flowfile.FlowFile;
+import org.apache.nifi.logging.ComponentLog;
 import org.apache.nifi.processor.AbstractProcessor;
 import org.apache.nifi.processor.ProcessContext;
 import org.apache.nifi.processor.ProcessSession;
@@ -70,8 +71,8 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
     static String version_no;
-    //ComponentLog logger = getLogger();
-
+    private static ComponentLog logger;
+    
     public static final Relationship SUCCESS = new Relationship.Builder()
             .name("success")
             .description("Successfully processed files")
@@ -101,6 +102,8 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
     @Override
     public void init(final ProcessorInitializationContext context) {
         final List<PropertyDescriptor> descriptors = new ArrayList<>();
+        super.init(context);
+        this.logger = getLogger();  // Store the logger in an instance variable
         descriptors.add(MIME_TYPE);
         descriptors.add(SEGMENT_MAPPING);
         Collections.unmodifiableList(descriptors);
@@ -119,8 +122,11 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
         return Set.of(SUCCESS, FAILURE);
     }
 
+
+
+
     @Override
-    public void onTrigger(ProcessContext context, ProcessSession session) throws ProcessException {
+    public void onTrigger(ProcessContext context, final ProcessSession session) throws ProcessException {
 
 
         FlowFile flowFile = session.get();
@@ -423,8 +429,16 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
             // System.out.println("Segment " + segment.getName() + " has " + numFields + "
             // fields.");
 
+            
             for (int i = 1; i <= numFields; i++) {
                 Type[] fields = segment.getField(i);
+                if (fields.length == 0) {
+                    continue;
+                }
+
+
+            //for (int i = 1; i <= numFields; i++) {
+                //Type[] fields = segment.getField(i);
                 String fieldIdentifier = Integer.toString(i).trim();
                 // System.out.println("main fieldId no: " + fieldIdentifier);
 
@@ -433,13 +447,24 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                 // Retrieve the method name for the field
                 String methodName = findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
 
+                
+                
                 // .findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
+                logger.info("Segment " + segment.getName() + " field " + i + " has " + fields.length + " subfields.");
 
-                if (methodName != null) {
-                    // System.out.println("Method Name for " + fieldIdentifier + ": " + methodName);
+                if (methodName != null && fields.length > 0) {
+                    String key = methodName.split("_")[1];
+                    logger.info("methodname : " + methodName +", obx-key : " + key + ", obx-5 value : " + fields[0].encode());
+                    if(methodName.contains("ObservationValue")) {
+                        String underscore = camelToUnderscore(methodName.split("_")[1]);
+                        fieldNames.put(underscore, fields[0].encode());
+
+                    }
                 } else {
-                    // System.out.println("No method found for field: " + fieldIdentifier);
+                    // Handle the case where the methodName is null or fields array is empty
+                    logger.warn("No method found for field: " + fieldIdentifier + " or fields array is empty");
                 }
+                
 
                 for (Type field : fields) {
                     switch (field) {
@@ -456,7 +481,10 @@ public class AxanaHL7ToJsonExtracter_1_0_4 extends AbstractProcessor {
                                 if (component instanceof Primitive primitive) {
                                     String primitiveName = primitive.getName();
                                     String value = primitive.encode();
-
+                                    if(segment.getName().equals("SCH")) {
+                                        logger.info("componentidentifer : " + componentIdentifier + ", value : " + value);
+                                    }
+                                    
                                     if ((primitiveName.contains("TS") || primitiveName.contains("DTM")
                                             || primitiveName.contains("DT"))) {
                                         value = convertTimestamp(value);
