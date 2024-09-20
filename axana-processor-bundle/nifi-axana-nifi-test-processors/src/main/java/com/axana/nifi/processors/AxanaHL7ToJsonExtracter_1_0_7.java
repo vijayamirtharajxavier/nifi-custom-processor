@@ -541,7 +541,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42")) {
+            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") ||  msg_type.equals("MFN") && event_trigger.equals("M02")  ) {
                 packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
                 logger.info("R30 - Pacakage Selected as : " + packageName);
                String className = packageName + "." + segmentName;
