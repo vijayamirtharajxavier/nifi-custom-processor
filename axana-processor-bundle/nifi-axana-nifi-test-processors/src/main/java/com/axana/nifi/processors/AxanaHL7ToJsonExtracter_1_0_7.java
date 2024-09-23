@@ -58,8 +58,6 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 
 
-
-
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
         "It supports the following message types : ADT, ORU^R01,ORU^R30,ORU^R32,ORU^R40,ORU^42, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
         "version compiled for NiFi 2.0.0-M4",
@@ -541,8 +539,15 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") ||  msg_type.equals("MFN") && event_trigger.equals("M02")  ) {
+            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") ||  msg_type.equals("MFN") && event_trigger.equals("M02") ||  msg_type.equals("ORU") && event_trigger.equals("R01") || msg_type.equals("DFT") ) {
+                if(msgversion.equals("23"))
+                {
                 packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
+                }
+                else
+                {
+                    packageName = "ca.uhn.hl7v2.model.v"+ msgversion + ".segment";
+                }
                 logger.info("R30 - Pacakage Selected as : " + packageName);
                String className = packageName + "." + segmentName;
               //String className = packageName + ".MSH";
