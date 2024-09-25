@@ -505,7 +505,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
             
 
-//System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
             JsonObject resultJson = gson.toJsonTree(jsonMap).getAsJsonObject();
             return applyMappingRecursively(resultJson, segmentMapping);
 
@@ -692,11 +691,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             //for (int i = 1; i <= numFields; i++) {
                 //Type[] fields = segment.getField(i);
                 String fieldIdentifier = Integer.toString(i).trim();
-                // System.out.println("main fieldId no: " + fieldIdentifier);
-
-                // System.out.println("fi:" + fieldIdentifier + " of " + segment.getName());
-                // HL7Reflection hr = new HL7Reflection();
-                // Retrieve the method name for the field
                 String methodName = findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
 
                 
@@ -833,39 +827,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
         return null;
     }
-
-
-    private static String oldfindMethodNameForSubfield(Class<?> segmentClass, String segmentName, String fieldIdentifier) {
-        try {
-            Method[] methods = segmentClass.getDeclaredMethods();
-            String[] parts = fieldIdentifier.split("\\.");
-            String fieldNumber = parts[0];
-            String subfieldNumber = parts.length > 1 ? parts[1] : null;
-
-            for (Method method : methods) {
-                if (method.getName().toLowerCase().contains(segmentName.toLowerCase() + fieldNumber + "_")) {
-                    if (subfieldNumber != null) {
-                        Class<?> returnType = method.getReturnType();
-                        Method[] compositeMethods = returnType.getDeclaredMethods();
-
-                        for (Method compositeMethod : compositeMethods) {
-                            if (compositeMethod.getName().toLowerCase().contains(subfieldNumber + "_")) {
-                                return compositeMethod.getName();
-                            }
-                        }
-                    } else {
-                        return method.getName();
-                    }
-                }
-            }
-        } catch (SecurityException e) {
-        }
-
-        return null;
-    }
-
-
-        
 
 
     // Function to convert HL7 timestamp to desired format
