@@ -130,7 +130,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
     @Override
     public void onTrigger(ProcessContext context, final ProcessSession session) throws ProcessException {
-
+        String incomingHL7Message = null;
         JsonObject jsonOutput;
         String messageType;
         String triggerEvent;
@@ -140,6 +140,41 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             return;
         }
 
+                    // Read the incoming HL7 message
+        // Generate the ACK message
+    HL7AckGenerator ackGenerator = new HL7AckGenerator();
+    /*try {
+       incomingHL7Message = readFlowFileContent(session, flowFile);
+       logger.info("inbound Mess: " + incomingHL7Message);
+       if (incomingHL7Message.contains("<cr>")) {
+        // && !hl7Message.contains("\n")) {
+        // Replace newline with carriage return if necessary
+        incomingHL7Message = incomingHL7Message.replace("<cr>", "\r");
+    }
+        String ackMessage = ackGenerator.generateAck(incomingHL7Message);
+        logger.info("Acknowledge Message : " + ackMessage);
+            // Write the ACK message to the output FlowFile
+        FlowFile ackFlowFile = session.create(flowFile);
+        ackFlowFile = session.write(ackFlowFile, out -> out.write(ackMessage.getBytes(StandardCharsets.UTF_8)));
+
+    // Transfer ACK FlowFile to success
+    session.transfer(ackFlowFile, SUCCESS);
+
+    // Remove the original HL7 message if needed
+  //  session.remove(flowFile);
+
+    } catch (HL7Exception e) {
+        logger.info("Inbound Message : " + incomingHL7Message);
+        logger.error("Error in Acknowledge Message  : " + e);
+        session.transfer(flowFile, FAILURE);
+        // TODO Auto-generated catch block
+        //e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+
+*/
         try {
 
 
@@ -168,7 +203,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                  triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
                  //jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
 
-                if(messageType.equals("RDE") || messageType.equals("ORU"))
+                if(messageType.equals("RDE") || messageType.equals("ORU") || messageType.equals("SIU") )
                 {
                 // && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32")) || (messageType.equals("ORU") && triggerEvent.equals("R40")) || (messageType.equals("ORU") && triggerEvent.equals("R42"))) {
                     logger.info("FlowFile in If loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
@@ -541,8 +576,15 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42")) {
+            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") || msg_type.equals("MFN") || msg_type.equals("DFT") || (msg_type.equals("ORU") && msg_type.equals("R01") ) ) {
+                if(msgversion.equals("23"))
+                {
                 packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
+                }
+                else 
+                {
+                    packageName = "ca.uhn.hl7v2.model.v"+msgversion.replace(".", "") +".segment"; // Replace with your actual package
+                }
                 logger.info("R30 - Pacakage Selected as : " + packageName);
                String className = packageName + "." + segmentName;
               //String className = packageName + ".MSH";
