@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.axana.nifi.processors.AxanaHL7ToJsonConverterTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.141 s -- in com.axana.nifi.processors.AxanaHL7ToJsonConverterTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.099 s -- in com.axana.nifi.processors.AxanaHL7ToJsonConverterTest
+>>>>>>> d317cc4cb319f17bc39b4bb6508ffdc05130f956

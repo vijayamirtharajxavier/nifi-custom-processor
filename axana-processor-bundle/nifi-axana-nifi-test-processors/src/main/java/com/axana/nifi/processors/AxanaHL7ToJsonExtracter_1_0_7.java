@@ -58,10 +58,8 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 
 
-
-
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
-        "It supports the following message types : ADT, ORU^R01,ORU^R30,ORU^R32,ORU^R40,ORU^42, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
+        "It supports the following message types : ADT,ORU^R21, ORU^W01, ORU^R01,ORU^R30,ORU^R32,ORU^R40,ORU^42, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
         "version compiled for NiFi 2.0.0-M4",
         "Set property based Mime_Type",
         "Set property based Segment mapping name eg:PID=patients,NK1=nextofkin,MSH=message_header" })
@@ -542,7 +540,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
             
 
-//System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
             JsonObject resultJson = gson.toJsonTree(jsonMap).getAsJsonObject();
             return applyMappingRecursively(resultJson, segmentMapping);
 
@@ -576,15 +573,8 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") || msg_type.equals("MFN") || msg_type.equals("DFT") || (msg_type.equals("ORU") && msg_type.equals("R01") ) ) {
-                if(msgversion.equals("23"))
-                {
+            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42")) {
                 packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
-                }
-                else 
-                {
-                    packageName = "ca.uhn.hl7v2.model.v"+msgversion.replace(".", "") +".segment"; // Replace with your actual package
-                }
                 logger.info("R30 - Pacakage Selected as : " + packageName);
                String className = packageName + "." + segmentName;
               //String className = packageName + ".MSH";
@@ -729,11 +719,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             //for (int i = 1; i <= numFields; i++) {
                 //Type[] fields = segment.getField(i);
                 String fieldIdentifier = Integer.toString(i).trim();
-                // System.out.println("main fieldId no: " + fieldIdentifier);
-
-                // System.out.println("fi:" + fieldIdentifier + " of " + segment.getName());
-                // HL7Reflection hr = new HL7Reflection();
-                // Retrieve the method name for the field
                 String methodName = findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
 
                 
@@ -870,39 +855,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
         return null;
     }
-
-
-    private static String oldfindMethodNameForSubfield(Class<?> segmentClass, String segmentName, String fieldIdentifier) {
-        try {
-            Method[] methods = segmentClass.getDeclaredMethods();
-            String[] parts = fieldIdentifier.split("\\.");
-            String fieldNumber = parts[0];
-            String subfieldNumber = parts.length > 1 ? parts[1] : null;
-
-            for (Method method : methods) {
-                if (method.getName().toLowerCase().contains(segmentName.toLowerCase() + fieldNumber + "_")) {
-                    if (subfieldNumber != null) {
-                        Class<?> returnType = method.getReturnType();
-                        Method[] compositeMethods = returnType.getDeclaredMethods();
-
-                        for (Method compositeMethod : compositeMethods) {
-                            if (compositeMethod.getName().toLowerCase().contains(subfieldNumber + "_")) {
-                                return compositeMethod.getName();
-                            }
-                        }
-                    } else {
-                        return method.getName();
-                    }
-                }
-            }
-        } catch (SecurityException e) {
-        }
-
-        return null;
-    }
-
-
-        
 
 
     // Function to convert HL7 timestamp to desired format
