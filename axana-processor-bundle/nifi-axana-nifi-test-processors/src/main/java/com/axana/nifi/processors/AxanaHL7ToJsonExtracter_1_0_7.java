@@ -37,6 +37,7 @@ import org.apache.nifi.processor.exception.ProcessException;
 import org.apache.nifi.processor.util.StandardValidators;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -49,14 +50,13 @@ import ca.uhn.hl7v2.model.Primitive;
 import ca.uhn.hl7v2.model.Segment;
 import ca.uhn.hl7v2.model.Structure;
 import ca.uhn.hl7v2.model.Type;
+import ca.uhn.hl7v2.model.v23.message.ORU_R01;
 import ca.uhn.hl7v2.model.v23.message.SIU_S12;
 import ca.uhn.hl7v2.model.v23.message.SIU_S14;
 import ca.uhn.hl7v2.model.v23.message.SIU_S17;
 import ca.uhn.hl7v2.model.v23.segment.MSH;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.parser.PipeParser;
-
-
 
 @Tags({ "HL7 to Json Converter", "Extract HL7 v2.3 attributes to Json Format with Naming Convention",
         "It supports the following message types : ADT,ORU^R21, ORU^W01, ORU^R01,ORU^R30,ORU^R32,ORU^R40,ORU^42, SIU^S12,SIU^S13,SIU^S14,SIU^S17, RDE^O11",
@@ -73,7 +73,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
 public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
     static String version_no;
     private static ComponentLog logger;
-    
+
     public static final Relationship SUCCESS = new Relationship.Builder()
             .name("success")
             .description("Successfully processed files")
@@ -104,7 +104,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
     public void init(final ProcessorInitializationContext context) {
         final List<PropertyDescriptor> descriptors = new ArrayList<>();
         super.init(context);
-        this.logger = getLogger();  // Store the logger in an instance variable
+        this.logger = getLogger(); // Store the logger in an instance variable
         descriptors.add(MIME_TYPE);
         descriptors.add(SEGMENT_MAPPING);
         Collections.unmodifiableList(descriptors);
@@ -123,23 +123,48 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
         return Set.of(SUCCESS, FAILURE);
     }
 
-
-
-
     @Override
     public void onTrigger(ProcessContext context, final ProcessSession session) throws ProcessException {
 
-        JsonObject jsonOutput;
+        final JsonObject jsonOutput;
         String messageType;
         String triggerEvent;
-
+        String incomingHL7Message = null;
         FlowFile flowFile = session.get();
         if (flowFile == null) {
             return;
         }
+        // Generate ACK message
+
+        HL7AckGenerator ackGenerator = new HL7AckGenerator();
+
+        /*
+         * try {
+         * incomingHL7Message = readFlowFileContent(session, flowFile);
+         * logger.info("Inbound HL7 message : " + incomingHL7Message);
+         * if(incomingHL7Message.contains("<cr>"))
+         * {
+         * incomingHL7Message = incomingHL7Message.replace("<cr>", "\r");
+         * 
+         * }
+         * 
+         * String ackMessage = ackGenerator.generateAck(incomingHL7Message);
+         * logger.info("Acknowledge Message : " + ackMessage);
+         * 
+         * // FlowFile ackFlowFile = session.create(flowFile);
+         * // ackFlowFile = session.write(ackFlowFile, out ->
+         * out.write(ackMessage.getBytes(StandardCharsets.UTF_8)));
+         * // session.transfer(ackFlowFile, SUCCESS);
+         * // session.remove(ackFlowFile);
+         * } catch (Exception e) {
+         * // TODO: handle exception
+         * logger.info("Inbound Message : " + incomingHL7Message );
+         * logger.error("Error in Acknowledge Message : " + e);
+         * session.transfer(flowFile,FAILURE);
+         * }
+         */
 
         try {
-
 
             // Get the mapping from the context
             String mappingStr = context.getProperty(SEGMENT_MAPPING).getValue();
@@ -155,65 +180,96 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                 hl7Message = hl7Message.replace("<cr>", "\r");
 
             }
+
             try {
                 Parser parser = new PipeParser();
                 Message message = parser.parse(hl7Message);
                 // Extract MSH segment
                 MSH mshSegment = (MSH) message.get("MSH");
-                
+
                 // Get message type (MSH-9)
-                 messageType = mshSegment.getMessageType().getMessageType().getValue();
-                 triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
-                 //jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
+                messageType = mshSegment.getMessageType().getMessageType().getValue();
+                triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
+                // jsonOutput = parseMessageToJson(hl7Message,
+                // context,messageType,triggerEvent);
 
-                if(messageType.equals("RDE") || messageType.equals("ORU"))
-                {
-                // && triggerEvent.equals("R30"))  || (messageType.equals("ORU") && triggerEvent.equals("R32")) || (messageType.equals("ORU") && triggerEvent.equals("R40")) || (messageType.equals("ORU") && triggerEvent.equals("R42"))) {
-                    logger.info("FlowFile in If loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
-                    jsonOutput = parseMessageToJson(hl7Message, context,messageType,triggerEvent);
-                    
-                    // Check if jsonOutput is empty or null
-                   if (jsonOutput == null || jsonOutput.size() == 0) {
-                       throw new ProcessException("Conversion resulted in an empty JSON object.");
-                   }
-       
-                   
-               }
-               else
-               {
-                logger.info("FlowFile in Else loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
+                /*
+                 * if (messageType.equals("RDE") || messageType.equals("ORU")) {
+                 * // && triggerEvent.equals("R30")) || (messageType.equals("ORU") &&
+                 * // triggerEvent.equals("R32")) || (messageType.equals("ORU") &&
+                 * // triggerEvent.equals("R40")) || (messageType.equals("ORU") &&
+                 * // triggerEvent.equals("R42"))) {
+                 * logger.info("FlowFile in If loop, MsgType : " + messageType +
+                 * ", Event Trigger" + triggerEvent);
+                 * jsonOutput = parseMessageToJson(hl7Message, context, messageType,
+                 * triggerEvent);
+                 * 
+                 * // Check if jsonOutput is empty or null
+                 * if (jsonOutput == null || jsonOutput.size() == 0) {
+                 * throw new ProcessException("Conversion resulted in an empty JSON object.");
+                 * }
+                 * getLogger().info("HL7 Message: " + hl7Message);
+                 * // Write the JSON output to the FlowFile
+                 * flowFile = session.write(flowFile,
+                 * out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
+                 * 
+                 * }
+                 */
+
+                if (messageType.equals("SIU")) {
+                    logger.info("FlowFile in Else loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
                     jsonOutput = HL7toJson(hl7Message, context);
-                   // Check if jsonOutput is empty or null
-                   if (jsonOutput == null || jsonOutput.size() == 0) {
-                       throw new ProcessException("Conversion resulted in an empty JSON object.");
-                   }
-       
-               }
+                    // Check if jsonOutput is empty or null
+                    if (jsonOutput == null || jsonOutput.size() == 0) {
+                        throw new ProcessException("Conversion resulted in an empty JSON object.");
+                    }
+                    getLogger().info("HL7 Message: " + hl7Message);
+                    // Write the JSON output to the FlowFile
+                    flowFile = session.write(flowFile,
+                            out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
 
-               getLogger().info("HL7 Message: " + hl7Message);
-               // Write the JSON output to the FlowFile
-               flowFile = session.write(flowFile,
-                       out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
-   
-               // Retrieve the MIME type from the processor's properties
-               String mimeType = context.getProperty(MIME_TYPE).getValue();
-   
-               // Set the MIME type attribute
-               flowFile = session.putAttribute(flowFile, "mime.type", mimeType);
-   
-               // Transfer the FlowFile to the SUCCESS relationship
-               session.transfer(flowFile, SUCCESS);
-   
+                }
+                else if ((messageType.equals("ORU") && triggerEvent.equals("R01"))) {
+                    logger.info("FlowFile in Else loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
+                    jsonOutput = HL7toJson(hl7Message, context);
+                    // Check if jsonOutput is empty or null
+                    if (jsonOutput == null || jsonOutput.size() == 0) {
+                        throw new ProcessException("Conversion resulted in an empty JSON object.");
+                    }
+                    getLogger().info("HL7 Message: " + hl7Message);
+                    // Write the JSON output to the FlowFile
+                    flowFile = session.write(flowFile,
+                            out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
+
+                }  else {
+                    jsonOutput = parseMessageToJson(hl7Message, context, messageType, triggerEvent);
+                    // Check if jsonOutput is empty or null
+                    if (jsonOutput == null || jsonOutput.size() == 0) {
+                        throw new ProcessException("Conversion resulted in an empty JSON object.");
+                    }
+                    getLogger().info("HL7 Message: " + hl7Message);
+                    // Write the JSON output to the FlowFile
+                    flowFile = session.write(flowFile,
+                            out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
+
+                }
+
+                // Retrieve the MIME type from the processor's properties
+                String mimeType = context.getProperty(MIME_TYPE).getValue();
+
+                // Set the MIME type attribute
+                flowFile = session.putAttribute(flowFile, "mime.type", mimeType);
+
+                // Transfer the FlowFile to the SUCCESS relationship
+                session.transfer(flowFile, SUCCESS);
+
             } catch (Exception e) {
-                   // In case of an error, transfer FlowFile to failure relationship
-    if (flowFile != null) {
-        session.transfer(flowFile, FAILURE);
-    }
-    getLogger().error("Processing failed due to: ", e);
+                // In case of an error, transfer FlowFile to failure relationship
+                if (flowFile != null) {
+                    session.transfer(flowFile, FAILURE);
+                }
+                getLogger().error("Processing failed due to: ", e);
             }
-
-                
-    
 
         } catch (IOException | FlowFileAccessException | ProcessException e) {
             getLogger().error("Error processing flow file: " + e.getMessage(), e);
@@ -221,11 +277,11 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             // Penalize the FlowFile and transfer it to FAILURE
             flowFile = session.penalize(flowFile);
             session.transfer(flowFile, FAILURE);
-   // In case of an error, transfer FlowFile to failure relationship
-   if (flowFile != null) {
-    session.transfer(flowFile, FAILURE);
-   }
-   getLogger().error("Processing failed due to: ", e);
+            // In case of an error, transfer FlowFile to failure relationship
+            if (flowFile != null) {
+                session.transfer(flowFile, FAILURE);
+            }
+            getLogger().error("Processing failed due to: ", e);
         }
     }
 
@@ -271,158 +327,161 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
         return mapping;
     }
 
-
-
-   private static JsonObject parseMessageToJson(String hl7message,ProcessContext context, String msg_type, String trigger_event) throws ClassNotFoundException, HL7Exception {
+    private static JsonObject parseMessageToJson(String hl7message, ProcessContext context, String msg_type,
+            String trigger_event) throws ClassNotFoundException, HL7Exception {
         JsonObject jsonObject = new JsonObject();
         Parser parser = new PipeParser();
-         Message message = parser.parse(hl7message);
+        Message message = parser.parse(hl7message);
         // Extract MSH segment
-     //   MSH mshSegment = (MSH) message.get("MSH");
+        // MSH mshSegment = (MSH) message.get("MSH");
         // Retrieve the segment mapping property
         String segmentMappingProperty = context.getProperty(SEGMENT_MAPPING).getValue();
         Map<String, String> segmentMapping = parseSegmentMapping(segmentMappingProperty);
 
-
         String msg_version = message.getVersion();
-        
-    
+
         for (String segmentName : message.getNames()) {
             String customSegmentName = segmentMapping.getOrDefault(segmentName, segmentName);
             logger.info("Processing segment: " + customSegmentName);
 
-            Class<?> segmentClass = getnewSegmentClass(segmentName,msg_type,trigger_event,msg_version);
+            Class<?> segmentClass = getnewSegmentClass(segmentName, msg_type, trigger_event, msg_version);
             logger.info("ClassName Returned as : " + segmentClass);
             JsonArray segmentArray = new JsonArray();
-    
+
             for (Structure structure : message.getAll(segmentName)) {
                 if (structure instanceof Segment) {
                     Segment segment = (Segment) structure;
                     JsonObject segmentJson = new JsonObject();
                     int fieldNum = 1;
-    
+
                     while (fieldNum <= segment.numFields()) {
                         try {
                             Type[] fieldRepetitions = segment.getField(fieldNum);
-                            logger.info("SegGlass " + segmentClass + ", segmentName: " + segmentName + ", fieldNum " + fieldNum);
-                            String methodName = findMethodNameForSubfield(segmentClass, segmentName, Integer.toString(fieldNum));
+                            logger.info("SegGlass " + segmentClass + ", segmentName: " + segmentName + ", fieldNum "
+                                    + fieldNum);
+                            String methodName = findMethodNameForSubfield(segmentClass, segmentName,
+                                    Integer.toString(fieldNum));
                             JsonArray fieldArray = new JsonArray();
-    
+
                             if (methodName != null) {
                                 logger.info("Main Method Name for " + fieldNum + ": " + methodName);
-//                                System.out.println("Main Method Name for " + fieldNum + ": " + methodName);
+                                // System.out.println("Main Method Name for " + fieldNum + ": " + methodName);
                             } else {
                                 logger.info("No main method found for field: " + fieldNum);
-//                                System.out.println("No main method found for field: " + fieldNum);
+                                // System.out.println("No main method found for field: " + fieldNum);
                             }
-    
+
                             for (Type field : fieldRepetitions) {
                                 String fieldValue = field.encode().trim();
                                 // Get the data type class name
                                 String dataType = field.getClass().getSimpleName();
-                                //if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
-                                //    fieldValue = convertTimestamp(fieldValue);
-                               // }
-    
+                                // if (dataType.contains("TS") || dataType.contains("TSComponentOne") ||
+                                // dataType.contains("DTM") || dataType.contains("DT")) {
+                                // fieldValue = convertTimestamp(fieldValue);
+                                // }
+
                                 JsonObject fieldObject = new JsonObject();
-                                if(methodName!=null)
-                                {
-                                if (!fieldValue.isEmpty()) {
-                                    if (fieldRepetitions.length ==1) {
-                                        // Single value
-                                        logger.info("M--Method Name for " + fieldNum + ": " + methodName + "dataType :" + dataType);
-                                       // System.out.println("M--Method Name for " + fieldNum + ": " + methodName + "dataType :" + dataType);
-                                     //   if (dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
-                                     //       fieldValue = convertTimestamp(fieldValue);
-                                      //  }
-                                       dataType = field.getClass().getSimpleName();
-                                       if (dataType.contains("TQ") || dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
-                                        fieldValue = convertTimestamp(fieldValue);
-                                    }
-                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
-        
-                                        segmentJson.addProperty(underscore, fieldValue);
-                                        logger.info("Repeated elem : " + fieldValue);
-//                                        System.out.println("Repeated elem : " + fieldValue);
-                                    // Extract components and subcomponents
-                                    String[] subComponents = field.encode().split("\\^");
-                                    for (int i = 0; i < subComponents.length; i++) {
-    
-                                      String submethodName = findMethodNameForSubfield(segmentClass, segmentName,fieldNum + "." + (i + 1));
-    
-                                        if (submethodName != null) {
-                                            System.out.println("SubMethod Name for " + (i+1) + ": " + submethodName);
-                                         dataType = field.getClass().getSimpleName();
-                                         if (dataType.contains("TQ") ||dataType.contains("TS") || dataType.contains("TSComponentOne") || dataType.contains("DTM") || dataType.contains("DT")) {
-                                            subComponents[i] = convertTimestamp(subComponents[i]);
-                                         }
-    
-                                            //fieldObject.addProperty(submethodName.split("_")[1], subComponents[i]);       
-                                             underscore = camelToUnderscore(submethodName.split("_")[1]);
-                                            fieldObject.addProperty(underscore, subComponents[i]);       
-                                            
-        
-                                        } else {
-                                          //  System.out.println("No method found for field: " + i);
+                                if (methodName != null) {
+                                    if (!fieldValue.isEmpty()) {
+                                        if (fieldRepetitions.length == 1) {
+                                            // Single value
+                                            logger.info("M--Method Name for " + fieldNum + ": " + methodName
+                                                    + "dataType :" + dataType);
+                                            // System.out.println("M--Method Name for " + fieldNum + ": " + methodName +
+                                            // "dataType :" + dataType);
+                                            // if (dataType.contains("TS") || dataType.contains("TSComponentOne") ||
+                                            // dataType.contains("DTM") || dataType.contains("DT")) {
+                                            // fieldValue = convertTimestamp(fieldValue);
+                                            // }
+                                            dataType = field.getClass().getSimpleName();
+                                            if (dataType.contains("TQ") || dataType.contains("TS")
+                                                    || dataType.contains("TSComponentOne") || dataType.contains("DTM")
+                                                    || dataType.contains("DT")) {
+                                                fieldValue = convertTimestamp(fieldValue);
+                                            }
+                                            String underscore = camelToUnderscore(methodName.split("_")[1]);
+
+                                            segmentJson.addProperty(underscore, fieldValue);
+                                            logger.info("Repeated elem : " + fieldValue);
+                                            // System.out.println("Repeated elem : " + fieldValue);
+                                            // Extract components and subcomponents
+                                            String[] subComponents = field.encode().split("\\^");
+                                            for (int i = 0; i < subComponents.length; i++) {
+
+                                                String submethodName = findMethodNameForSubfield(segmentClass,
+                                                        segmentName, fieldNum + "." + (i + 1));
+
+                                                if (submethodName != null) {
+                                                    System.out.println(
+                                                            "SubMethod Name for " + (i + 1) + ": " + submethodName);
+                                                    dataType = field.getClass().getSimpleName();
+                                                    if (dataType.contains("TQ") || dataType.contains("TS")
+                                                            || dataType.contains("TSComponentOne")
+                                                            || dataType.contains("DTM") || dataType.contains("DT")) {
+                                                        subComponents[i] = convertTimestamp(subComponents[i]);
+                                                    }
+
+                                                    // fieldObject.addProperty(submethodName.split("_")[1],
+                                                    // subComponents[i]);
+                                                    underscore = camelToUnderscore(submethodName.split("_")[1]);
+                                                    fieldObject.addProperty(underscore, subComponents[i]);
+
+                                                } else {
+                                                    // System.out.println("No method found for field: " + i);
+                                                }
+                                            }
+
                                         }
+
+                                        if (fieldObject.size() > 0) {
+                                            logger.info("sub object : " + fieldObject);
+                                            System.out.println("sub object : " + fieldObject);
+                                            // fieldArray.add(fieldObject);
+                                            // segmentJson.add(methodName.split("_")[1], fieldObject);
+                                            String underscore = camelToUnderscore(methodName.split("_")[1]);
+                                            segmentJson.add(underscore, fieldObject);
+
+                                        }
+
+                                    } else {
                                     }
-                                    
+
                                 }
-    
-                                
-                                if(fieldObject.size()>0)
-                                {
-                                    logger.info("sub object : " + fieldObject);
-                                    System.out.println("sub object : " + fieldObject);
-                                  //  fieldArray.add(fieldObject);
-                                  //  segmentJson.add(methodName.split("_")[1], fieldObject);
-                                    String underscore = camelToUnderscore(methodName.split("_")[1]);
-                                    segmentJson.add(underscore,fieldObject);
-            
-                                }
-                             
-                                } else {
-                                }
-    
-                            }    
-                                
+
                             }
-                            
-                          //  if (fieldArray.size() > 0) {
-    //                            segmentJson.add(methodName.split("_")[1], fieldArray);
-                         //   }
-    
+
+                            // if (fieldArray.size() > 0) {
+                            // segmentJson.add(methodName.split("_")[1], fieldArray);
+                            // }
+
                             fieldNum++;
                         } catch (HL7Exception e) {
                             logger.info("Error processing field " + fieldNum + " in segment " + segmentName);
-                            //System.out.println("Error processing field " + fieldNum + " in segment " + segmentName);
+                            // System.out.println("Error processing field " + fieldNum + " in segment " +
+                            // segmentName);
                             break;
                         }
                     }
-    
+
                     segmentArray.add(segmentJson);
                 }
             }
-    
+
             jsonObject.add(customSegmentName, segmentArray);
         }
         return applyMappingRecursively(jsonObject, segmentMapping);
-        //return jsonObject;
+        // return jsonObject;
     }
-    
-   
-    
-    
 
     public JsonObject HL7toJson(String hl7Message, ProcessContext context) throws ClassNotFoundException {
         Gson gson = new Gson();
         Map<String, JsonArray> jsonMap = new LinkedHashMap<>();
-
+        logger.info("Inside HL7toJson Function");
         // Retrieve the segment mapping property
         String segmentMappingProperty = context.getProperty(SEGMENT_MAPPING).getValue();
         Map<String, String> segmentMapping = parseSegmentMapping(segmentMappingProperty);
 
-        getLogger().info("Source FlowFile Data : " + hl7Message +", context: " + context);
+       // getLogger().info("Source FlowFile Data : " + hl7Message + ", context: " + context);
 
         try {
             Parser parser = new PipeParser();
@@ -438,14 +497,14 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             // Extract the message type from MSH-9
             String messageType = mshSegment.getMessageType().getMessageType().getValue();
             String triggerEvent = mshSegment.getMessageType().getTriggerEvent().getValue();
-        //   Map<String, JSONArray> jsonMap = new LinkedHashMap<>();
+            // Map<String, JSONArray> jsonMap = new LinkedHashMap<>();
 
-            
+            // Dynamically determine the class name based on the message type and trigger
+            // event
+            // String packageName = "ca.uhn.hl7v2.model." + version_no + ".segment"; //
+            // Replace with your actual package
 
-            // Dynamically determine the class name based on the message type and trigger event
-//            String packageName = "ca.uhn.hl7v2.model." + version_no + ".segment"; // Replace with your actual package
-
-            String className = "ca.uhn.hl7v2.model."+version_no+".message." + messageType + "_" + triggerEvent;
+            String className = "ca.uhn.hl7v2.model." + version_no + ".message." + messageType + "_" + triggerEvent;
 
             // Use reflection to instantiate the class dynamically
             Class<?> clazz = Class.forName(className);
@@ -453,7 +512,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
             JsonObject jsonOutput = new JsonObject();
 
-      
             if (messageType.equals("SIU") && triggerEvent.equals("S14")) {
                 SIU_S14 parsedMessage = (SIU_S14) message;
                 processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
@@ -469,9 +527,43 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                 processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
                 processSegment(parsedMessage.getSCH(), "SCH", jsonOutput);
                 processSegment(parsedMessage.getPATIENT().getPID(), "PID", jsonOutput);
+            } else if (messageType.equals("ORU") && triggerEvent.equals("R01")) {
+                logger.info("We are in ORU-R01 loop");
+                ORU_R01 parsedMessage = (ORU_R01) message;
+                // JsonObject jsonOutput = new JsonObject();
+                logger.info("Inside ORU_R01");
+                processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
+                logger.info("MSH Finished ");
+                processSegment(parsedMessage.getRESPONSE().getPATIENT().getPID(), "PID", jsonOutput);
+                logger.info("PID Finished");
+                processSegment(parsedMessage.getRESPONSE().getPATIENT().getVISIT().getPV1(), "PV1",
+                        jsonOutput);
+                logger.info("PV1 Finished");
+                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getORC(), "ORC",
+                        jsonOutput);
+                logger.info("ORC Finished");
+                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBR(), "OBR",
+                        jsonOutput);
+                logger.info("OBR Finished");
+
+                JsonArray obxArray = new JsonArray();
+                for (int i = 0; i < parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATIONReps(); i++) {
+                    JsonObject obxSegmentJson = new JsonObject();
+                    processSegment(
+                            parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATION(i).getOBX(), "OBX",
+                            obxSegmentJson);
+                    obxArray.add(obxSegmentJson);
+                }
+                jsonOutput.add("Observations", obxArray);
+                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getNTE(), "NTE",
+                        jsonOutput);
+
+                // System.out.println(new
+                // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
+                logger.info("ORUOutput : " + new GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
+
             }
-
-
+            // Create a Gson instance with pretty printing enabled
 
             // Process each structure in the message (segments or groups)
             for (String structureName : message.getNames()) {
@@ -503,8 +595,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                 // jsonMap.put(structureName, structureArray);
             }
 
-            
-
             JsonObject resultJson = gson.toJsonTree(jsonMap).getAsJsonObject();
             return applyMappingRecursively(resultJson, segmentMapping);
 
@@ -514,7 +604,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             return new JsonObject();
         }
     }
-
 
     // Method to dynamically get the segment class using reflection
     private static Class<?> getSegmentClass(String segmentName) {
@@ -529,56 +618,54 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
         }
     }
 
-
     // Method to dynamically get the segment class using reflection
-    private static Class<?> getnewSegmentClass(String segmentName, String msg_type, String event_trigger,String msgversion) {
+    private static Class<?> getnewSegmentClass(String segmentName, String msg_type, String event_trigger,
+            String msgversion) {
         try {
             String packageName;
 
-            logger.info("In GetSement_Class -> msg_type : " + msg_type +", triggerevent :  "+event_trigger+", Version No::::: " + msgversion);
+            logger.info("In GetSement_Class -> msg_type : " + msg_type + ", triggerevent :  " + event_trigger
+                    + ", Version No::::: " + msgversion);
 
             // Construct the fully qualified class name
-            if(msg_type.equals("ORU") && event_trigger.equals("R30") || msg_type.equals("ORU") && event_trigger.equals("R32") || msg_type.equals("ORU") && event_trigger.equals("R40") || msg_type.equals("ORU") && event_trigger.equals("R42") ||  msg_type.equals("MFN") && event_trigger.equals("M02") ||  msg_type.equals("ORU") && event_trigger.equals("R01") || msg_type.equals("DFT") ) {
-                if(msgversion.equals("23"))
-                {
-                packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
-                }
-                else
-                {
-                    packageName = "ca.uhn.hl7v2.model.v"+ msgversion + ".segment";
+            if (msg_type.equals("ORU") && event_trigger.equals("R30")
+                    || msg_type.equals("ORU") && event_trigger.equals("R32")
+                    || msg_type.equals("ORU") && event_trigger.equals("R40")
+                    || msg_type.equals("ORU") && event_trigger.equals("R42")
+                    || msg_type.equals("MFN") && event_trigger.equals("M02")
+                    || msg_type.equals("ORU") && event_trigger.equals("R01") || msg_type.equals("DFT")) {
+                if (msgversion.equals("23")) {
+                    packageName = "ca.uhn.hl7v2.model.v23.segment"; // Replace with your actual package
+                } else {
+                    packageName = "ca.uhn.hl7v2.model.v" + msgversion.replace(".", "") + ".segment";
                 }
                 logger.info("R30 - Pacakage Selected as : " + packageName);
-               String className = packageName + "." + segmentName;
-              //String className = packageName + ".MSH";
+                String className = packageName + "." + segmentName;
+                // String className = packageName + ".MSH";
 
                 logger.info("Final - ClassName Selected as : " + className);
                 return Class.forName(className);
-            }
-            else 
-            {
-             packageName = "ca.uhn.hl7v2.model.v"+ msgversion.replace(".", "") +".segment"; // Replace with your actual package
-             logger.info("Else - Pacakage Selected as : " + packageName);
-             String className = packageName + "." + segmentName;
+            } else {
+                packageName = "ca.uhn.hl7v2.model.v" + msgversion.replace(".", "") + ".segment"; // Replace with your
+                                                                                                 // actual package
+                logger.info("Else - Pacakage Selected as : " + packageName);
+                String className = packageName + "." + segmentName;
 
-             logger.info("ELSE Final - ClassName Selected as : " + className);
-             return Class.forName(className);
+                logger.info("ELSE Final - ClassName Selected as : " + className);
+                return Class.forName(className);
 
-            
             }
-            
-            
+
         } catch (ClassNotFoundException e) {
-            logger.error("Class not found for: " +  e);
+            logger.error("Class not found for: " + e);
             e.printStackTrace();
             return null;
         }
     }
 
-
-    private static void processSegment(Segment segment, String segmentName, JsonObject jsonObject) throws HL7Exception 
-    {
+    private static void processSegment(Segment segment, String segmentName, JsonObject jsonObject) throws HL7Exception {
         JsonObject segmentJson = new JsonObject();
-    
+        logger.info("Segment Name : " + segmentName);
         // Retrieve segment class dynamically
         Class<?> segmentClass = getSegmentClass(segment.getName());
         if (segmentClass != null) {
@@ -591,15 +678,18 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                         nestedObject.addProperty(nestedEntry.getKey(), (String) nestedEntry.getValue());
                     }
                     segmentJson.add(entry.getKey(), nestedObject);
+
+                    logger.info("IF Process : " + entry.getKey());
+
                 } else {
+                    logger.info("ELSE Process : " + entry.getKey());
                     segmentJson.addProperty(entry.getKey(), (String) entry.getValue());
                 }
             }
         }
-    
+
         jsonObject.add(segmentName, segmentJson);
     }
-    
 
     // Recursive method to apply mapping to nested JSON objects
     private static JsonObject applyMappingRecursively(JsonObject jsonObject, Map<String, String> segmentMapping) {
@@ -672,7 +762,7 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
     // Function to retrieve field and subfield names from a segment
 
-    private static  Map<String, Object> getFieldNames(Segment segment, Class<?> segmentClass) {
+    private static Map<String, Object> getFieldNames(Segment segment, Class<?> segmentClass) {
         Map<String, Object> fieldNames = new LinkedHashMap<>();
 
         try {
@@ -680,28 +770,25 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
             // System.out.println("Segment " + segment.getName() + " has " + numFields + "
             // fields.");
 
-            
             for (int i = 1; i <= numFields; i++) {
                 Type[] fields = segment.getField(i);
                 if (fields.length == 0) {
                     continue;
                 }
 
-
-            //for (int i = 1; i <= numFields; i++) {
-                //Type[] fields = segment.getField(i);
+                // for (int i = 1; i <= numFields; i++) {
+                // Type[] fields = segment.getField(i);
                 String fieldIdentifier = Integer.toString(i).trim();
                 String methodName = findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
 
-                
-                
                 // .findMethodNameForSubfield(segmentClass, segment.getName(), fieldIdentifier);
                 logger.info("Segment " + segment.getName() + " field " + i + " has " + fields.length + " subfields.");
 
                 if (methodName != null && fields.length > 0) {
                     String key = methodName.split("_")[1];
-                    logger.info("methodname : " + methodName +", obx-key : " + key + ", obx-5 value : " + fields[0].encode());
-                    if(methodName.contains("ObservationValue")) {
+                    logger.info("methodname : " + methodName + ", obx-key : " + key + ", obx-5 value : "
+                            + fields[0].encode());
+                    if (methodName.contains("ObservationValue")) {
                         String underscore = camelToUnderscore(methodName.split("_")[1]);
                         fieldNames.put(underscore, fields[0].encode());
 
@@ -710,7 +797,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                     // Handle the case where the methodName is null or fields array is empty
                     logger.warn("No method found for field: " + fieldIdentifier + " or fields array is empty");
                 }
-                
 
                 for (Type field : fields) {
                     switch (field) {
@@ -727,11 +813,13 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                                 if (component instanceof Primitive primitive) {
                                     String primitiveName = primitive.getName();
                                     String value = primitive.encode();
-                                    if(segment.getName().equals("SCH")) {
-                                        logger.info("componentidentifer : " + componentIdentifier + ", value : " + value);
+                                    if (segment.getName().equals("SCH")) {
+                                        logger.info(
+                                                "componentidentifer : " + componentIdentifier + ", value : " + value);
                                     }
-                                    
-                                    if ((primitiveName.contains("DT") || primitiveName.contains("TQ") || primitiveName.contains("TS") || primitiveName.contains("DTM")
+
+                                    if ((primitiveName.contains("DT") || primitiveName.contains("TQ")
+                                            || primitiveName.contains("TS") || primitiveName.contains("DTM")
                                             || primitiveName.contains("DT"))) {
                                         value = convertTimestamp(value);
                                     }
@@ -751,10 +839,11 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                             // fieldNames.put(methodName.split("_")[1], compositeFields);
                         }
                         case Primitive primitive -> {
-                        //    getLogger().info("Field " + i + " content: " + field.encode());
+                            // getLogger().info("Field " + i + " content: " + field.encode());
                             String primitiveName = primitive.getName();
                             String value = primitive.encode();
-                            if ((primitiveName.contains("DT") || primitiveName.contains("TQ") || primitiveName.contains("TS") || primitiveName.contains("DTM")
+                            if ((primitiveName.contains("DT") || primitiveName.contains("TQ")
+                                    || primitiveName.contains("TS") || primitiveName.contains("DTM")
                                     || primitiveName.contains("DT"))) {
                                 value = convertTimestamp(value);
                             }
@@ -770,13 +859,12 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
                 }
             }
         } catch (HL7Exception e) {
-          //  getLogger().info("HL7 Exception : " + e.getMessage());
+            // getLogger().info("HL7 Exception : " + e.getMessage());
 
         }
 
         return fieldNames;
     }
-
 
     // Convert CamelCase to Underscore
     public static String camelToUnderscore(String camelCase) {
@@ -791,10 +879,10 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
         return underscore.toLowerCase();
     }
 
-    static String findMethodNameForSubfield(Class<?> segmentClass,String segName, String fieldIdentifier) {
+    static String findMethodNameForSubfield(Class<?> segmentClass, String segName, String fieldIdentifier) {
         try {
             Method[] methods = segmentClass.getDeclaredMethods();
-            
+
             // Split the identifier to find field and subfield numbers
             String[] parts = fieldIdentifier.split("\\.");
             String fieldNumber = parts[0];
@@ -827,7 +915,6 @@ public class AxanaHL7ToJsonExtracter_1_0_7 extends AbstractProcessor {
 
         return null;
     }
-
 
     // Function to convert HL7 timestamp to desired format
     private static String convertTimestamp(String hl7Timestamp) {
