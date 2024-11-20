@@ -1,0 +1,4775 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "MSH",
+        "EVN",
+        "PID",
+        "PD1",
+        "NK1",
+        "PV1",
+        "PV2",
+        "DRG",
+        "Observations",
+        "Disability",
+        "Allergy",
+        "Diagnosis",
+        "PR1",
+        "ROLE",
+        "IN1",
+        "IN2",
+        "IN3",
+        "ACC",
+        "UB1",
+        "UB2"
+    ],
+    "properties": {
+        "MSH": {
+            "type": "object",
+            "default": {},
+            "title": "The MSH Schema",
+            "required": [
+                "FieldSeparator",
+                "EncodingCharacters",
+                "SendingApplication",
+                "SendingFacility",
+                "ReceivingApplication",
+                "DateTimeOfMessage",
+                "MessageType",
+                "MessageControlID",
+                "ProcessingID",
+                "VersionID"
+            ],
+            "properties": {
+                "FieldSeparator": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The FieldSeparator Schema",
+                    "examples": [
+                        "\\F\\"
+                    ]
+                },
+                "EncodingCharacters": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The EncodingCharacters Schema",
+                    "examples": [
+                        "\\S\\\\R\\\\E\\\\T\\"
+                    ]
+                },
+                "SendingApplication": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The SendingApplication Schema",
+                    "required": [
+                        "NamespaceID",
+                        "UniversalID",
+                        "UniversalIDType"
+                    ],
+                    "properties": {
+                        "NamespaceID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NamespaceID Schema",
+                            "examples": [
+                                "ADT"
+                            ]
+                        },
+                        "UniversalID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "UniversalIDType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalIDType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "NamespaceID": "ADT",
+                        "UniversalID": "",
+                        "UniversalIDType": ""
+                    }]
+                },
+                "SendingFacility": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The SendingFacility Schema",
+                    "required": [
+                        "NamespaceID",
+                        "UniversalID",
+                        "UniversalIDType"
+                    ],
+                    "properties": {
+                        "NamespaceID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NamespaceID Schema",
+                            "examples": [
+                                "ABCD"
+                            ]
+                        },
+                        "UniversalID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "UniversalIDType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalIDType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "NamespaceID": "ABCD",
+                        "UniversalID": "",
+                        "UniversalIDType": ""
+                    }]
+                },
+                "ReceivingApplication": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The ReceivingApplication Schema",
+                    "required": [
+                        "NamespaceID",
+                        "UniversalID",
+                        "UniversalIDType"
+                    ],
+                    "properties": {
+                        "NamespaceID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NamespaceID Schema",
+                            "examples": [
+                                "Medicity"
+                            ]
+                        },
+                        "UniversalID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "UniversalIDType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The UniversalIDType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "NamespaceID": "Medicity",
+                        "UniversalID": "",
+                        "UniversalIDType": ""
+                    }]
+                },
+                "DateTimeOfMessage": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The DateTimeOfMessage Schema",
+                    "required": [
+                        "TimeOfAnEvent",
+                        "DegreeOfPrecision"
+                    ],
+                    "properties": {
+                        "TimeOfAnEvent": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TimeOfAnEvent Schema",
+                            "examples": [
+                                "2023-03-15 21:49:09"
+                            ]
+                        },
+                        "DegreeOfPrecision": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeOfPrecision Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "TimeOfAnEvent": "2023-03-15 21:49:09",
+                        "DegreeOfPrecision": ""
+                    }]
+                },
+                "MessageType": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The MessageType Schema",
+                    "required": [
+                        "msg1",
+                        "msg2"
+                    ],
+                    "properties": {
+                        "msg1": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The msg1 Schema",
+                            "examples": [
+                                "ADT"
+                            ]
+                        },
+                        "msg2": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The msg2 Schema",
+                            "examples": [
+                                "A06"
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "msg1": "ADT",
+                        "msg2": "A06"
+                    }]
+                },
+                "MessageControlID": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The MessageControlID Schema",
+                    "examples": [
+                        "76423826"
+                    ]
+                },
+                "ProcessingID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The ProcessingID Schema",
+                    "required": [
+                        "ProcessingID",
+                        "ProcessingMode"
+                    ],
+                    "properties": {
+                        "ProcessingID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ProcessingID Schema",
+                            "examples": [
+                                "P"
+                            ]
+                        },
+                        "ProcessingMode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ProcessingMode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ProcessingID": "P",
+                        "ProcessingMode": ""
+                    }]
+                },
+                "VersionID": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The VersionID Schema",
+                    "examples": [
+                        "2.3"
+                    ]
+                }
+            },
+            "examples": [{
+                "FieldSeparator": "\\F\\",
+                "EncodingCharacters": "\\S\\\\R\\\\E\\\\T\\",
+                "SendingApplication": {
+                    "NamespaceID": "ADT",
+                    "UniversalID": "",
+                    "UniversalIDType": ""
+                },
+                "SendingFacility": {
+                    "NamespaceID": "ABCD",
+                    "UniversalID": "",
+                    "UniversalIDType": ""
+                },
+                "ReceivingApplication": {
+                    "NamespaceID": "Medicity",
+                    "UniversalID": "",
+                    "UniversalIDType": ""
+                },
+                "DateTimeOfMessage": {
+                    "TimeOfAnEvent": "2023-03-15 21:49:09",
+                    "DegreeOfPrecision": ""
+                },
+                "MessageType": {
+                    "msg1": "ADT",
+                    "msg2": "A06"
+                },
+                "MessageControlID": "76423826",
+                "ProcessingID": {
+                    "ProcessingID": "P",
+                    "ProcessingMode": ""
+                },
+                "VersionID": "2.3"
+            }]
+        },
+        "EVN": {
+            "type": "object",
+            "default": {},
+            "title": "The EVN Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "PID": {
+            "type": "object",
+            "default": {},
+            "title": "The PID Schema",
+            "required": [
+                "SetIDPatientID",
+                "PatientIDExternalID",
+                "PatientIDInternalID",
+                "AlternatePatientID",
+                "PatientName",
+                "DateOfBirth",
+                "Sex",
+                "Race",
+                "PatientAddress",
+                "PhoneNumberHome",
+                "PhoneNumberBusiness",
+                "PrimaryLanguage",
+                "MaritalStatus",
+                "Religion",
+                "PatientAccountNumber",
+                "SSNNumberPatient"
+            ],
+            "properties": {
+                "SetIDPatientID": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The SetIDPatientID Schema",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "PatientIDExternalID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientIDExternalID Schema",
+                    "required": [
+                        "ID",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacility"
+                    ],
+                    "properties": {
+                        "ID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ID Schema",
+                            "examples": [
+                                "X444911"
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacility Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ID": "X444911",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacility": ""
+                    }]
+                },
+                "PatientIDInternalID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientIDInternalID Schema",
+                    "required": [
+                        "ID",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacility"
+                    ],
+                    "properties": {
+                        "ID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ID Schema",
+                            "examples": [
+                                "X000811142"
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacility Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ID": "X000811142",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacility": ""
+                    }]
+                },
+                "AlternatePatientID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AlternatePatientID Schema",
+                    "required": [
+                        "ID",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacility"
+                    ],
+                    "properties": {
+                        "ID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ID Schema",
+                            "examples": [
+                                "I33097801"
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacility Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ID": "I33097801",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacility": ""
+                    }]
+                },
+                "PatientName": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientName Schema",
+                    "required": [
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "NameTypeCode",
+                        "NameRepresentationCode"
+                    ],
+                    "properties": {
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "JOHN"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "SMITH"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "DOE"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameRepresentationCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameRepresentationCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "FamilyName": "JOHN",
+                        "GivenName": "SMITH",
+                        "MiddleInitialOrName": "DOE",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "NameTypeCode": "",
+                        "NameRepresentationCode": ""
+                    }]
+                },
+                "DateOfBirth": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The DateOfBirth Schema",
+                    "required": [
+                        "TimeOfAnEvent",
+                        "DegreeOfPrecision"
+                    ],
+                    "properties": {
+                        "TimeOfAnEvent": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TimeOfAnEvent Schema",
+                            "examples": [
+                                "1976-01-23 00:00:00"
+                            ]
+                        },
+                        "DegreeOfPrecision": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeOfPrecision Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "TimeOfAnEvent": "1976-01-23 00:00:00",
+                        "DegreeOfPrecision": ""
+                    }]
+                },
+                "Sex": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The Sex Schema",
+                    "examples": [
+                        "F"
+                    ]
+                },
+                "Race": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The Race Schema",
+                    "examples": [
+                        "2054-5"
+                    ]
+                },
+                "PatientAddress": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientAddress Schema",
+                    "required": [
+                        "StreetAddress",
+                        "OtherDesignation",
+                        "City",
+                        "StateOrProvince",
+                        "ZipOrPostalCode",
+                        "Country",
+                        "AddressType",
+                        "OtherGeographicDesignation",
+                        "CountyParishCode",
+                        "CensusTract"
+                    ],
+                    "properties": {
+                        "StreetAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StreetAddress Schema",
+                            "examples": [
+                                "515 PARK AVE WEST"
+                            ]
+                        },
+                        "OtherDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherDesignation Schema",
+                            "examples": [
+                                "APT 202"
+                            ]
+                        },
+                        "City": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The City Schema",
+                            "examples": [
+                                "DENVER"
+                            ]
+                        },
+                        "StateOrProvince": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StateOrProvince Schema",
+                            "examples": [
+                                "CO"
+                            ]
+                        },
+                        "ZipOrPostalCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ZipOrPostalCode Schema",
+                            "examples": [
+                                "80205"
+                            ]
+                        },
+                        "Country": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Country Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AddressType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AddressType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "OtherGeographicDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherGeographicDesignation Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountyParishCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountyParishCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CensusTract": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CensusTract Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "StreetAddress": "515 PARK AVE WEST",
+                        "OtherDesignation": "APT 202",
+                        "City": "DENVER",
+                        "StateOrProvince": "CO",
+                        "ZipOrPostalCode": "80205",
+                        "Country": "",
+                        "AddressType": "",
+                        "OtherGeographicDesignation": "",
+                        "CountyParishCode": "",
+                        "CensusTract": ""
+                    }]
+                },
+                "PhoneNumberHome": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PhoneNumberHome Schema",
+                    "required": [
+                        "9999999X99999CAnyText",
+                        "TelecommunicationUseCode",
+                        "TelecommunicationEquipmentType",
+                        "EmailAddress",
+                        "CountryCode",
+                        "AreaCityCode",
+                        "PhoneNumber",
+                        "Extension",
+                        "AnyText"
+                    ],
+                    "properties": {
+                        "9999999X99999CAnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The 9999999X99999CAnyText Schema",
+                            "examples": [
+                                "(719)400-3025"
+                            ]
+                        },
+                        "TelecommunicationUseCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationUseCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "TelecommunicationEquipmentType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationEquipmentType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "EmailAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The EmailAddress Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountryCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountryCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AreaCityCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AreaCityCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PhoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PhoneNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Extension": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Extension Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AnyText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "9999999X99999CAnyText": "(719)400-3025",
+                        "TelecommunicationUseCode": "",
+                        "TelecommunicationEquipmentType": "",
+                        "EmailAddress": "",
+                        "CountryCode": "",
+                        "AreaCityCode": "",
+                        "PhoneNumber": "",
+                        "Extension": "",
+                        "AnyText": ""
+                    }]
+                },
+                "PhoneNumberBusiness": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PhoneNumberBusiness Schema",
+                    "required": [
+                        "9999999X99999CAnyText",
+                        "TelecommunicationUseCode",
+                        "TelecommunicationEquipmentType",
+                        "EmailAddress",
+                        "CountryCode",
+                        "AreaCityCode",
+                        "PhoneNumber",
+                        "Extension",
+                        "AnyText"
+                    ],
+                    "properties": {
+                        "9999999X99999CAnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The 9999999X99999CAnyText Schema",
+                            "examples": [
+                                "(720)329-2494"
+                            ]
+                        },
+                        "TelecommunicationUseCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationUseCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "TelecommunicationEquipmentType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationEquipmentType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "EmailAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The EmailAddress Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountryCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountryCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AreaCityCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AreaCityCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PhoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PhoneNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Extension": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Extension Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AnyText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "9999999X99999CAnyText": "(720)329-2494",
+                        "TelecommunicationUseCode": "",
+                        "TelecommunicationEquipmentType": "",
+                        "EmailAddress": "",
+                        "CountryCode": "",
+                        "AreaCityCode": "",
+                        "PhoneNumber": "",
+                        "Extension": "",
+                        "AnyText": ""
+                    }]
+                },
+                "PrimaryLanguage": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PrimaryLanguage Schema",
+                    "required": [
+                        "Identifier",
+                        "Text",
+                        "NameOfCodingSystem",
+                        "AlternateIdentifier",
+                        "AlternateText",
+                        "NameOfAlternateCodingSystem"
+                    ],
+                    "properties": {
+                        "Identifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Identifier Schema",
+                            "examples": [
+                                "EN"
+                            ]
+                        },
+                        "Text": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Text Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateIdentifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateIdentifier Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfAlternateCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfAlternateCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "Identifier": "EN",
+                        "Text": "",
+                        "NameOfCodingSystem": "",
+                        "AlternateIdentifier": "",
+                        "AlternateText": "",
+                        "NameOfAlternateCodingSystem": ""
+                    }]
+                },
+                "MaritalStatus": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The MaritalStatus Schema",
+                    "examples": [
+                        "D"
+                    ]
+                },
+                "Religion": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The Religion Schema",
+                    "examples": [
+                        "NOE"
+                    ]
+                },
+                "PatientAccountNumber": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientAccountNumber Schema",
+                    "required": [
+                        "ID",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacility"
+                    ],
+                    "properties": {
+                        "ID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ID Schema",
+                            "examples": [
+                                "X20015225942"
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacility Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ID": "X20015225942",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacility": ""
+                    }]
+                },
+                "SSNNumberPatient": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The SSNNumberPatient Schema",
+                    "examples": [
+                        "522-17-2294"
+                    ]
+                }
+            },
+            "examples": [{
+                "SetIDPatientID": "1",
+                "PatientIDExternalID": {
+                    "ID": "X444911",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacility": ""
+                },
+                "PatientIDInternalID": {
+                    "ID": "X000811142",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacility": ""
+                },
+                "AlternatePatientID": {
+                    "ID": "I33097801",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacility": ""
+                },
+                "PatientName": {
+                    "FamilyName": "JOHN",
+                    "GivenName": "SMITH",
+                    "MiddleInitialOrName": "DOE",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "NameTypeCode": "",
+                    "NameRepresentationCode": ""
+                },
+                "DateOfBirth": {
+                    "TimeOfAnEvent": "1976-01-23 00:00:00",
+                    "DegreeOfPrecision": ""
+                },
+                "Sex": "F",
+                "Race": "2054-5",
+                "PatientAddress": {
+                    "StreetAddress": "515 PARK AVE WEST",
+                    "OtherDesignation": "APT 202",
+                    "City": "DENVER",
+                    "StateOrProvince": "CO",
+                    "ZipOrPostalCode": "80205",
+                    "Country": "",
+                    "AddressType": "",
+                    "OtherGeographicDesignation": "",
+                    "CountyParishCode": "",
+                    "CensusTract": ""
+                },
+                "PhoneNumberHome": {
+                    "9999999X99999CAnyText": "(719)400-3025",
+                    "TelecommunicationUseCode": "",
+                    "TelecommunicationEquipmentType": "",
+                    "EmailAddress": "",
+                    "CountryCode": "",
+                    "AreaCityCode": "",
+                    "PhoneNumber": "",
+                    "Extension": "",
+                    "AnyText": ""
+                },
+                "PhoneNumberBusiness": {
+                    "9999999X99999CAnyText": "(720)329-2494",
+                    "TelecommunicationUseCode": "",
+                    "TelecommunicationEquipmentType": "",
+                    "EmailAddress": "",
+                    "CountryCode": "",
+                    "AreaCityCode": "",
+                    "PhoneNumber": "",
+                    "Extension": "",
+                    "AnyText": ""
+                },
+                "PrimaryLanguage": {
+                    "Identifier": "EN",
+                    "Text": "",
+                    "NameOfCodingSystem": "",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "MaritalStatus": "D",
+                "Religion": "NOE",
+                "PatientAccountNumber": {
+                    "ID": "X20015225942",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacility": ""
+                },
+                "SSNNumberPatient": "522-17-2294"
+            }]
+        },
+        "PD1": {
+            "type": "object",
+            "default": {},
+            "title": "The PD1 Schema",
+            "required": [
+                "PatientPrimaryCareProviderNameIDNo",
+                "ProtectionIndicator",
+                "Field_13"
+            ],
+            "properties": {
+                "PatientPrimaryCareProviderNameIDNo": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PatientPrimaryCareProviderNameIDNo Schema",
+                    "required": [
+                        "IDNumber",
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "SourceTable",
+                        "AssigningAuthority",
+                        "NameType",
+                        "IdentifierCheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                ".NO PCP"
+                            ]
+                        },
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "PHYSICIAN"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "NO"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "PRIMARY OR FAMILY"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SourceTable": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SourceTable Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierCheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierCheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "IDNumber": ".NO PCP",
+                        "FamilyName": "PHYSICIAN",
+                        "GivenName": "NO",
+                        "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "SourceTable": "",
+                        "AssigningAuthority": "",
+                        "NameType": "",
+                        "IdentifierCheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "ProtectionIndicator": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The ProtectionIndicator Schema",
+                    "examples": [
+                        "OI"
+                    ]
+                },
+                "Field_13": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The Field_13 Schema",
+                    "examples": [
+                        "201503260950"
+                    ]
+                }
+            },
+            "examples": [{
+                "PatientPrimaryCareProviderNameIDNo": {
+                    "IDNumber": ".NO PCP",
+                    "FamilyName": "PHYSICIAN",
+                    "GivenName": "NO",
+                    "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "SourceTable": "",
+                    "AssigningAuthority": "",
+                    "NameType": "",
+                    "IdentifierCheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "ProtectionIndicator": "OI",
+                "Field_13": "201503260950"
+            }]
+        },
+        "NK1": {
+            "type": "object",
+            "default": {},
+            "title": "The NK1 Schema",
+            "required": [
+                "SetIDNextOfKin",
+                "NKNameReps",
+                "Relationship",
+                "Address",
+                "PhoneNumber"
+            ],
+            "properties": {
+                "SetIDNextOfKin": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The SetIDNextOfKin Schema",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "NKNameReps": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The NKNameReps Schema",
+                    "required": [
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "NameTypeCode",
+                        "NameRepresentationCode"
+                    ],
+                    "properties": {
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "NONE"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "AT"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "THIS TIME"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameRepresentationCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameRepresentationCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "FamilyName": "NONE",
+                        "GivenName": "AT",
+                        "MiddleInitialOrName": "THIS TIME",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "NameTypeCode": "",
+                        "NameRepresentationCode": ""
+                    }]
+                },
+                "Relationship": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The Relationship Schema",
+                    "required": [
+                        "Identifier",
+                        "Text",
+                        "NameOfCodingSystem",
+                        "AlternateIdentifier",
+                        "AlternateText",
+                        "NameOfAlternateCodingSystem"
+                    ],
+                    "properties": {
+                        "Identifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Identifier Schema",
+                            "examples": [
+                                "OWN"
+                            ]
+                        },
+                        "Text": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Text Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateIdentifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateIdentifier Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfAlternateCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfAlternateCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "Identifier": "OWN",
+                        "Text": "",
+                        "NameOfCodingSystem": "",
+                        "AlternateIdentifier": "",
+                        "AlternateText": "",
+                        "NameOfAlternateCodingSystem": ""
+                    }]
+                },
+                "Address": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The Address Schema",
+                    "required": [
+                        "StreetAddress",
+                        "OtherDesignation",
+                        "City",
+                        "StateOrProvince",
+                        "ZipOrPostalCode",
+                        "Country",
+                        "AddressType",
+                        "OtherGeographicDesignation",
+                        "CountyParishCode",
+                        "CensusTract"
+                    ],
+                    "properties": {
+                        "StreetAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StreetAddress Schema",
+                            "examples": [
+                                "515 PARK AVE WEST"
+                            ]
+                        },
+                        "OtherDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherDesignation Schema",
+                            "examples": [
+                                "APT 202"
+                            ]
+                        },
+                        "City": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The City Schema",
+                            "examples": [
+                                "DENVER"
+                            ]
+                        },
+                        "StateOrProvince": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StateOrProvince Schema",
+                            "examples": [
+                                "CO"
+                            ]
+                        },
+                        "ZipOrPostalCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ZipOrPostalCode Schema",
+                            "examples": [
+                                "80205"
+                            ]
+                        },
+                        "Country": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Country Schema",
+                            "examples": [
+                                "USA"
+                            ]
+                        },
+                        "AddressType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AddressType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "OtherGeographicDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherGeographicDesignation Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountyParishCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountyParishCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CensusTract": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CensusTract Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "StreetAddress": "515 PARK AVE WEST",
+                        "OtherDesignation": "APT 202",
+                        "City": "DENVER",
+                        "StateOrProvince": "CO",
+                        "ZipOrPostalCode": "80205",
+                        "Country": "USA",
+                        "AddressType": "",
+                        "OtherGeographicDesignation": "",
+                        "CountyParishCode": "",
+                        "CensusTract": ""
+                    }]
+                },
+                "PhoneNumber": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The PhoneNumber Schema",
+                    "required": [
+                        "9999999X99999CAnyText",
+                        "TelecommunicationUseCode",
+                        "TelecommunicationEquipmentType",
+                        "EmailAddress",
+                        "CountryCode",
+                        "AreaCityCode",
+                        "PhoneNumber",
+                        "Extension",
+                        "AnyText"
+                    ],
+                    "properties": {
+                        "9999999X99999CAnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The 9999999X99999CAnyText Schema",
+                            "examples": [
+                                "(719)400-3025"
+                            ]
+                        },
+                        "TelecommunicationUseCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationUseCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "TelecommunicationEquipmentType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationEquipmentType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "EmailAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The EmailAddress Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountryCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountryCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AreaCityCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AreaCityCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PhoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PhoneNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Extension": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Extension Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AnyText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "9999999X99999CAnyText": "(719)400-3025",
+                        "TelecommunicationUseCode": "",
+                        "TelecommunicationEquipmentType": "",
+                        "EmailAddress": "",
+                        "CountryCode": "",
+                        "AreaCityCode": "",
+                        "PhoneNumber": "",
+                        "Extension": "",
+                        "AnyText": ""
+                    }]
+                }
+            },
+            "examples": [{
+                "SetIDNextOfKin": "1",
+                "NKNameReps": {
+                    "FamilyName": "NONE",
+                    "GivenName": "AT",
+                    "MiddleInitialOrName": "THIS TIME",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "NameTypeCode": "",
+                    "NameRepresentationCode": ""
+                },
+                "Relationship": {
+                    "Identifier": "OWN",
+                    "Text": "",
+                    "NameOfCodingSystem": "",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "Address": {
+                    "StreetAddress": "515 PARK AVE WEST",
+                    "OtherDesignation": "APT 202",
+                    "City": "DENVER",
+                    "StateOrProvince": "CO",
+                    "ZipOrPostalCode": "80205",
+                    "Country": "USA",
+                    "AddressType": "",
+                    "OtherGeographicDesignation": "",
+                    "CountyParishCode": "",
+                    "CensusTract": ""
+                },
+                "PhoneNumber": {
+                    "9999999X99999CAnyText": "(719)400-3025",
+                    "TelecommunicationUseCode": "",
+                    "TelecommunicationEquipmentType": "",
+                    "EmailAddress": "",
+                    "CountryCode": "",
+                    "AreaCityCode": "",
+                    "PhoneNumber": "",
+                    "Extension": "",
+                    "AnyText": ""
+                }
+            }]
+        },
+        "PV1": {
+            "type": "object",
+            "default": {},
+            "title": "The PV1 Schema",
+            "required": [
+                "SetIDPatientVisit",
+                "PatientClass",
+                "AssignedPatientLocation",
+                "AdmissionType",
+                "AttendingDoctor",
+                "ReferringDoctor",
+                "ConsultingDoctor",
+                "HospitalService",
+                "AdmitSource",
+                "VIPIndicator",
+                "AdmittingDoctor",
+                "PatientType",
+                "FinancialClass",
+                "ServicingFacility",
+                "AdmitDateTime"
+            ],
+            "properties": {
+                "SetIDPatientVisit": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The SetIDPatientVisit Schema",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "PatientClass": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The PatientClass Schema",
+                    "examples": [
+                        "I"
+                    ]
+                },
+                "AssignedPatientLocation": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AssignedPatientLocation Schema",
+                    "required": [
+                        "PointOfCare",
+                        "Room",
+                        "Bed",
+                        "Facility",
+                        "LocationStatus",
+                        "PersonLocationType",
+                        "Building",
+                        "Floor",
+                        "LocationType"
+                    ],
+                    "properties": {
+                        "PointOfCare": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PointOfCare Schema",
+                            "examples": [
+                                "X.ERIN"
+                            ]
+                        },
+                        "Room": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Room Schema",
+                            "examples": [
+                                "X.ERIN"
+                            ]
+                        },
+                        "Bed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Bed Schema",
+                            "examples": [
+                                "D"
+                            ]
+                        },
+                        "Facility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Facility Schema",
+                            "examples": [
+                                "D"
+                            ]
+                        },
+                        "LocationStatus": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The LocationStatus Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PersonLocationType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PersonLocationType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Building": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Building Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Floor": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Floor Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "LocationType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The LocationType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "PointOfCare": "X.ERIN",
+                        "Room": "X.ERIN",
+                        "Bed": "D",
+                        "Facility": "D",
+                        "LocationStatus": "",
+                        "PersonLocationType": "",
+                        "Building": "",
+                        "Floor": "",
+                        "LocationType": ""
+                    }]
+                },
+                "AdmissionType": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The AdmissionType Schema",
+                    "examples": [
+                        "E"
+                    ]
+                },
+                "AttendingDoctor": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AttendingDoctor Schema",
+                    "required": [
+                        "IDNumber",
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "SourceTable",
+                        "AssigningAuthority",
+                        "NameType",
+                        "IdentifierCheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                "SCHJE"
+                            ]
+                        },
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "Schwartz"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "Jeffrey"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "Steven"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SourceTable": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SourceTable Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierCheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierCheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "IDNumber": "SCHJE",
+                        "FamilyName": "Schwartz",
+                        "GivenName": "Jeffrey",
+                        "MiddleInitialOrName": "Steven",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "SourceTable": "",
+                        "AssigningAuthority": "",
+                        "NameType": "",
+                        "IdentifierCheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "ReferringDoctor": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The ReferringDoctor Schema",
+                    "required": [
+                        "IDNumber",
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "SourceTable",
+                        "AssigningAuthority",
+                        "NameType",
+                        "IdentifierCheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                ".SELF"
+                            ]
+                        },
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "REFERRED"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "SELF"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SourceTable": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SourceTable Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierCheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierCheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "IDNumber": ".SELF",
+                        "FamilyName": "REFERRED",
+                        "GivenName": "SELF",
+                        "MiddleInitialOrName": "",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "SourceTable": "",
+                        "AssigningAuthority": "",
+                        "NameType": "",
+                        "IdentifierCheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "ConsultingDoctor": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The ConsultingDoctor Schema",
+                    "required": [
+                        "IDNumber",
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "SourceTable",
+                        "AssigningAuthority",
+                        "NameType",
+                        "IdentifierCheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                ".NO PCP"
+                            ]
+                        },
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "PHYSICIAN"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "NO"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "PRIMARY OR FAMILY"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SourceTable": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SourceTable Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierCheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierCheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "IDNumber": ".NO PCP",
+                        "FamilyName": "PHYSICIAN",
+                        "GivenName": "NO",
+                        "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "SourceTable": "",
+                        "AssigningAuthority": "",
+                        "NameType": "",
+                        "IdentifierCheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "HospitalService": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The HospitalService Schema",
+                    "examples": [
+                        "BMTC"
+                    ]
+                },
+                "AdmitSource": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The AdmitSource Schema",
+                    "examples": [
+                        "9"
+                    ]
+                },
+                "VIPIndicator": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The VIPIndicator Schema",
+                    "examples": [
+                        "N"
+                    ]
+                },
+                "AdmittingDoctor": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AdmittingDoctor Schema",
+                    "required": [
+                        "IDNumber",
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "SourceTable",
+                        "AssigningAuthority",
+                        "NameType",
+                        "IdentifierCheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                "SCHJE"
+                            ]
+                        },
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "Schwartz"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "Jeffrey"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                "Steven"
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SourceTable": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SourceTable Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierCheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierCheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "IDNumber": "SCHJE",
+                        "FamilyName": "Schwartz",
+                        "GivenName": "Jeffrey",
+                        "MiddleInitialOrName": "Steven",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "SourceTable": "",
+                        "AssigningAuthority": "",
+                        "NameType": "",
+                        "IdentifierCheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "PatientType": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The PatientType Schema",
+                    "examples": [
+                        "IN"
+                    ]
+                },
+                "FinancialClass": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The FinancialClass Schema",
+                    "required": [
+                        "FinancialClass",
+                        "EffectiveDate"
+                    ],
+                    "properties": {
+                        "FinancialClass": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FinancialClass Schema",
+                            "examples": [
+                                "09"
+                            ]
+                        },
+                        "EffectiveDate": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The EffectiveDate Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "FinancialClass": "09",
+                        "EffectiveDate": ""
+                    }]
+                },
+                "ServicingFacility": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The ServicingFacility Schema",
+                    "examples": [
+                        "ABCD"
+                    ]
+                },
+                "AdmitDateTime": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AdmitDateTime Schema",
+                    "required": [
+                        "TimeOfAnEvent",
+                        "DegreeOfPrecision"
+                    ],
+                    "properties": {
+                        "TimeOfAnEvent": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TimeOfAnEvent Schema",
+                            "examples": [
+                                "2023-03-15 21:48:00"
+                            ]
+                        },
+                        "DegreeOfPrecision": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeOfPrecision Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "TimeOfAnEvent": "2023-03-15 21:48:00",
+                        "DegreeOfPrecision": ""
+                    }]
+                }
+            },
+            "examples": [{
+                "SetIDPatientVisit": "1",
+                "PatientClass": "I",
+                "AssignedPatientLocation": {
+                    "PointOfCare": "X.ERIN",
+                    "Room": "X.ERIN",
+                    "Bed": "D",
+                    "Facility": "D",
+                    "LocationStatus": "",
+                    "PersonLocationType": "",
+                    "Building": "",
+                    "Floor": "",
+                    "LocationType": ""
+                },
+                "AdmissionType": "E",
+                "AttendingDoctor": {
+                    "IDNumber": "SCHJE",
+                    "FamilyName": "Schwartz",
+                    "GivenName": "Jeffrey",
+                    "MiddleInitialOrName": "Steven",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "SourceTable": "",
+                    "AssigningAuthority": "",
+                    "NameType": "",
+                    "IdentifierCheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "ReferringDoctor": {
+                    "IDNumber": ".SELF",
+                    "FamilyName": "REFERRED",
+                    "GivenName": "SELF",
+                    "MiddleInitialOrName": "",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "SourceTable": "",
+                    "AssigningAuthority": "",
+                    "NameType": "",
+                    "IdentifierCheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "ConsultingDoctor": {
+                    "IDNumber": ".NO PCP",
+                    "FamilyName": "PHYSICIAN",
+                    "GivenName": "NO",
+                    "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "SourceTable": "",
+                    "AssigningAuthority": "",
+                    "NameType": "",
+                    "IdentifierCheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "HospitalService": "BMTC",
+                "AdmitSource": "9",
+                "VIPIndicator": "N",
+                "AdmittingDoctor": {
+                    "IDNumber": "SCHJE",
+                    "FamilyName": "Schwartz",
+                    "GivenName": "Jeffrey",
+                    "MiddleInitialOrName": "Steven",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "SourceTable": "",
+                    "AssigningAuthority": "",
+                    "NameType": "",
+                    "IdentifierCheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "PatientType": "IN",
+                "FinancialClass": {
+                    "FinancialClass": "09",
+                    "EffectiveDate": ""
+                },
+                "ServicingFacility": "ABCD",
+                "AdmitDateTime": {
+                    "TimeOfAnEvent": "2023-03-15 21:48:00",
+                    "DegreeOfPrecision": ""
+                }
+            }]
+        },
+        "PV2": {
+            "type": "object",
+            "default": {},
+            "title": "The PV2 Schema",
+            "required": [
+                "AccommodationCode",
+                "VisitProtectionIndicator"
+            ],
+            "properties": {
+                "AccommodationCode": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The AccommodationCode Schema",
+                    "required": [
+                        "Identifier",
+                        "Text",
+                        "NameOfCodingSystem",
+                        "AlternateIdentifier",
+                        "AlternateText",
+                        "NameOfAlternateCodingSystem"
+                    ],
+                    "properties": {
+                        "Identifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Identifier Schema",
+                            "examples": [
+                                "S"
+                            ]
+                        },
+                        "Text": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Text Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateIdentifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateIdentifier Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfAlternateCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfAlternateCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "Identifier": "S",
+                        "Text": "",
+                        "NameOfCodingSystem": "",
+                        "AlternateIdentifier": "",
+                        "AlternateText": "",
+                        "NameOfAlternateCodingSystem": ""
+                    }]
+                },
+                "VisitProtectionIndicator": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The VisitProtectionIndicator Schema",
+                    "examples": [
+                        "N"
+                    ]
+                }
+            },
+            "examples": [{
+                "AccommodationCode": {
+                    "Identifier": "S",
+                    "Text": "",
+                    "NameOfCodingSystem": "",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "VisitProtectionIndicator": "N"
+            }]
+        },
+        "DRG": {
+            "type": "object",
+            "default": {},
+            "title": "The DRG Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "Observations": {
+            "type": "array",
+            "default": [],
+            "title": "The Observations Schema",
+            "items": {},
+            "examples": [
+                []
+            ]
+        },
+        "Disability": {
+            "type": "array",
+            "default": [],
+            "title": "The Disability Schema",
+            "items": {},
+            "examples": [
+                []
+            ]
+        },
+        "Allergy": {
+            "type": "array",
+            "default": [],
+            "title": "The Allergy Schema",
+            "items": {
+                "type": "object",
+                "title": "A Schema",
+                "required": [
+                    "AL1"
+                ],
+                "properties": {
+                    "AL1": {
+                        "type": "object",
+                        "title": "The AL1 Schema",
+                        "required": [
+                            "SetIDAL1",
+                            "AllergyType",
+                            "AllergyCodeMnemonicDescription",
+                            "AllergySeverity",
+                            "AllergyReaction",
+                            "IdentificationDate"
+                        ],
+                        "properties": {
+                            "SetIDAL1": {
+                                "type": "string",
+                                "title": "The SetIDAL1 Schema",
+                                "examples": [
+                                    "1",
+                                    "2"
+                                ]
+                            },
+                            "AllergyType": {
+                                "type": "string",
+                                "title": "The AllergyType Schema",
+                                "examples": [
+                                    "DA"
+                                ]
+                            },
+                            "AllergyCodeMnemonicDescription": {
+                                "type": "object",
+                                "title": "The AllergyCodeMnemonicDescription Schema",
+                                "required": [
+                                    "Identifier",
+                                    "Text",
+                                    "NameOfCodingSystem",
+                                    "AlternateIdentifier",
+                                    "AlternateText",
+                                    "NameOfAlternateCodingSystem"
+                                ],
+                                "properties": {
+                                    "Identifier": {
+                                        "type": "string",
+                                        "title": "The Identifier Schema",
+                                        "examples": [
+                                            "F006001554",
+                                            "F006001605"
+                                        ]
+                                    },
+                                    "Text": {
+                                        "type": "string",
+                                        "title": "The Text Schema",
+                                        "examples": [
+                                            "hydrocodone",
+                                            "acetaminophen"
+                                        ]
+                                    },
+                                    "NameOfCodingSystem": {
+                                        "type": "string",
+                                        "title": "The NameOfCodingSystem Schema",
+                                        "examples": [
+                                            "From VICODIN"
+                                        ]
+                                    },
+                                    "AlternateIdentifier": {
+                                        "type": "string",
+                                        "title": "The AlternateIdentifier Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "AlternateText": {
+                                        "type": "string",
+                                        "title": "The AlternateText Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "NameOfAlternateCodingSystem": {
+                                        "type": "string",
+                                        "title": "The NameOfAlternateCodingSystem Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                "examples": [{
+                                    "Identifier": "F006001554",
+                                    "Text": "hydrocodone",
+                                    "NameOfCodingSystem": "From VICODIN",
+                                    "AlternateIdentifier": "",
+                                    "AlternateText": "",
+                                    "NameOfAlternateCodingSystem": ""
+                                },
+                                {
+                                    "Identifier": "F006001605",
+                                    "Text": "acetaminophen",
+                                    "NameOfCodingSystem": "From VICODIN",
+                                    "AlternateIdentifier": "",
+                                    "AlternateText": "",
+                                    "NameOfAlternateCodingSystem": ""
+                                }]
+                            },
+                            "AllergySeverity": {
+                                "type": "string",
+                                "title": "The AllergySeverity Schema",
+                                "examples": [
+                                    "U"
+                                ]
+                            },
+                            "AllergyReaction": {
+                                "type": "string",
+                                "title": "The AllergyReaction Schema",
+                                "examples": [
+                                    "NAUSEA   VOMITING"
+                                ]
+                            },
+                            "IdentificationDate": {
+                                "type": "string",
+                                "title": "The IdentificationDate Schema",
+                                "examples": [
+                                    "2023-03-15 00:00:00"
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "SetIDAL1": "1",
+                            "AllergyType": "DA",
+                            "AllergyCodeMnemonicDescription": {
+                                "Identifier": "F006001554",
+                                "Text": "hydrocodone",
+                                "NameOfCodingSystem": "From VICODIN",
+                                "AlternateIdentifier": "",
+                                "AlternateText": "",
+                                "NameOfAlternateCodingSystem": ""
+                            },
+                            "AllergySeverity": "U",
+                            "AllergyReaction": "NAUSEA   VOMITING",
+                            "IdentificationDate": "2023-03-15 00:00:00"
+                        },
+                        {
+                            "SetIDAL1": "2",
+                            "AllergyType": "DA",
+                            "AllergyCodeMnemonicDescription": {
+                                "Identifier": "F006001605",
+                                "Text": "acetaminophen",
+                                "NameOfCodingSystem": "From VICODIN",
+                                "AlternateIdentifier": "",
+                                "AlternateText": "",
+                                "NameOfAlternateCodingSystem": ""
+                            },
+                            "AllergySeverity": "U",
+                            "AllergyReaction": "NAUSEA   VOMITING",
+                            "IdentificationDate": "2023-03-15 00:00:00"
+                        }]
+                    }
+                },
+                "examples": [{
+                    "AL1": {
+                        "SetIDAL1": "1",
+                        "AllergyType": "DA",
+                        "AllergyCodeMnemonicDescription": {
+                            "Identifier": "F006001554",
+                            "Text": "hydrocodone",
+                            "NameOfCodingSystem": "From VICODIN",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "AllergySeverity": "U",
+                        "AllergyReaction": "NAUSEA   VOMITING",
+                        "IdentificationDate": "2023-03-15 00:00:00"
+                    }
+                },
+                {
+                    "AL1": {
+                        "SetIDAL1": "2",
+                        "AllergyType": "DA",
+                        "AllergyCodeMnemonicDescription": {
+                            "Identifier": "F006001605",
+                            "Text": "acetaminophen",
+                            "NameOfCodingSystem": "From VICODIN",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "AllergySeverity": "U",
+                        "AllergyReaction": "NAUSEA   VOMITING",
+                        "IdentificationDate": "2023-03-15 00:00:00"
+                    }
+                }]
+            },
+            "examples": [
+                [{
+                    "AL1": {
+                        "SetIDAL1": "1",
+                        "AllergyType": "DA",
+                        "AllergyCodeMnemonicDescription": {
+                            "Identifier": "F006001554",
+                            "Text": "hydrocodone",
+                            "NameOfCodingSystem": "From VICODIN",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "AllergySeverity": "U",
+                        "AllergyReaction": "NAUSEA   VOMITING",
+                        "IdentificationDate": "2023-03-15 00:00:00"
+                    }
+                },
+                {
+                    "AL1": {
+                        "SetIDAL1": "2",
+                        "AllergyType": "DA",
+                        "AllergyCodeMnemonicDescription": {
+                            "Identifier": "F006001605",
+                            "Text": "acetaminophen",
+                            "NameOfCodingSystem": "From VICODIN",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "AllergySeverity": "U",
+                        "AllergyReaction": "NAUSEA   VOMITING",
+                        "IdentificationDate": "2023-03-15 00:00:00"
+                    }
+                }]
+            ]
+        },
+        "Diagnosis": {
+            "type": "array",
+            "default": [],
+            "title": "The Diagnosis Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [
+                    "DG1"
+                ],
+                "properties": {
+                    "DG1": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The DG1 Schema",
+                        "required": [
+                            "SetIDDiagnosis",
+                            "DiagnosisCodingMethod",
+                            "DiagnosisCode",
+                            "DiagnosisDescription",
+                            "DiagnosisType",
+                            "ConfidentialIndicator"
+                        ],
+                        "properties": {
+                            "SetIDDiagnosis": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The SetIDDiagnosis Schema",
+                                "examples": [
+                                    "1"
+                                ]
+                            },
+                            "DiagnosisCodingMethod": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The DiagnosisCodingMethod Schema",
+                                "examples": [
+                                    "I10"
+                                ]
+                            },
+                            "DiagnosisCode": {
+                                "type": "object",
+                                "default": {},
+                                "title": "The DiagnosisCode Schema",
+                                "required": [
+                                    "Identifier",
+                                    "Text",
+                                    "NameOfCodingSystem",
+                                    "AlternateIdentifier",
+                                    "AlternateText",
+                                    "NameOfAlternateCodingSystem"
+                                ],
+                                "properties": {
+                                    "Identifier": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The Identifier Schema",
+                                        "examples": [
+                                            "R69"
+                                        ]
+                                    },
+                                    "Text": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The Text Schema",
+                                        "examples": [
+                                            "ILLNESS, UNSPECIFIED"
+                                        ]
+                                    },
+                                    "NameOfCodingSystem": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The NameOfCodingSystem Schema",
+                                        "examples": [
+                                            "I10"
+                                        ]
+                                    },
+                                    "AlternateIdentifier": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The AlternateIdentifier Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "AlternateText": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The AlternateText Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    },
+                                    "NameOfAlternateCodingSystem": {
+                                        "type": "string",
+                                        "default": "",
+                                        "title": "The NameOfAlternateCodingSystem Schema",
+                                        "examples": [
+                                            ""
+                                        ]
+                                    }
+                                },
+                                "examples": [{
+                                    "Identifier": "R69",
+                                    "Text": "ILLNESS, UNSPECIFIED",
+                                    "NameOfCodingSystem": "I10",
+                                    "AlternateIdentifier": "",
+                                    "AlternateText": "",
+                                    "NameOfAlternateCodingSystem": ""
+                                }]
+                            },
+                            "DiagnosisDescription": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The DiagnosisDescription Schema",
+                                "examples": [
+                                    "ILLNESS, UNSPECIFIED"
+                                ]
+                            },
+                            "DiagnosisType": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The DiagnosisType Schema",
+                                "examples": [
+                                    "A"
+                                ]
+                            },
+                            "ConfidentialIndicator": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The ConfidentialIndicator Schema",
+                                "examples": [
+                                    "N"
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "SetIDDiagnosis": "1",
+                            "DiagnosisCodingMethod": "I10",
+                            "DiagnosisCode": {
+                                "Identifier": "R69",
+                                "Text": "ILLNESS, UNSPECIFIED",
+                                "NameOfCodingSystem": "I10",
+                                "AlternateIdentifier": "",
+                                "AlternateText": "",
+                                "NameOfAlternateCodingSystem": ""
+                            },
+                            "DiagnosisDescription": "ILLNESS, UNSPECIFIED",
+                            "DiagnosisType": "A",
+                            "ConfidentialIndicator": "N"
+                        }]
+                    }
+                },
+                "examples": [{
+                    "DG1": {
+                        "SetIDDiagnosis": "1",
+                        "DiagnosisCodingMethod": "I10",
+                        "DiagnosisCode": {
+                            "Identifier": "R69",
+                            "Text": "ILLNESS, UNSPECIFIED",
+                            "NameOfCodingSystem": "I10",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "DiagnosisDescription": "ILLNESS, UNSPECIFIED",
+                        "DiagnosisType": "A",
+                        "ConfidentialIndicator": "N"
+                    }
+                }]
+            },
+            "examples": [
+                [{
+                    "DG1": {
+                        "SetIDDiagnosis": "1",
+                        "DiagnosisCodingMethod": "I10",
+                        "DiagnosisCode": {
+                            "Identifier": "R69",
+                            "Text": "ILLNESS, UNSPECIFIED",
+                            "NameOfCodingSystem": "I10",
+                            "AlternateIdentifier": "",
+                            "AlternateText": "",
+                            "NameOfAlternateCodingSystem": ""
+                        },
+                        "DiagnosisDescription": "ILLNESS, UNSPECIFIED",
+                        "DiagnosisType": "A",
+                        "ConfidentialIndicator": "N"
+                    }
+                }]
+            ]
+        },
+        "PR1": {
+            "type": "object",
+            "default": {},
+            "title": "The PR1 Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "ROLE": {
+            "type": "array",
+            "default": [],
+            "title": "The ROLE Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [
+                    "ROL"
+                ],
+                "properties": {
+                    "ROL": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The ROL Schema",
+                        "required": [],
+                        "properties": {},
+                        "examples": [{}]
+                    }
+                },
+                "examples": [{
+                    "ROL": {}
+                }]
+            },
+            "examples": [
+                [{
+                    "ROL": {}
+                }]
+            ]
+        },
+        "IN1": {
+            "type": "object",
+            "default": {},
+            "title": "The IN1 Schema",
+            "required": [
+                "SetIDInsurance",
+                "InsurancePlanID",
+                "InsuranceCompanyID",
+                "InsuranceCompanyName",
+                "InsuranceCompanyAddress",
+                "InsuranceCoPhoneNumber",
+                "GroupNumber",
+                "GroupName",
+                "PlanEffectiveDate",
+                "NameOfInsured",
+                "InsuredSRelationshipToPatient",
+                "InsuredSDateOfBirth",
+                "PolicyNumber",
+                "InsuredSSex"
+            ],
+            "properties": {
+                "SetIDInsurance": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The SetIDInsurance Schema",
+                    "examples": [
+                        "1"
+                    ]
+                },
+                "InsurancePlanID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsurancePlanID Schema",
+                    "required": [
+                        "Identifier",
+                        "Text",
+                        "NameOfCodingSystem",
+                        "AlternateIdentifier",
+                        "AlternateText",
+                        "NameOfAlternateCodingSystem"
+                    ],
+                    "properties": {
+                        "Identifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Identifier Schema",
+                            "examples": [
+                                "1DENHLTMD"
+                            ]
+                        },
+                        "Text": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Text Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateIdentifier": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateIdentifier Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AlternateText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AlternateText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameOfAlternateCodingSystem": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameOfAlternateCodingSystem Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "Identifier": "1DENHLTMD",
+                        "Text": "",
+                        "NameOfCodingSystem": "",
+                        "AlternateIdentifier": "",
+                        "AlternateText": "",
+                        "NameOfAlternateCodingSystem": ""
+                    }]
+                },
+                "InsuranceCompanyID": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsuranceCompanyID Schema",
+                    "required": [
+                        "ID",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacility"
+                    ],
+                    "properties": {
+                        "ID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ID Schema",
+                            "examples": [
+                                "1DENHLTMD"
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacility": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacility Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "ID": "1DENHLTMD",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacility": ""
+                    }]
+                },
+                "InsuranceCompanyName": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsuranceCompanyName Schema",
+                    "required": [
+                        "OrganizationName",
+                        "OrganizationNameTypeCode",
+                        "IDNumber",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "OrganizationName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OrganizationName Schema",
+                            "examples": [
+                                "DENVER HEALTH MEDICAID CH"
+                            ]
+                        },
+                        "OrganizationNameTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OrganizationNameTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "OrganizationName": "DENVER HEALTH MEDICAID CH",
+                        "OrganizationNameTypeCode": "",
+                        "IDNumber": "",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "InsuranceCompanyAddress": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsuranceCompanyAddress Schema",
+                    "required": [
+                        "StreetAddress",
+                        "OtherDesignation",
+                        "City",
+                        "StateOrProvince",
+                        "ZipOrPostalCode",
+                        "Country",
+                        "AddressType",
+                        "OtherGeographicDesignation",
+                        "CountyParishCode",
+                        "CensusTract"
+                    ],
+                    "properties": {
+                        "StreetAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StreetAddress Schema",
+                            "examples": [
+                                "PO BOX 40606"
+                            ]
+                        },
+                        "OtherDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherDesignation Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "City": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The City Schema",
+                            "examples": [
+                                "DENVER"
+                            ]
+                        },
+                        "StateOrProvince": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The StateOrProvince Schema",
+                            "examples": [
+                                "CO"
+                            ]
+                        },
+                        "ZipOrPostalCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The ZipOrPostalCode Schema",
+                            "examples": [
+                                "80204-0606"
+                            ]
+                        },
+                        "Country": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Country Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AddressType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AddressType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "OtherGeographicDesignation": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OtherGeographicDesignation Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountyParishCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountyParishCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CensusTract": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CensusTract Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "StreetAddress": "PO BOX 40606",
+                        "OtherDesignation": "",
+                        "City": "DENVER",
+                        "StateOrProvince": "CO",
+                        "ZipOrPostalCode": "80204-0606",
+                        "Country": "",
+                        "AddressType": "",
+                        "OtherGeographicDesignation": "",
+                        "CountyParishCode": "",
+                        "CensusTract": ""
+                    }]
+                },
+                "InsuranceCoPhoneNumber": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsuranceCoPhoneNumber Schema",
+                    "required": [
+                        "9999999X99999CAnyText",
+                        "TelecommunicationUseCode",
+                        "TelecommunicationEquipmentType",
+                        "EmailAddress",
+                        "CountryCode",
+                        "AreaCityCode",
+                        "PhoneNumber",
+                        "Extension",
+                        "AnyText"
+                    ],
+                    "properties": {
+                        "9999999X99999CAnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The 9999999X99999CAnyText Schema",
+                            "examples": [
+                                "(720)956-2100"
+                            ]
+                        },
+                        "TelecommunicationUseCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationUseCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "TelecommunicationEquipmentType": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TelecommunicationEquipmentType Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "EmailAddress": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The EmailAddress Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CountryCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CountryCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AreaCityCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AreaCityCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PhoneNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PhoneNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "Extension": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The Extension Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AnyText": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AnyText Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "9999999X99999CAnyText": "(720)956-2100",
+                        "TelecommunicationUseCode": "",
+                        "TelecommunicationEquipmentType": "",
+                        "EmailAddress": "",
+                        "CountryCode": "",
+                        "AreaCityCode": "",
+                        "PhoneNumber": "",
+                        "Extension": "",
+                        "AnyText": ""
+                    }]
+                },
+                "GroupNumber": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The GroupNumber Schema",
+                    "examples": [
+                        "NA"
+                    ]
+                },
+                "GroupName": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The GroupName Schema",
+                    "required": [
+                        "OrganizationName",
+                        "OrganizationNameTypeCode",
+                        "IDNumber",
+                        "CheckDigit",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed",
+                        "AssigningAuthority",
+                        "IdentifierTypeCode",
+                        "AssigningFacilityID"
+                    ],
+                    "properties": {
+                        "OrganizationName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OrganizationName Schema",
+                            "examples": [
+                                "NA"
+                            ]
+                        },
+                        "OrganizationNameTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The OrganizationNameTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IDNumber": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IDNumber Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CheckDigit": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CheckDigit Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The CodeIdentifyingTheCheckDigitSchemeEmployed Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningAuthority": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningAuthority Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "IdentifierTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The IdentifierTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "AssigningFacilityID": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The AssigningFacilityID Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "OrganizationName": "NA",
+                        "OrganizationNameTypeCode": "",
+                        "IDNumber": "",
+                        "CheckDigit": "",
+                        "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                        "AssigningAuthority": "",
+                        "IdentifierTypeCode": "",
+                        "AssigningFacilityID": ""
+                    }]
+                },
+                "PlanEffectiveDate": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The PlanEffectiveDate Schema",
+                    "examples": [
+                        "2023-03-15 00:00:00"
+                    ]
+                },
+                "NameOfInsured": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The NameOfInsured Schema",
+                    "required": [
+                        "FamilyName",
+                        "GivenName",
+                        "MiddleInitialOrName",
+                        "SuffixEgJRorIII",
+                        "PrefixEgDR",
+                        "DegreeEgMD",
+                        "NameTypeCode",
+                        "NameRepresentationCode"
+                    ],
+                    "properties": {
+                        "FamilyName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The FamilyName Schema",
+                            "examples": [
+                                "JOHN"
+                            ]
+                        },
+                        "GivenName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The GivenName Schema",
+                            "examples": [
+                                "SMITH"
+                            ]
+                        },
+                        "MiddleInitialOrName": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The MiddleInitialOrName Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "SuffixEgJRorIII": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The SuffixEgJRorIII Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "PrefixEgDR": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The PrefixEgDR Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "DegreeEgMD": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeEgMD Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameTypeCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameTypeCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        },
+                        "NameRepresentationCode": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The NameRepresentationCode Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "FamilyName": "JOHN",
+                        "GivenName": "SMITH",
+                        "MiddleInitialOrName": "",
+                        "SuffixEgJRorIII": "",
+                        "PrefixEgDR": "",
+                        "DegreeEgMD": "",
+                        "NameTypeCode": "",
+                        "NameRepresentationCode": ""
+                    }]
+                },
+                "InsuredSRelationshipToPatient": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The InsuredSRelationshipToPatient Schema",
+                    "examples": [
+                        "OTH"
+                    ]
+                },
+                "InsuredSDateOfBirth": {
+                    "type": "object",
+                    "default": {},
+                    "title": "The InsuredSDateOfBirth Schema",
+                    "required": [
+                        "TimeOfAnEvent",
+                        "DegreeOfPrecision"
+                    ],
+                    "properties": {
+                        "TimeOfAnEvent": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The TimeOfAnEvent Schema",
+                            "examples": [
+                                "1976-01-23 00:00:00"
+                            ]
+                        },
+                        "DegreeOfPrecision": {
+                            "type": "string",
+                            "default": "",
+                            "title": "The DegreeOfPrecision Schema",
+                            "examples": [
+                                ""
+                            ]
+                        }
+                    },
+                    "examples": [{
+                        "TimeOfAnEvent": "1976-01-23 00:00:00",
+                        "DegreeOfPrecision": ""
+                    }]
+                },
+                "PolicyNumber": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The PolicyNumber Schema",
+                    "examples": [
+                        "I330978"
+                    ]
+                },
+                "InsuredSSex": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The InsuredSSex Schema",
+                    "examples": [
+                        "F"
+                    ]
+                }
+            },
+            "examples": [{
+                "SetIDInsurance": "1",
+                "InsurancePlanID": {
+                    "Identifier": "1DENHLTMD",
+                    "Text": "",
+                    "NameOfCodingSystem": "",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "InsuranceCompanyID": {
+                    "ID": "1DENHLTMD",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacility": ""
+                },
+                "InsuranceCompanyName": {
+                    "OrganizationName": "DENVER HEALTH MEDICAID CH",
+                    "OrganizationNameTypeCode": "",
+                    "IDNumber": "",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "InsuranceCompanyAddress": {
+                    "StreetAddress": "PO BOX 40606",
+                    "OtherDesignation": "",
+                    "City": "DENVER",
+                    "StateOrProvince": "CO",
+                    "ZipOrPostalCode": "80204-0606",
+                    "Country": "",
+                    "AddressType": "",
+                    "OtherGeographicDesignation": "",
+                    "CountyParishCode": "",
+                    "CensusTract": ""
+                },
+                "InsuranceCoPhoneNumber": {
+                    "9999999X99999CAnyText": "(720)956-2100",
+                    "TelecommunicationUseCode": "",
+                    "TelecommunicationEquipmentType": "",
+                    "EmailAddress": "",
+                    "CountryCode": "",
+                    "AreaCityCode": "",
+                    "PhoneNumber": "",
+                    "Extension": "",
+                    "AnyText": ""
+                },
+                "GroupNumber": "NA",
+                "GroupName": {
+                    "OrganizationName": "NA",
+                    "OrganizationNameTypeCode": "",
+                    "IDNumber": "",
+                    "CheckDigit": "",
+                    "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                    "AssigningAuthority": "",
+                    "IdentifierTypeCode": "",
+                    "AssigningFacilityID": ""
+                },
+                "PlanEffectiveDate": "2023-03-15 00:00:00",
+                "NameOfInsured": {
+                    "FamilyName": "JOHN",
+                    "GivenName": "SMITH",
+                    "MiddleInitialOrName": "",
+                    "SuffixEgJRorIII": "",
+                    "PrefixEgDR": "",
+                    "DegreeEgMD": "",
+                    "NameTypeCode": "",
+                    "NameRepresentationCode": ""
+                },
+                "InsuredSRelationshipToPatient": "OTH",
+                "InsuredSDateOfBirth": {
+                    "TimeOfAnEvent": "1976-01-23 00:00:00",
+                    "DegreeOfPrecision": ""
+                },
+                "PolicyNumber": "I330978",
+                "InsuredSSex": "F"
+            }]
+        },
+        "IN2": {
+            "type": "object",
+            "default": {},
+            "title": "The IN2 Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "IN3": {
+            "type": "object",
+            "default": {},
+            "title": "The IN3 Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "ACC": {
+            "type": "object",
+            "default": {},
+            "title": "The ACC Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "UB1": {
+            "type": "object",
+            "default": {},
+            "title": "The UB1 Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        },
+        "UB2": {
+            "type": "object",
+            "default": {},
+            "title": "The UB2 Schema",
+            "required": [],
+            "properties": {},
+            "examples": [{}]
+        }
+    },
+    "examples": [{
+        "MSH": {
+            "FieldSeparator": "\\F\\",
+            "EncodingCharacters": "\\S\\\\R\\\\E\\\\T\\",
+            "SendingApplication": {
+                "NamespaceID": "ADT",
+                "UniversalID": "",
+                "UniversalIDType": ""
+            },
+            "SendingFacility": {
+                "NamespaceID": "ABCD",
+                "UniversalID": "",
+                "UniversalIDType": ""
+            },
+            "ReceivingApplication": {
+                "NamespaceID": "Medicity",
+                "UniversalID": "",
+                "UniversalIDType": ""
+            },
+            "DateTimeOfMessage": {
+                "TimeOfAnEvent": "2023-03-15 21:49:09",
+                "DegreeOfPrecision": ""
+            },
+            "MessageType": {
+                "msg1": "ADT",
+                "msg2": "A06"
+            },
+            "MessageControlID": "76423826",
+            "ProcessingID": {
+                "ProcessingID": "P",
+                "ProcessingMode": ""
+            },
+            "VersionID": "2.3"
+        },
+        "EVN": {},
+        "PID": {
+            "SetIDPatientID": "1",
+            "PatientIDExternalID": {
+                "ID": "X444911",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacility": ""
+            },
+            "PatientIDInternalID": {
+                "ID": "X000811142",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacility": ""
+            },
+            "AlternatePatientID": {
+                "ID": "I33097801",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacility": ""
+            },
+            "PatientName": {
+                "FamilyName": "JOHN",
+                "GivenName": "SMITH",
+                "MiddleInitialOrName": "DOE",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "NameTypeCode": "",
+                "NameRepresentationCode": ""
+            },
+            "DateOfBirth": {
+                "TimeOfAnEvent": "1976-01-23 00:00:00",
+                "DegreeOfPrecision": ""
+            },
+            "Sex": "F",
+            "Race": "2054-5",
+            "PatientAddress": {
+                "StreetAddress": "515 PARK AVE WEST",
+                "OtherDesignation": "APT 202",
+                "City": "DENVER",
+                "StateOrProvince": "CO",
+                "ZipOrPostalCode": "80205",
+                "Country": "",
+                "AddressType": "",
+                "OtherGeographicDesignation": "",
+                "CountyParishCode": "",
+                "CensusTract": ""
+            },
+            "PhoneNumberHome": {
+                "9999999X99999CAnyText": "(719)400-3025",
+                "TelecommunicationUseCode": "",
+                "TelecommunicationEquipmentType": "",
+                "EmailAddress": "",
+                "CountryCode": "",
+                "AreaCityCode": "",
+                "PhoneNumber": "",
+                "Extension": "",
+                "AnyText": ""
+            },
+            "PhoneNumberBusiness": {
+                "9999999X99999CAnyText": "(720)329-2494",
+                "TelecommunicationUseCode": "",
+                "TelecommunicationEquipmentType": "",
+                "EmailAddress": "",
+                "CountryCode": "",
+                "AreaCityCode": "",
+                "PhoneNumber": "",
+                "Extension": "",
+                "AnyText": ""
+            },
+            "PrimaryLanguage": {
+                "Identifier": "EN",
+                "Text": "",
+                "NameOfCodingSystem": "",
+                "AlternateIdentifier": "",
+                "AlternateText": "",
+                "NameOfAlternateCodingSystem": ""
+            },
+            "MaritalStatus": "D",
+            "Religion": "NOE",
+            "PatientAccountNumber": {
+                "ID": "X20015225942",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacility": ""
+            },
+            "SSNNumberPatient": "522-17-2294"
+        },
+        "PD1": {
+            "PatientPrimaryCareProviderNameIDNo": {
+                "IDNumber": ".NO PCP",
+                "FamilyName": "PHYSICIAN",
+                "GivenName": "NO",
+                "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "SourceTable": "",
+                "AssigningAuthority": "",
+                "NameType": "",
+                "IdentifierCheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "ProtectionIndicator": "OI",
+            "Field_13": "201503260950"
+        },
+        "NK1": {
+            "SetIDNextOfKin": "1",
+            "NKNameReps": {
+                "FamilyName": "NONE",
+                "GivenName": "AT",
+                "MiddleInitialOrName": "THIS TIME",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "NameTypeCode": "",
+                "NameRepresentationCode": ""
+            },
+            "Relationship": {
+                "Identifier": "OWN",
+                "Text": "",
+                "NameOfCodingSystem": "",
+                "AlternateIdentifier": "",
+                "AlternateText": "",
+                "NameOfAlternateCodingSystem": ""
+            },
+            "Address": {
+                "StreetAddress": "515 PARK AVE WEST",
+                "OtherDesignation": "APT 202",
+                "City": "DENVER",
+                "StateOrProvince": "CO",
+                "ZipOrPostalCode": "80205",
+                "Country": "USA",
+                "AddressType": "",
+                "OtherGeographicDesignation": "",
+                "CountyParishCode": "",
+                "CensusTract": ""
+            },
+            "PhoneNumber": {
+                "9999999X99999CAnyText": "(719)400-3025",
+                "TelecommunicationUseCode": "",
+                "TelecommunicationEquipmentType": "",
+                "EmailAddress": "",
+                "CountryCode": "",
+                "AreaCityCode": "",
+                "PhoneNumber": "",
+                "Extension": "",
+                "AnyText": ""
+            }
+        },
+        "PV1": {
+            "SetIDPatientVisit": "1",
+            "PatientClass": "I",
+            "AssignedPatientLocation": {
+                "PointOfCare": "X.ERIN",
+                "Room": "X.ERIN",
+                "Bed": "D",
+                "Facility": "D",
+                "LocationStatus": "",
+                "PersonLocationType": "",
+                "Building": "",
+                "Floor": "",
+                "LocationType": ""
+            },
+            "AdmissionType": "E",
+            "AttendingDoctor": {
+                "IDNumber": "SCHJE",
+                "FamilyName": "Schwartz",
+                "GivenName": "Jeffrey",
+                "MiddleInitialOrName": "Steven",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "SourceTable": "",
+                "AssigningAuthority": "",
+                "NameType": "",
+                "IdentifierCheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "ReferringDoctor": {
+                "IDNumber": ".SELF",
+                "FamilyName": "REFERRED",
+                "GivenName": "SELF",
+                "MiddleInitialOrName": "",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "SourceTable": "",
+                "AssigningAuthority": "",
+                "NameType": "",
+                "IdentifierCheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "ConsultingDoctor": {
+                "IDNumber": ".NO PCP",
+                "FamilyName": "PHYSICIAN",
+                "GivenName": "NO",
+                "MiddleInitialOrName": "PRIMARY OR FAMILY",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "SourceTable": "",
+                "AssigningAuthority": "",
+                "NameType": "",
+                "IdentifierCheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "HospitalService": "BMTC",
+            "AdmitSource": "9",
+            "VIPIndicator": "N",
+            "AdmittingDoctor": {
+                "IDNumber": "SCHJE",
+                "FamilyName": "Schwartz",
+                "GivenName": "Jeffrey",
+                "MiddleInitialOrName": "Steven",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "SourceTable": "",
+                "AssigningAuthority": "",
+                "NameType": "",
+                "IdentifierCheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "PatientType": "IN",
+            "FinancialClass": {
+                "FinancialClass": "09",
+                "EffectiveDate": ""
+            },
+            "ServicingFacility": "ABCD",
+            "AdmitDateTime": {
+                "TimeOfAnEvent": "2023-03-15 21:48:00",
+                "DegreeOfPrecision": ""
+            }
+        },
+        "PV2": {
+            "AccommodationCode": {
+                "Identifier": "S",
+                "Text": "",
+                "NameOfCodingSystem": "",
+                "AlternateIdentifier": "",
+                "AlternateText": "",
+                "NameOfAlternateCodingSystem": ""
+            },
+            "VisitProtectionIndicator": "N"
+        },
+        "DRG": {},
+        "Observations": [],
+        "Disability": [],
+        "Allergy": [{
+            "AL1": {
+                "SetIDAL1": "1",
+                "AllergyType": "DA",
+                "AllergyCodeMnemonicDescription": {
+                    "Identifier": "F006001554",
+                    "Text": "hydrocodone",
+                    "NameOfCodingSystem": "From VICODIN",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "AllergySeverity": "U",
+                "AllergyReaction": "NAUSEA   VOMITING",
+                "IdentificationDate": "2023-03-15 00:00:00"
+            }
+        },
+        {
+            "AL1": {
+                "SetIDAL1": "2",
+                "AllergyType": "DA",
+                "AllergyCodeMnemonicDescription": {
+                    "Identifier": "F006001605",
+                    "Text": "acetaminophen",
+                    "NameOfCodingSystem": "From VICODIN",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "AllergySeverity": "U",
+                "AllergyReaction": "NAUSEA   VOMITING",
+                "IdentificationDate": "2023-03-15 00:00:00"
+            }
+        }],
+        "Diagnosis": [{
+            "DG1": {
+                "SetIDDiagnosis": "1",
+                "DiagnosisCodingMethod": "I10",
+                "DiagnosisCode": {
+                    "Identifier": "R69",
+                    "Text": "ILLNESS, UNSPECIFIED",
+                    "NameOfCodingSystem": "I10",
+                    "AlternateIdentifier": "",
+                    "AlternateText": "",
+                    "NameOfAlternateCodingSystem": ""
+                },
+                "DiagnosisDescription": "ILLNESS, UNSPECIFIED",
+                "DiagnosisType": "A",
+                "ConfidentialIndicator": "N"
+            }
+        }],
+        "PR1": {},
+        "ROLE": [{
+            "ROL": {}
+        }],
+        "IN1": {
+            "SetIDInsurance": "1",
+            "InsurancePlanID": {
+                "Identifier": "1DENHLTMD",
+                "Text": "",
+                "NameOfCodingSystem": "",
+                "AlternateIdentifier": "",
+                "AlternateText": "",
+                "NameOfAlternateCodingSystem": ""
+            },
+            "InsuranceCompanyID": {
+                "ID": "1DENHLTMD",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacility": ""
+            },
+            "InsuranceCompanyName": {
+                "OrganizationName": "DENVER HEALTH MEDICAID CH",
+                "OrganizationNameTypeCode": "",
+                "IDNumber": "",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "InsuranceCompanyAddress": {
+                "StreetAddress": "PO BOX 40606",
+                "OtherDesignation": "",
+                "City": "DENVER",
+                "StateOrProvince": "CO",
+                "ZipOrPostalCode": "80204-0606",
+                "Country": "",
+                "AddressType": "",
+                "OtherGeographicDesignation": "",
+                "CountyParishCode": "",
+                "CensusTract": ""
+            },
+            "InsuranceCoPhoneNumber": {
+                "9999999X99999CAnyText": "(720)956-2100",
+                "TelecommunicationUseCode": "",
+                "TelecommunicationEquipmentType": "",
+                "EmailAddress": "",
+                "CountryCode": "",
+                "AreaCityCode": "",
+                "PhoneNumber": "",
+                "Extension": "",
+                "AnyText": ""
+            },
+            "GroupNumber": "NA",
+            "GroupName": {
+                "OrganizationName": "NA",
+                "OrganizationNameTypeCode": "",
+                "IDNumber": "",
+                "CheckDigit": "",
+                "CodeIdentifyingTheCheckDigitSchemeEmployed": "",
+                "AssigningAuthority": "",
+                "IdentifierTypeCode": "",
+                "AssigningFacilityID": ""
+            },
+            "PlanEffectiveDate": "2023-03-15 00:00:00",
+            "NameOfInsured": {
+                "FamilyName": "JOHN",
+                "GivenName": "SMITH",
+                "MiddleInitialOrName": "",
+                "SuffixEgJRorIII": "",
+                "PrefixEgDR": "",
+                "DegreeEgMD": "",
+                "NameTypeCode": "",
+                "NameRepresentationCode": ""
+            },
+            "InsuredSRelationshipToPatient": "OTH",
+            "InsuredSDateOfBirth": {
+                "TimeOfAnEvent": "1976-01-23 00:00:00",
+                "DegreeOfPrecision": ""
+            },
+            "PolicyNumber": "I330978",
+            "InsuredSSex": "F"
+        },
+        "IN2": {},
+        "IN3": {},
+        "ACC": {},
+        "UB1": {},
+        "UB2": {}
+    }]
+}

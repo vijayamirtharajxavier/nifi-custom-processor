@@ -1,0 +1,5 @@
+#surefire_0
+#Wed Oct 23 13:12:54 IST 2024
+basedir=/home/bridge/vijay/integrations/integration_engine/nifi-custom-processor/axana-processor-bundle/nifi-axana-nifi-test-processors
+java.awt.headless=true
+localRepository=/home/bridge/.m2/repository

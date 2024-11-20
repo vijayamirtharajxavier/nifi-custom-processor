@@ -1,0 +1,58 @@
+// ------------------------------------------------------------------
+// Transitive dependencies of this project determined from the
+// maven pom organized by organization.
+// ------------------------------------------------------------------
+
+nifi-axana-nifi-hl7-validator-nar
+
+
+From: 'an unknown organization'
+
+  - Gson (https://github.com/google/gson/gson) com.google.code.gson:gson:jar:2.10.1
+    License: Apache-2.0  (https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+From: 'Apache NiFi Project' (https://nifi.apache.org/)
+
+  - nifi-axana-validation-processors (https://nifi.apache.org/nifi-bom/nifi-extension-bom/nifi-extension-bundles/axana-validation-processor-bundle/nifi-axana-validation-processors) com.axana.nifi:nifi-axana-validation-processors:jar:1.0.1
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+  - nifi-standard-services-api-nar (https://nifi.apache.org/nifi-bom/nifi-extension-bom/nifi-extension-bundles/nifi-standard-services-api-bom/nifi-standard-services/nifi-standard-services-api-nar) org.apache.nifi:nifi-standard-services-api-nar:nar:2.0.0-M4
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+  - nifi-utils (https://nifi.apache.org/nifi-commons/nifi-utils) org.apache.nifi:nifi-utils:jar:2.0.0-M4
+    License: Apache License, Version 2.0  (https://www.apache.org/licenses/LICENSE-2.0)
+
+
+From: 'Joda.org' (http://www.joda.org)
+
+  - Joda time (http://joda-time.sourceforge.net) joda-time:joda-time:jar:2.1
+    License: Apache 2  (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+
+From: 'University Health Network' (http://www.uhn.ca)
+
+  - HAPI - Java HL7 API - Base Module (http://hl7api.sourceforge.net/hapi-base/) ca.uhn.hapi:hapi-base:jar:2.3
+    License: HAPI is dual licensed (MPL, GPL) 
+    License: Mozilla Public License 1.1  (http://www.mozilla.org/MPL/MPL-1.1.txt)
+    License: GNU General Public License  (http://www.gnu.org/licenses/gpl.txt)
+
+  - HAPI - Java HL7 API - Generated Structures v2.3 (http://hl7api.sourceforge.net/hapi-structures-v23/) ca.uhn.hapi:hapi-structures-v23:jar:2.3
+    License: HAPI is dual licensed (MPL, GPL) 
+    License: Mozilla Public License 1.1  (http://www.mozilla.org/MPL/MPL-1.1.txt)
+    License: GNU General Public License  (http://www.gnu.org/licenses/gpl.txt)
+
+  - HAPI - Java HL7 API - Generated Structures v2.5 (http://hl7api.sourceforge.net/hapi-structures-v25/) ca.uhn.hapi:hapi-structures-v25:jar:2.3
+    License: HAPI is dual licensed (MPL, GPL) 
+    License: Mozilla Public License 1.1  (http://www.mozilla.org/MPL/MPL-1.1.txt)
+    License: GNU General Public License  (http://www.gnu.org/licenses/gpl.txt)
+
+  - HAPI - Java HL7 API - Generated Structures v2.5.1 (http://hl7api.sourceforge.net/hapi-structures-v251/) ca.uhn.hapi:hapi-structures-v251:jar:2.3
+    License: HAPI is dual licensed (MPL, GPL) 
+    License: Mozilla Public License 1.1  (http://www.mozilla.org/MPL/MPL-1.1.txt)
+    License: GNU General Public License  (http://www.gnu.org/licenses/gpl.txt)
+
+
+
+
+

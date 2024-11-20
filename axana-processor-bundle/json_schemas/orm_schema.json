@@ -1,0 +1,3216 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "MSH",
+        "NTE",
+        "PATIENT",
+        "ORDER"
+    ],
+    "properties": {
+        "MSH": {
+            "type": "array",
+            "default": [],
+            "title": "The MSH Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [
+                    "field_separator",
+                    "encoding_characters",
+                    "sending_application",
+                    "sending_facility",
+                    "receiving_application",
+                    "receiving_facility",
+                    "date_time_of_message",
+                    "message_type",
+                    "message_control_id",
+                    "processing_id",
+                    "version_id"
+                ],
+                "properties": {
+                    "field_separator": {
+                        "type": "string",
+                        "default": "",
+                        "title": "The field_separator Schema",
+                        "examples": [
+                            "\\F\\"
+                        ]
+                    },
+                    "encoding_characters": {
+                        "type": "string",
+                        "default": "",
+                        "title": "The encoding_characters Schema",
+                        "examples": [
+                            "\\S\\\\R\\\\E\\\\T\\"
+                        ]
+                    },
+                    "sending_application": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The sending_application Schema",
+                        "required": [
+                            "namespace_id",
+                            "universal_id",
+                            "universal_idtype"
+                        ],
+                        "properties": {
+                            "namespace_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The namespace_id Schema",
+                                "examples": [
+                                    "SendingApp"
+                                ]
+                            },
+                            "universal_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_id Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "universal_idtype": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_idtype Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "namespace_id": "SendingApp",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        }]
+                    },
+                    "sending_facility": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The sending_facility Schema",
+                        "required": [
+                            "namespace_id",
+                            "universal_id",
+                            "universal_idtype"
+                        ],
+                        "properties": {
+                            "namespace_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The namespace_id Schema",
+                                "examples": [
+                                    "SendingFac"
+                                ]
+                            },
+                            "universal_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_id Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "universal_idtype": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_idtype Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "namespace_id": "SendingFac",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        }]
+                    },
+                    "receiving_application": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The receiving_application Schema",
+                        "required": [
+                            "namespace_id",
+                            "universal_id",
+                            "universal_idtype"
+                        ],
+                        "properties": {
+                            "namespace_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The namespace_id Schema",
+                                "examples": [
+                                    "ReceivingApp"
+                                ]
+                            },
+                            "universal_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_id Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "universal_idtype": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_idtype Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "namespace_id": "ReceivingApp",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        }]
+                    },
+                    "receiving_facility": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The receiving_facility Schema",
+                        "required": [
+                            "namespace_id",
+                            "universal_id",
+                            "universal_idtype"
+                        ],
+                        "properties": {
+                            "namespace_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The namespace_id Schema",
+                                "examples": [
+                                    "ReceivingFac"
+                                ]
+                            },
+                            "universal_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_id Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            },
+                            "universal_idtype": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The universal_idtype Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "namespace_id": "ReceivingFac",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        }]
+                    },
+                    "date_time_of_message": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The date_time_of_message Schema",
+                        "required": [
+                            "time_of_an_event",
+                            "degree_of_precision"
+                        ],
+                        "properties": {
+                            "time_of_an_event": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The time_of_an_event Schema",
+                                "examples": [
+                                    "2023-10-10 12:34:00"
+                                ]
+                            },
+                            "degree_of_precision": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The degree_of_precision Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "time_of_an_event": "2023-10-10 12:34:00",
+                            "degree_of_precision": ""
+                        }]
+                    },
+                    "message_type": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The message_type Schema",
+                        "required": [
+                            "msg1",
+                            "msg2"
+                        ],
+                        "properties": {
+                            "msg1": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The msg1 Schema",
+                                "examples": [
+                                    "ORM"
+                                ]
+                            },
+                            "msg2": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The msg2 Schema",
+                                "examples": [
+                                    "O01"
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "msg1": "ORM",
+                            "msg2": "O01"
+                        }]
+                    },
+                    "message_control_id": {
+                        "type": "string",
+                        "default": "",
+                        "title": "The message_control_id Schema",
+                        "examples": [
+                            "123456"
+                        ]
+                    },
+                    "processing_id": {
+                        "type": "object",
+                        "default": {},
+                        "title": "The processing_id Schema",
+                        "required": [
+                            "processing_id",
+                            "processing_mode"
+                        ],
+                        "properties": {
+                            "processing_id": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The processing_id Schema",
+                                "examples": [
+                                    "P"
+                                ]
+                            },
+                            "processing_mode": {
+                                "type": "string",
+                                "default": "",
+                                "title": "The processing_mode Schema",
+                                "examples": [
+                                    ""
+                                ]
+                            }
+                        },
+                        "examples": [{
+                            "processing_id": "P",
+                            "processing_mode": ""
+                        }]
+                    },
+                    "version_id": {
+                        "type": "string",
+                        "default": "",
+                        "title": "The version_id Schema",
+                        "examples": [
+                            "2.3"
+                        ]
+                    }
+                },
+                "examples": [{
+                    "field_separator": "\\F\\",
+                    "encoding_characters": "\\S\\\\R\\\\E\\\\T\\",
+                    "sending_application": {
+                        "namespace_id": "SendingApp",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "sending_facility": {
+                        "namespace_id": "SendingFac",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "receiving_application": {
+                        "namespace_id": "ReceivingApp",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "receiving_facility": {
+                        "namespace_id": "ReceivingFac",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "date_time_of_message": {
+                        "time_of_an_event": "2023-10-10 12:34:00",
+                        "degree_of_precision": ""
+                    },
+                    "message_type": {
+                        "msg1": "ORM",
+                        "msg2": "O01"
+                    },
+                    "message_control_id": "123456",
+                    "processing_id": {
+                        "processing_id": "P",
+                        "processing_mode": ""
+                    },
+                    "version_id": "2.3"
+                }]
+            },
+            "examples": [
+                [{
+                    "field_separator": "\\F\\",
+                    "encoding_characters": "\\S\\\\R\\\\E\\\\T\\",
+                    "sending_application": {
+                        "namespace_id": "SendingApp",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "sending_facility": {
+                        "namespace_id": "SendingFac",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "receiving_application": {
+                        "namespace_id": "ReceivingApp",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "receiving_facility": {
+                        "namespace_id": "ReceivingFac",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "date_time_of_message": {
+                        "time_of_an_event": "2023-10-10 12:34:00",
+                        "degree_of_precision": ""
+                    },
+                    "message_type": {
+                        "msg1": "ORM",
+                        "msg2": "O01"
+                    },
+                    "message_control_id": "123456",
+                    "processing_id": {
+                        "processing_id": "P",
+                        "processing_mode": ""
+                    },
+                    "version_id": "2.3"
+                }]
+            ]
+        },
+        "NTE": {
+            "type": "array",
+            "default": [],
+            "title": "The NTE Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [],
+                "properties": {},
+                "examples": [{}]
+            },
+            "examples": [
+                [{}]
+            ]
+        },
+        "PATIENT": {
+            "type": "array",
+            "default": [],
+            "title": "The PATIENT Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [
+                    "patients",
+                    "PD1",
+                    "NTE",
+                    "PATIENT_VISIT",
+                    "INSURANCE",
+                    "GT1",
+                    "AL1"
+                ],
+                "properties": {
+                    "patients": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The patients Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [
+                                "set_idpatient_id",
+                                "patient_idinternal_id",
+                                "patient_name",
+                                "date_of_birth",
+                                "sex",
+                                "race",
+                                "patient_address",
+                                "phone_number_home"
+                            ],
+                            "properties": {
+                                "set_idpatient_id": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The set_idpatient_id Schema",
+                                    "examples": [
+                                        "1"
+                                    ]
+                                },
+                                "patient_idinternal_id": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The patient_idinternal_id Schema",
+                                    "required": [
+                                        "id",
+                                        "check_digit",
+                                        "code_identifying_the_check_digit_scheme_employed",
+                                        "identifier_type_code"
+                                    ],
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The id Schema",
+                                            "examples": [
+                                                "123456"
+                                            ]
+                                        },
+                                        "check_digit": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The check_digit Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "code_identifying_the_check_digit_scheme_employed": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The code_identifying_the_check_digit_scheme_employed Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "identifier_type_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The identifier_type_code Schema",
+                                            "examples": [
+                                                "MR"
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "id": "123456",
+                                        "check_digit": "",
+                                        "code_identifying_the_check_digit_scheme_employed": "",
+                                        "identifier_type_code": "MR"
+                                    }]
+                                },
+                                "patient_name": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The patient_name Schema",
+                                    "required": [
+                                        "family_name",
+                                        "given_name",
+                                        "middle_initial_or_name",
+                                        "suffix_eg_jror_iii",
+                                        "prefix_eg_dr",
+                                        "degree_eg_md",
+                                        "name_type_code",
+                                        "name_representation_code"
+                                    ],
+                                    "properties": {
+                                        "family_name": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The family_name Schema",
+                                            "examples": [
+                                                "Doe"
+                                            ]
+                                        },
+                                        "given_name": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The given_name Schema",
+                                            "examples": [
+                                                "John"
+                                            ]
+                                        },
+                                        "middle_initial_or_name": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The middle_initial_or_name Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "suffix_eg_jror_iii": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The suffix_eg_jror_iii Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "prefix_eg_dr": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The prefix_eg_dr Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "degree_eg_md": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The degree_eg_md Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "name_type_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The name_type_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "name_representation_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The name_representation_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "family_name": "Doe",
+                                        "given_name": "John",
+                                        "middle_initial_or_name": "",
+                                        "suffix_eg_jror_iii": "",
+                                        "prefix_eg_dr": "",
+                                        "degree_eg_md": "",
+                                        "name_type_code": "",
+                                        "name_representation_code": ""
+                                    }]
+                                },
+                                "date_of_birth": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The date_of_birth Schema",
+                                    "required": [
+                                        "time_of_an_event",
+                                        "degree_of_precision"
+                                    ],
+                                    "properties": {
+                                        "time_of_an_event": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The time_of_an_event Schema",
+                                            "examples": [
+                                                "1980-01-01"
+                                            ]
+                                        },
+                                        "degree_of_precision": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The degree_of_precision Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "time_of_an_event": "1980-01-01",
+                                        "degree_of_precision": ""
+                                    }]
+                                },
+                                "sex": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The sex Schema",
+                                    "examples": [
+                                        "M"
+                                    ]
+                                },
+                                "race": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The race Schema",
+                                    "examples": [
+                                        "C"
+                                    ]
+                                },
+                                "patient_address": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The patient_address Schema",
+                                    "required": [
+                                        "street_address",
+                                        "other_designation",
+                                        "city",
+                                        "state_or_province",
+                                        "zip_or_postal_code",
+                                        "country",
+                                        "address_type",
+                                        "other_geographic_designation",
+                                        "county_parish_code",
+                                        "census_tract"
+                                    ],
+                                    "properties": {
+                                        "street_address": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The street_address Schema",
+                                            "examples": [
+                                                "123 Main St"
+                                            ]
+                                        },
+                                        "other_designation": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The other_designation Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "city": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The city Schema",
+                                            "examples": [
+                                                "Springfield"
+                                            ]
+                                        },
+                                        "state_or_province": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The state_or_province Schema",
+                                            "examples": [
+                                                "IL"
+                                            ]
+                                        },
+                                        "zip_or_postal_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The zip_or_postal_code Schema",
+                                            "examples": [
+                                                "62701"
+                                            ]
+                                        },
+                                        "country": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The country Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "address_type": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The address_type Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "other_geographic_designation": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The other_geographic_designation Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "county_parish_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The county_parish_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "census_tract": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The census_tract Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "street_address": "123 Main St",
+                                        "other_designation": "",
+                                        "city": "Springfield",
+                                        "state_or_province": "IL",
+                                        "zip_or_postal_code": "62701",
+                                        "country": "",
+                                        "address_type": "",
+                                        "other_geographic_designation": "",
+                                        "county_parish_code": "",
+                                        "census_tract": ""
+                                    }]
+                                },
+                                "phone_number_home": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The phone_number_home Schema",
+                                    "required": [
+                                        "9999999x99999cany_text",
+                                        "telecommunication_use_code",
+                                        "telecommunication_equipment_type",
+                                        "email_address",
+                                        "country_code",
+                                        "area_city_code",
+                                        "phone_number",
+                                        "extension",
+                                        "any_text"
+                                    ],
+                                    "properties": {
+                                        "9999999x99999cany_text": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The 9999999x99999cany_text Schema",
+                                            "examples": [
+                                                "(217)555-0123"
+                                            ]
+                                        },
+                                        "telecommunication_use_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The telecommunication_use_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "telecommunication_equipment_type": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The telecommunication_equipment_type Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "email_address": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The email_address Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "country_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The country_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "area_city_code": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The area_city_code Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "phone_number": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The phone_number Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "extension": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The extension Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "any_text": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The any_text Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "9999999x99999cany_text": "(217)555-0123",
+                                        "telecommunication_use_code": "",
+                                        "telecommunication_equipment_type": "",
+                                        "email_address": "",
+                                        "country_code": "",
+                                        "area_city_code": "",
+                                        "phone_number": "",
+                                        "extension": "",
+                                        "any_text": ""
+                                    }]
+                                }
+                            },
+                            "examples": [{
+                                "set_idpatient_id": "1",
+                                "patient_idinternal_id": {
+                                    "id": "123456",
+                                    "check_digit": "",
+                                    "code_identifying_the_check_digit_scheme_employed": "",
+                                    "identifier_type_code": "MR"
+                                },
+                                "patient_name": {
+                                    "family_name": "Doe",
+                                    "given_name": "John",
+                                    "middle_initial_or_name": "",
+                                    "suffix_eg_jror_iii": "",
+                                    "prefix_eg_dr": "",
+                                    "degree_eg_md": "",
+                                    "name_type_code": "",
+                                    "name_representation_code": ""
+                                },
+                                "date_of_birth": {
+                                    "time_of_an_event": "1980-01-01",
+                                    "degree_of_precision": ""
+                                },
+                                "sex": "M",
+                                "race": "C",
+                                "patient_address": {
+                                    "street_address": "123 Main St",
+                                    "other_designation": "",
+                                    "city": "Springfield",
+                                    "state_or_province": "IL",
+                                    "zip_or_postal_code": "62701",
+                                    "country": "",
+                                    "address_type": "",
+                                    "other_geographic_designation": "",
+                                    "county_parish_code": "",
+                                    "census_tract": ""
+                                },
+                                "phone_number_home": {
+                                    "9999999x99999cany_text": "(217)555-0123",
+                                    "telecommunication_use_code": "",
+                                    "telecommunication_equipment_type": "",
+                                    "email_address": "",
+                                    "country_code": "",
+                                    "area_city_code": "",
+                                    "phone_number": "",
+                                    "extension": "",
+                                    "any_text": ""
+                                }
+                            }]
+                        },
+                        "examples": [
+                            [{
+                                "set_idpatient_id": "1",
+                                "patient_idinternal_id": {
+                                    "id": "123456",
+                                    "check_digit": "",
+                                    "code_identifying_the_check_digit_scheme_employed": "",
+                                    "identifier_type_code": "MR"
+                                },
+                                "patient_name": {
+                                    "family_name": "Doe",
+                                    "given_name": "John",
+                                    "middle_initial_or_name": "",
+                                    "suffix_eg_jror_iii": "",
+                                    "prefix_eg_dr": "",
+                                    "degree_eg_md": "",
+                                    "name_type_code": "",
+                                    "name_representation_code": ""
+                                },
+                                "date_of_birth": {
+                                    "time_of_an_event": "1980-01-01",
+                                    "degree_of_precision": ""
+                                },
+                                "sex": "M",
+                                "race": "C",
+                                "patient_address": {
+                                    "street_address": "123 Main St",
+                                    "other_designation": "",
+                                    "city": "Springfield",
+                                    "state_or_province": "IL",
+                                    "zip_or_postal_code": "62701",
+                                    "country": "",
+                                    "address_type": "",
+                                    "other_geographic_designation": "",
+                                    "county_parish_code": "",
+                                    "census_tract": ""
+                                },
+                                "phone_number_home": {
+                                    "9999999x99999cany_text": "(217)555-0123",
+                                    "telecommunication_use_code": "",
+                                    "telecommunication_equipment_type": "",
+                                    "email_address": "",
+                                    "country_code": "",
+                                    "area_city_code": "",
+                                    "phone_number": "",
+                                    "extension": "",
+                                    "any_text": ""
+                                }
+                            }]
+                        ]
+                    },
+                    "PD1": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The PD1 Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    },
+                    "NTE": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The NTE Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    },
+                    "PATIENT_VISIT": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The PATIENT_VISIT Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [
+                                "PV1",
+                                "PV2"
+                            ],
+                            "properties": {
+                                "PV1": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The PV1 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [
+                                            "set_idpatient_visit",
+                                            "patient_class",
+                                            "assigned_patient_location",
+                                            "attending_doctor",
+                                            "admit_source",
+                                            "ambulatory_status",
+                                            "vipindicator",
+                                            "admitting_doctor"
+                                        ],
+                                        "properties": {
+                                            "set_idpatient_visit": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The set_idpatient_visit Schema",
+                                                "examples": [
+                                                    "1"
+                                                ]
+                                            },
+                                            "patient_class": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The patient_class Schema",
+                                                "examples": [
+                                                    "I"
+                                                ]
+                                            },
+                                            "assigned_patient_location": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The assigned_patient_location Schema",
+                                                "required": [
+                                                    "point_of_care",
+                                                    "room",
+                                                    "bed",
+                                                    "location_status",
+                                                    "person_location_type",
+                                                    "building",
+                                                    "floor",
+                                                    "location_type"
+                                                ],
+                                                "properties": {
+                                                    "point_of_care": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The point_of_care Schema",
+                                                        "examples": [
+                                                            "2000"
+                                                        ]
+                                                    },
+                                                    "room": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The room Schema",
+                                                        "examples": [
+                                                            "2012"
+                                                        ]
+                                                    },
+                                                    "bed": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The bed Schema",
+                                                        "examples": [
+                                                            "01"
+                                                        ]
+                                                    },
+                                                    "location_status": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The location_status Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "person_location_type": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The person_location_type Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "building": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The building Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "floor": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The floor Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "location_type": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The location_type Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "point_of_care": "2000",
+                                                    "room": "2012",
+                                                    "bed": "01",
+                                                    "location_status": "",
+                                                    "person_location_type": "",
+                                                    "building": "",
+                                                    "floor": "",
+                                                    "location_type": ""
+                                                }]
+                                            },
+                                            "attending_doctor": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The attending_doctor Schema",
+                                                "required": [
+                                                    "idnumber",
+                                                    "family_name",
+                                                    "given_name",
+                                                    "middle_initial_or_name",
+                                                    "suffix_eg_jror_iii",
+                                                    "prefix_eg_dr",
+                                                    "degree_eg_md",
+                                                    "source_table",
+                                                    "name_type",
+                                                    "identifier_check_digit",
+                                                    "code_identifying_the_check_digit_scheme_employed",
+                                                    "identifier_type_code"
+                                                ],
+                                                "properties": {
+                                                    "idnumber": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The idnumber Schema",
+                                                        "examples": [
+                                                            "1234"
+                                                        ]
+                                                    },
+                                                    "family_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The family_name Schema",
+                                                        "examples": [
+                                                            "PrimaryCare"
+                                                        ]
+                                                    },
+                                                    "given_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The given_name Schema",
+                                                        "examples": [
+                                                            "Doctor"
+                                                        ]
+                                                    },
+                                                    "middle_initial_or_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The middle_initial_or_name Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "suffix_eg_jror_iii": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The suffix_eg_jror_iii Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "prefix_eg_dr": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The prefix_eg_dr Schema",
+                                                        "examples": [
+                                                            "MD"
+                                                        ]
+                                                    },
+                                                    "degree_eg_md": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The degree_eg_md Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "source_table": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The source_table Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "name_type": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The name_type Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "identifier_check_digit": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The identifier_check_digit Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "code_identifying_the_check_digit_scheme_employed": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The code_identifying_the_check_digit_scheme_employed Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "identifier_type_code": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The identifier_type_code Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "idnumber": "1234",
+                                                    "family_name": "PrimaryCare",
+                                                    "given_name": "Doctor",
+                                                    "middle_initial_or_name": "",
+                                                    "suffix_eg_jror_iii": "",
+                                                    "prefix_eg_dr": "MD",
+                                                    "degree_eg_md": "",
+                                                    "source_table": "",
+                                                    "name_type": "",
+                                                    "identifier_check_digit": "",
+                                                    "code_identifying_the_check_digit_scheme_employed": "",
+                                                    "identifier_type_code": ""
+                                                }]
+                                            },
+                                            "admit_source": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The admit_source Schema",
+                                                "examples": [
+                                                    "A"
+                                                ]
+                                            },
+                                            "ambulatory_status": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The ambulatory_status Schema",
+                                                "examples": [
+                                                    "1"
+                                                ]
+                                            },
+                                            "vipindicator": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The vipindicator Schema",
+                                                "examples": [
+                                                    "123456"
+                                                ]
+                                            },
+                                            "admitting_doctor": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The admitting_doctor Schema",
+                                                "required": [
+                                                    "idnumber",
+                                                    "family_name",
+                                                    "given_name",
+                                                    "middle_initial_or_name",
+                                                    "suffix_eg_jror_iii",
+                                                    "prefix_eg_dr",
+                                                    "degree_eg_md",
+                                                    "source_table",
+                                                    "name_type",
+                                                    "identifier_check_digit",
+                                                    "code_identifying_the_check_digit_scheme_employed",
+                                                    "identifier_type_code"
+                                                ],
+                                                "properties": {
+                                                    "idnumber": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The idnumber Schema",
+                                                        "examples": [
+                                                            "202310101234"
+                                                        ]
+                                                    },
+                                                    "family_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The family_name Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "given_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The given_name Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "middle_initial_or_name": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The middle_initial_or_name Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "suffix_eg_jror_iii": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The suffix_eg_jror_iii Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "prefix_eg_dr": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The prefix_eg_dr Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "degree_eg_md": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The degree_eg_md Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "source_table": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The source_table Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "name_type": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The name_type Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "identifier_check_digit": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The identifier_check_digit Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "code_identifying_the_check_digit_scheme_employed": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The code_identifying_the_check_digit_scheme_employed Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "identifier_type_code": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The identifier_type_code Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "idnumber": "202310101234",
+                                                    "family_name": "",
+                                                    "given_name": "",
+                                                    "middle_initial_or_name": "",
+                                                    "suffix_eg_jror_iii": "",
+                                                    "prefix_eg_dr": "",
+                                                    "degree_eg_md": "",
+                                                    "source_table": "",
+                                                    "name_type": "",
+                                                    "identifier_check_digit": "",
+                                                    "code_identifying_the_check_digit_scheme_employed": "",
+                                                    "identifier_type_code": ""
+                                                }]
+                                            }
+                                        },
+                                        "examples": [{
+                                            "set_idpatient_visit": "1",
+                                            "patient_class": "I",
+                                            "assigned_patient_location": {
+                                                "point_of_care": "2000",
+                                                "room": "2012",
+                                                "bed": "01",
+                                                "location_status": "",
+                                                "person_location_type": "",
+                                                "building": "",
+                                                "floor": "",
+                                                "location_type": ""
+                                            },
+                                            "attending_doctor": {
+                                                "idnumber": "1234",
+                                                "family_name": "PrimaryCare",
+                                                "given_name": "Doctor",
+                                                "middle_initial_or_name": "",
+                                                "suffix_eg_jror_iii": "",
+                                                "prefix_eg_dr": "MD",
+                                                "degree_eg_md": "",
+                                                "source_table": "",
+                                                "name_type": "",
+                                                "identifier_check_digit": "",
+                                                "code_identifying_the_check_digit_scheme_employed": "",
+                                                "identifier_type_code": ""
+                                            },
+                                            "admit_source": "A",
+                                            "ambulatory_status": "1",
+                                            "vipindicator": "123456",
+                                            "admitting_doctor": {
+                                                "idnumber": "202310101234",
+                                                "family_name": "",
+                                                "given_name": "",
+                                                "middle_initial_or_name": "",
+                                                "suffix_eg_jror_iii": "",
+                                                "prefix_eg_dr": "",
+                                                "degree_eg_md": "",
+                                                "source_table": "",
+                                                "name_type": "",
+                                                "identifier_check_digit": "",
+                                                "code_identifying_the_check_digit_scheme_employed": "",
+                                                "identifier_type_code": ""
+                                            }
+                                        }]
+                                    },
+                                    "examples": [
+                                        [{
+                                            "set_idpatient_visit": "1",
+                                            "patient_class": "I",
+                                            "assigned_patient_location": {
+                                                "point_of_care": "2000",
+                                                "room": "2012",
+                                                "bed": "01",
+                                                "location_status": "",
+                                                "person_location_type": "",
+                                                "building": "",
+                                                "floor": "",
+                                                "location_type": ""
+                                            },
+                                            "attending_doctor": {
+                                                "idnumber": "1234",
+                                                "family_name": "PrimaryCare",
+                                                "given_name": "Doctor",
+                                                "middle_initial_or_name": "",
+                                                "suffix_eg_jror_iii": "",
+                                                "prefix_eg_dr": "MD",
+                                                "degree_eg_md": "",
+                                                "source_table": "",
+                                                "name_type": "",
+                                                "identifier_check_digit": "",
+                                                "code_identifying_the_check_digit_scheme_employed": "",
+                                                "identifier_type_code": ""
+                                            },
+                                            "admit_source": "A",
+                                            "ambulatory_status": "1",
+                                            "vipindicator": "123456",
+                                            "admitting_doctor": {
+                                                "idnumber": "202310101234",
+                                                "family_name": "",
+                                                "given_name": "",
+                                                "middle_initial_or_name": "",
+                                                "suffix_eg_jror_iii": "",
+                                                "prefix_eg_dr": "",
+                                                "degree_eg_md": "",
+                                                "source_table": "",
+                                                "name_type": "",
+                                                "identifier_check_digit": "",
+                                                "code_identifying_the_check_digit_scheme_employed": "",
+                                                "identifier_type_code": ""
+                                            }
+                                        }]
+                                    ]
+                                },
+                                "PV2": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The PV2 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "PV1": [{
+                                    "set_idpatient_visit": "1",
+                                    "patient_class": "I",
+                                    "assigned_patient_location": {
+                                        "point_of_care": "2000",
+                                        "room": "2012",
+                                        "bed": "01",
+                                        "location_status": "",
+                                        "person_location_type": "",
+                                        "building": "",
+                                        "floor": "",
+                                        "location_type": ""
+                                    },
+                                    "attending_doctor": {
+                                        "idnumber": "1234",
+                                        "family_name": "PrimaryCare",
+                                        "given_name": "Doctor",
+                                        "middle_initial_or_name": "",
+                                        "suffix_eg_jror_iii": "",
+                                        "prefix_eg_dr": "MD",
+                                        "degree_eg_md": "",
+                                        "source_table": "",
+                                        "name_type": "",
+                                        "identifier_check_digit": "",
+                                        "code_identifying_the_check_digit_scheme_employed": "",
+                                        "identifier_type_code": ""
+                                    },
+                                    "admit_source": "A",
+                                    "ambulatory_status": "1",
+                                    "vipindicator": "123456",
+                                    "admitting_doctor": {
+                                        "idnumber": "202310101234",
+                                        "family_name": "",
+                                        "given_name": "",
+                                        "middle_initial_or_name": "",
+                                        "suffix_eg_jror_iii": "",
+                                        "prefix_eg_dr": "",
+                                        "degree_eg_md": "",
+                                        "source_table": "",
+                                        "name_type": "",
+                                        "identifier_check_digit": "",
+                                        "code_identifying_the_check_digit_scheme_employed": "",
+                                        "identifier_type_code": ""
+                                    }
+                                }],
+                                "PV2": [{}]
+                            }]
+                        },
+                        "examples": [
+                            [{
+                                "PV1": [{
+                                    "set_idpatient_visit": "1",
+                                    "patient_class": "I",
+                                    "assigned_patient_location": {
+                                        "point_of_care": "2000",
+                                        "room": "2012",
+                                        "bed": "01",
+                                        "location_status": "",
+                                        "person_location_type": "",
+                                        "building": "",
+                                        "floor": "",
+                                        "location_type": ""
+                                    },
+                                    "attending_doctor": {
+                                        "idnumber": "1234",
+                                        "family_name": "PrimaryCare",
+                                        "given_name": "Doctor",
+                                        "middle_initial_or_name": "",
+                                        "suffix_eg_jror_iii": "",
+                                        "prefix_eg_dr": "MD",
+                                        "degree_eg_md": "",
+                                        "source_table": "",
+                                        "name_type": "",
+                                        "identifier_check_digit": "",
+                                        "code_identifying_the_check_digit_scheme_employed": "",
+                                        "identifier_type_code": ""
+                                    },
+                                    "admit_source": "A",
+                                    "ambulatory_status": "1",
+                                    "vipindicator": "123456",
+                                    "admitting_doctor": {
+                                        "idnumber": "202310101234",
+                                        "family_name": "",
+                                        "given_name": "",
+                                        "middle_initial_or_name": "",
+                                        "suffix_eg_jror_iii": "",
+                                        "prefix_eg_dr": "",
+                                        "degree_eg_md": "",
+                                        "source_table": "",
+                                        "name_type": "",
+                                        "identifier_check_digit": "",
+                                        "code_identifying_the_check_digit_scheme_employed": "",
+                                        "identifier_type_code": ""
+                                    }
+                                }],
+                                "PV2": [{}]
+                            }]
+                        ]
+                    },
+                    "INSURANCE": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The INSURANCE Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [
+                                "IN1",
+                                "IN2",
+                                "IN3"
+                            ],
+                            "properties": {
+                                "IN1": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The IN1 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "IN2": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The IN2 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "IN3": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The IN3 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "IN1": [{}],
+                                "IN2": [{}],
+                                "IN3": [{}]
+                            }]
+                        },
+                        "examples": [
+                            [{
+                                "IN1": [{}],
+                                "IN2": [{}],
+                                "IN3": [{}]
+                            }]
+                        ]
+                    },
+                    "GT1": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The GT1 Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    },
+                    "AL1": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The AL1 Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    }
+                },
+                "examples": [{
+                    "patients": [{
+                        "set_idpatient_id": "1",
+                        "patient_idinternal_id": {
+                            "id": "123456",
+                            "check_digit": "",
+                            "code_identifying_the_check_digit_scheme_employed": "",
+                            "identifier_type_code": "MR"
+                        },
+                        "patient_name": {
+                            "family_name": "Doe",
+                            "given_name": "John",
+                            "middle_initial_or_name": "",
+                            "suffix_eg_jror_iii": "",
+                            "prefix_eg_dr": "",
+                            "degree_eg_md": "",
+                            "name_type_code": "",
+                            "name_representation_code": ""
+                        },
+                        "date_of_birth": {
+                            "time_of_an_event": "1980-01-01",
+                            "degree_of_precision": ""
+                        },
+                        "sex": "M",
+                        "race": "C",
+                        "patient_address": {
+                            "street_address": "123 Main St",
+                            "other_designation": "",
+                            "city": "Springfield",
+                            "state_or_province": "IL",
+                            "zip_or_postal_code": "62701",
+                            "country": "",
+                            "address_type": "",
+                            "other_geographic_designation": "",
+                            "county_parish_code": "",
+                            "census_tract": ""
+                        },
+                        "phone_number_home": {
+                            "9999999x99999cany_text": "(217)555-0123",
+                            "telecommunication_use_code": "",
+                            "telecommunication_equipment_type": "",
+                            "email_address": "",
+                            "country_code": "",
+                            "area_city_code": "",
+                            "phone_number": "",
+                            "extension": "",
+                            "any_text": ""
+                        }
+                    }],
+                    "PD1": [{}],
+                    "NTE": [{}],
+                    "PATIENT_VISIT": [{
+                        "PV1": [{
+                            "set_idpatient_visit": "1",
+                            "patient_class": "I",
+                            "assigned_patient_location": {
+                                "point_of_care": "2000",
+                                "room": "2012",
+                                "bed": "01",
+                                "location_status": "",
+                                "person_location_type": "",
+                                "building": "",
+                                "floor": "",
+                                "location_type": ""
+                            },
+                            "attending_doctor": {
+                                "idnumber": "1234",
+                                "family_name": "PrimaryCare",
+                                "given_name": "Doctor",
+                                "middle_initial_or_name": "",
+                                "suffix_eg_jror_iii": "",
+                                "prefix_eg_dr": "MD",
+                                "degree_eg_md": "",
+                                "source_table": "",
+                                "name_type": "",
+                                "identifier_check_digit": "",
+                                "code_identifying_the_check_digit_scheme_employed": "",
+                                "identifier_type_code": ""
+                            },
+                            "admit_source": "A",
+                            "ambulatory_status": "1",
+                            "vipindicator": "123456",
+                            "admitting_doctor": {
+                                "idnumber": "202310101234",
+                                "family_name": "",
+                                "given_name": "",
+                                "middle_initial_or_name": "",
+                                "suffix_eg_jror_iii": "",
+                                "prefix_eg_dr": "",
+                                "degree_eg_md": "",
+                                "source_table": "",
+                                "name_type": "",
+                                "identifier_check_digit": "",
+                                "code_identifying_the_check_digit_scheme_employed": "",
+                                "identifier_type_code": ""
+                            }
+                        }],
+                        "PV2": [{}]
+                    }],
+                    "INSURANCE": [{
+                        "IN1": [{}],
+                        "IN2": [{}],
+                        "IN3": [{}]
+                    }],
+                    "GT1": [{}],
+                    "AL1": [{}]
+                }]
+            },
+            "examples": [
+                [{
+                    "patients": [{
+                        "set_idpatient_id": "1",
+                        "patient_idinternal_id": {
+                            "id": "123456",
+                            "check_digit": "",
+                            "code_identifying_the_check_digit_scheme_employed": "",
+                            "identifier_type_code": "MR"
+                        },
+                        "patient_name": {
+                            "family_name": "Doe",
+                            "given_name": "John",
+                            "middle_initial_or_name": "",
+                            "suffix_eg_jror_iii": "",
+                            "prefix_eg_dr": "",
+                            "degree_eg_md": "",
+                            "name_type_code": "",
+                            "name_representation_code": ""
+                        },
+                        "date_of_birth": {
+                            "time_of_an_event": "1980-01-01",
+                            "degree_of_precision": ""
+                        },
+                        "sex": "M",
+                        "race": "C",
+                        "patient_address": {
+                            "street_address": "123 Main St",
+                            "other_designation": "",
+                            "city": "Springfield",
+                            "state_or_province": "IL",
+                            "zip_or_postal_code": "62701",
+                            "country": "",
+                            "address_type": "",
+                            "other_geographic_designation": "",
+                            "county_parish_code": "",
+                            "census_tract": ""
+                        },
+                        "phone_number_home": {
+                            "9999999x99999cany_text": "(217)555-0123",
+                            "telecommunication_use_code": "",
+                            "telecommunication_equipment_type": "",
+                            "email_address": "",
+                            "country_code": "",
+                            "area_city_code": "",
+                            "phone_number": "",
+                            "extension": "",
+                            "any_text": ""
+                        }
+                    }],
+                    "PD1": [{}],
+                    "NTE": [{}],
+                    "PATIENT_VISIT": [{
+                        "PV1": [{
+                            "set_idpatient_visit": "1",
+                            "patient_class": "I",
+                            "assigned_patient_location": {
+                                "point_of_care": "2000",
+                                "room": "2012",
+                                "bed": "01",
+                                "location_status": "",
+                                "person_location_type": "",
+                                "building": "",
+                                "floor": "",
+                                "location_type": ""
+                            },
+                            "attending_doctor": {
+                                "idnumber": "1234",
+                                "family_name": "PrimaryCare",
+                                "given_name": "Doctor",
+                                "middle_initial_or_name": "",
+                                "suffix_eg_jror_iii": "",
+                                "prefix_eg_dr": "MD",
+                                "degree_eg_md": "",
+                                "source_table": "",
+                                "name_type": "",
+                                "identifier_check_digit": "",
+                                "code_identifying_the_check_digit_scheme_employed": "",
+                                "identifier_type_code": ""
+                            },
+                            "admit_source": "A",
+                            "ambulatory_status": "1",
+                            "vipindicator": "123456",
+                            "admitting_doctor": {
+                                "idnumber": "202310101234",
+                                "family_name": "",
+                                "given_name": "",
+                                "middle_initial_or_name": "",
+                                "suffix_eg_jror_iii": "",
+                                "prefix_eg_dr": "",
+                                "degree_eg_md": "",
+                                "source_table": "",
+                                "name_type": "",
+                                "identifier_check_digit": "",
+                                "code_identifying_the_check_digit_scheme_employed": "",
+                                "identifier_type_code": ""
+                            }
+                        }],
+                        "PV2": [{}]
+                    }],
+                    "INSURANCE": [{
+                        "IN1": [{}],
+                        "IN2": [{}],
+                        "IN3": [{}]
+                    }],
+                    "GT1": [{}],
+                    "AL1": [{}]
+                }]
+            ]
+        },
+        "ORDER": {
+            "type": "array",
+            "default": [],
+            "title": "The ORDER Schema",
+            "items": {
+                "type": "object",
+                "default": {},
+                "title": "A Schema",
+                "required": [
+                    "ORC",
+                    "ORDER_DETAIL",
+                    "CTI",
+                    "BLG"
+                ],
+                "properties": {
+                    "ORC": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The ORC Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [
+                                "order_control",
+                                "placer_order_number_reps",
+                                "filler_order_number",
+                                "placer_group_number",
+                                "response_flag"
+                            ],
+                            "properties": {
+                                "order_control": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The order_control Schema",
+                                    "examples": [
+                                        "NW"
+                                    ]
+                                },
+                                "placer_order_number_reps": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The placer_order_number_reps Schema",
+                                    "required": [
+                                        "entity_identifier",
+                                        "namespace_id",
+                                        "universal_id",
+                                        "universal_idtype"
+                                    ],
+                                    "properties": {
+                                        "entity_identifier": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The entity_identifier Schema",
+                                            "examples": [
+                                                "123456"
+                                            ]
+                                        },
+                                        "namespace_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The namespace_id Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "universal_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_id Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "universal_idtype": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_idtype Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "entity_identifier": "123456",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    }]
+                                },
+                                "filler_order_number": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The filler_order_number Schema",
+                                    "required": [
+                                        "entity_identifier",
+                                        "namespace_id",
+                                        "universal_id",
+                                        "universal_idtype"
+                                    ],
+                                    "properties": {
+                                        "entity_identifier": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The entity_identifier Schema",
+                                            "examples": [
+                                                "789012"
+                                            ]
+                                        },
+                                        "namespace_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The namespace_id Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "universal_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_id Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "universal_idtype": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_idtype Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "entity_identifier": "789012",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    }]
+                                },
+                                "placer_group_number": {
+                                    "type": "object",
+                                    "default": {},
+                                    "title": "The placer_group_number Schema",
+                                    "required": [
+                                        "entity_identifier",
+                                        "namespace_id",
+                                        "universal_id",
+                                        "universal_idtype"
+                                    ],
+                                    "properties": {
+                                        "entity_identifier": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The entity_identifier Schema",
+                                            "examples": [
+                                                "Test"
+                                            ]
+                                        },
+                                        "namespace_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The namespace_id Schema",
+                                            "examples": [
+                                                "Test Description"
+                                            ]
+                                        },
+                                        "universal_id": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_id Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        },
+                                        "universal_idtype": {
+                                            "type": "string",
+                                            "default": "",
+                                            "title": "The universal_idtype Schema",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "examples": [{
+                                        "entity_identifier": "Test",
+                                        "namespace_id": "Test Description",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    }]
+                                },
+                                "response_flag": {
+                                    "type": "string",
+                                    "default": "",
+                                    "title": "The response_flag Schema",
+                                    "examples": [
+                                        "1^Once^202310101234"
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "order_control": "NW",
+                                "placer_order_number_reps": {
+                                    "entity_identifier": "123456",
+                                    "namespace_id": "",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "filler_order_number": {
+                                    "entity_identifier": "789012",
+                                    "namespace_id": "",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "placer_group_number": {
+                                    "entity_identifier": "Test",
+                                    "namespace_id": "Test Description",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "response_flag": "1^Once^202310101234"
+                            }]
+                        },
+                        "examples": [
+                            [{
+                                "order_control": "NW",
+                                "placer_order_number_reps": {
+                                    "entity_identifier": "123456",
+                                    "namespace_id": "",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "filler_order_number": {
+                                    "entity_identifier": "789012",
+                                    "namespace_id": "",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "placer_group_number": {
+                                    "entity_identifier": "Test",
+                                    "namespace_id": "Test Description",
+                                    "universal_id": "",
+                                    "universal_idtype": ""
+                                },
+                                "response_flag": "1^Once^202310101234"
+                            }]
+                        ]
+                    },
+                    "ORDER_DETAIL": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The ORDER_DETAIL Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [
+                                "OBR",
+                                "RQD",
+                                "RQ1",
+                                "RXO",
+                                "ODS",
+                                "ODT",
+                                "NTE",
+                                "DG1",
+                                "OBSERVATION"
+                            ],
+                            "properties": {
+                                "OBR": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The OBR Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [
+                                            "set_idobservation_request",
+                                            "placer_order_number",
+                                            "filler_order_number",
+                                            "universal_service_identifier",
+                                            "requested_date_time",
+                                            "observation_date_time",
+                                            "placer_field1"
+                                        ],
+                                        "properties": {
+                                            "set_idobservation_request": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The set_idobservation_request Schema",
+                                                "examples": [
+                                                    "1"
+                                                ]
+                                            },
+                                            "placer_order_number": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The placer_order_number Schema",
+                                                "required": [
+                                                    "entity_identifier",
+                                                    "namespace_id",
+                                                    "universal_id",
+                                                    "universal_idtype"
+                                                ],
+                                                "properties": {
+                                                    "entity_identifier": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The entity_identifier Schema",
+                                                        "examples": [
+                                                            "123456"
+                                                        ]
+                                                    },
+                                                    "namespace_id": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The namespace_id Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "universal_id": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The universal_id Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "universal_idtype": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The universal_idtype Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "entity_identifier": "123456",
+                                                    "namespace_id": "",
+                                                    "universal_id": "",
+                                                    "universal_idtype": ""
+                                                }]
+                                            },
+                                            "filler_order_number": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The filler_order_number Schema",
+                                                "required": [
+                                                    "entity_identifier",
+                                                    "namespace_id",
+                                                    "universal_id",
+                                                    "universal_idtype"
+                                                ],
+                                                "properties": {
+                                                    "entity_identifier": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The entity_identifier Schema",
+                                                        "examples": [
+                                                            "789012"
+                                                        ]
+                                                    },
+                                                    "namespace_id": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The namespace_id Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "universal_id": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The universal_id Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "universal_idtype": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The universal_idtype Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "entity_identifier": "789012",
+                                                    "namespace_id": "",
+                                                    "universal_id": "",
+                                                    "universal_idtype": ""
+                                                }]
+                                            },
+                                            "universal_service_identifier": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The universal_service_identifier Schema",
+                                                "required": [
+                                                    "identifier",
+                                                    "text",
+                                                    "name_of_coding_system",
+                                                    "alternate_identifier",
+                                                    "alternate_text",
+                                                    "name_of_alternate_coding_system"
+                                                ],
+                                                "properties": {
+                                                    "identifier": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The identifier Schema",
+                                                        "examples": [
+                                                            "Test"
+                                                        ]
+                                                    },
+                                                    "text": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The text Schema",
+                                                        "examples": [
+                                                            "Test Description"
+                                                        ]
+                                                    },
+                                                    "name_of_coding_system": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The name_of_coding_system Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "alternate_identifier": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The alternate_identifier Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "alternate_text": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The alternate_text Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    },
+                                                    "name_of_alternate_coding_system": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The name_of_alternate_coding_system Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "identifier": "Test",
+                                                    "text": "Test Description",
+                                                    "name_of_coding_system": "",
+                                                    "alternate_identifier": "",
+                                                    "alternate_text": "",
+                                                    "name_of_alternate_coding_system": ""
+                                                }]
+                                            },
+                                            "requested_date_time": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The requested_date_time Schema",
+                                                "required": [
+                                                    "time_of_an_event",
+                                                    "degree_of_precision"
+                                                ],
+                                                "properties": {
+                                                    "time_of_an_event": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The time_of_an_event Schema",
+                                                        "examples": [
+                                                            "2023-10-10 12:34:00"
+                                                        ]
+                                                    },
+                                                    "degree_of_precision": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The degree_of_precision Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "time_of_an_event": "2023-10-10 12:34:00",
+                                                    "degree_of_precision": ""
+                                                }]
+                                            },
+                                            "observation_date_time": {
+                                                "type": "object",
+                                                "default": {},
+                                                "title": "The observation_date_time Schema",
+                                                "required": [
+                                                    "time_of_an_event",
+                                                    "degree_of_precision"
+                                                ],
+                                                "properties": {
+                                                    "time_of_an_event": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The time_of_an_event Schema",
+                                                        "examples": [
+                                                            "2023-10-10 12:34:00"
+                                                        ]
+                                                    },
+                                                    "degree_of_precision": {
+                                                        "type": "string",
+                                                        "default": "",
+                                                        "title": "The degree_of_precision Schema",
+                                                        "examples": [
+                                                            ""
+                                                        ]
+                                                    }
+                                                },
+                                                "examples": [{
+                                                    "time_of_an_event": "2023-10-10 12:34:00",
+                                                    "degree_of_precision": ""
+                                                }]
+                                            },
+                                            "placer_field1": {
+                                                "type": "string",
+                                                "default": "",
+                                                "title": "The placer_field1 Schema",
+                                                "examples": [
+                                                    "202310101234"
+                                                ]
+                                            }
+                                        },
+                                        "examples": [{
+                                            "set_idobservation_request": "1",
+                                            "placer_order_number": {
+                                                "entity_identifier": "123456",
+                                                "namespace_id": "",
+                                                "universal_id": "",
+                                                "universal_idtype": ""
+                                            },
+                                            "filler_order_number": {
+                                                "entity_identifier": "789012",
+                                                "namespace_id": "",
+                                                "universal_id": "",
+                                                "universal_idtype": ""
+                                            },
+                                            "universal_service_identifier": {
+                                                "identifier": "Test",
+                                                "text": "Test Description",
+                                                "name_of_coding_system": "",
+                                                "alternate_identifier": "",
+                                                "alternate_text": "",
+                                                "name_of_alternate_coding_system": ""
+                                            },
+                                            "requested_date_time": {
+                                                "time_of_an_event": "2023-10-10 12:34:00",
+                                                "degree_of_precision": ""
+                                            },
+                                            "observation_date_time": {
+                                                "time_of_an_event": "2023-10-10 12:34:00",
+                                                "degree_of_precision": ""
+                                            },
+                                            "placer_field1": "202310101234"
+                                        }]
+                                    },
+                                    "examples": [
+                                        [{
+                                            "set_idobservation_request": "1",
+                                            "placer_order_number": {
+                                                "entity_identifier": "123456",
+                                                "namespace_id": "",
+                                                "universal_id": "",
+                                                "universal_idtype": ""
+                                            },
+                                            "filler_order_number": {
+                                                "entity_identifier": "789012",
+                                                "namespace_id": "",
+                                                "universal_id": "",
+                                                "universal_idtype": ""
+                                            },
+                                            "universal_service_identifier": {
+                                                "identifier": "Test",
+                                                "text": "Test Description",
+                                                "name_of_coding_system": "",
+                                                "alternate_identifier": "",
+                                                "alternate_text": "",
+                                                "name_of_alternate_coding_system": ""
+                                            },
+                                            "requested_date_time": {
+                                                "time_of_an_event": "2023-10-10 12:34:00",
+                                                "degree_of_precision": ""
+                                            },
+                                            "observation_date_time": {
+                                                "time_of_an_event": "2023-10-10 12:34:00",
+                                                "degree_of_precision": ""
+                                            },
+                                            "placer_field1": "202310101234"
+                                        }]
+                                    ]
+                                },
+                                "RQD": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The RQD Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "RQ1": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The RQ1 Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "RXO": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The RXO Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "ODS": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The ODS Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "ODT": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The ODT Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [],
+                                        "properties": {},
+                                        "examples": [{}]
+                                    },
+                                    "examples": [
+                                        [{}]
+                                    ]
+                                },
+                                "NTE": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The NTE Schema",
+                                    "items": {},
+                                    "examples": [
+                                        []
+                                    ]
+                                },
+                                "DG1": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The DG1 Schema",
+                                    "items": {},
+                                    "examples": [
+                                        []
+                                    ]
+                                },
+                                "OBSERVATION": {
+                                    "type": "array",
+                                    "default": [],
+                                    "title": "The OBSERVATION Schema",
+                                    "items": {
+                                        "type": "object",
+                                        "default": {},
+                                        "title": "A Schema",
+                                        "required": [
+                                            "OBX",
+                                            "NTE"
+                                        ],
+                                        "properties": {
+                                            "OBX": {
+                                                "type": "array",
+                                                "default": [],
+                                                "title": "The OBX Schema",
+                                                "items": {
+                                                    "type": "object",
+                                                    "default": {},
+                                                    "title": "A Schema",
+                                                    "required": [],
+                                                    "properties": {},
+                                                    "examples": [{}]
+                                                },
+                                                "examples": [
+                                                    [{}]
+                                                ]
+                                            },
+                                            "NTE": {
+                                                "type": "array",
+                                                "default": [],
+                                                "title": "The NTE Schema",
+                                                "items": {},
+                                                "examples": [
+                                                    []
+                                                ]
+                                            }
+                                        },
+                                        "examples": [{
+                                            "OBX": [{}],
+                                            "NTE": []
+                                        }]
+                                    },
+                                    "examples": [
+                                        [{
+                                            "OBX": [{}],
+                                            "NTE": []
+                                        }]
+                                    ]
+                                }
+                            },
+                            "examples": [{
+                                "OBR": [{
+                                    "set_idobservation_request": "1",
+                                    "placer_order_number": {
+                                        "entity_identifier": "123456",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    },
+                                    "filler_order_number": {
+                                        "entity_identifier": "789012",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    },
+                                    "universal_service_identifier": {
+                                        "identifier": "Test",
+                                        "text": "Test Description",
+                                        "name_of_coding_system": "",
+                                        "alternate_identifier": "",
+                                        "alternate_text": "",
+                                        "name_of_alternate_coding_system": ""
+                                    },
+                                    "requested_date_time": {
+                                        "time_of_an_event": "2023-10-10 12:34:00",
+                                        "degree_of_precision": ""
+                                    },
+                                    "observation_date_time": {
+                                        "time_of_an_event": "2023-10-10 12:34:00",
+                                        "degree_of_precision": ""
+                                    },
+                                    "placer_field1": "202310101234"
+                                }],
+                                "RQD": [{}],
+                                "RQ1": [{}],
+                                "RXO": [{}],
+                                "ODS": [{}],
+                                "ODT": [{}],
+                                "NTE": [],
+                                "DG1": [],
+                                "OBSERVATION": [{
+                                    "OBX": [{}],
+                                    "NTE": []
+                                }]
+                            }]
+                        },
+                        "examples": [
+                            [{
+                                "OBR": [{
+                                    "set_idobservation_request": "1",
+                                    "placer_order_number": {
+                                        "entity_identifier": "123456",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    },
+                                    "filler_order_number": {
+                                        "entity_identifier": "789012",
+                                        "namespace_id": "",
+                                        "universal_id": "",
+                                        "universal_idtype": ""
+                                    },
+                                    "universal_service_identifier": {
+                                        "identifier": "Test",
+                                        "text": "Test Description",
+                                        "name_of_coding_system": "",
+                                        "alternate_identifier": "",
+                                        "alternate_text": "",
+                                        "name_of_alternate_coding_system": ""
+                                    },
+                                    "requested_date_time": {
+                                        "time_of_an_event": "2023-10-10 12:34:00",
+                                        "degree_of_precision": ""
+                                    },
+                                    "observation_date_time": {
+                                        "time_of_an_event": "2023-10-10 12:34:00",
+                                        "degree_of_precision": ""
+                                    },
+                                    "placer_field1": "202310101234"
+                                }],
+                                "RQD": [{}],
+                                "RQ1": [{}],
+                                "RXO": [{}],
+                                "ODS": [{}],
+                                "ODT": [{}],
+                                "NTE": [],
+                                "DG1": [],
+                                "OBSERVATION": [{
+                                    "OBX": [{}],
+                                    "NTE": []
+                                }]
+                            }]
+                        ]
+                    },
+                    "CTI": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The CTI Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    },
+                    "BLG": {
+                        "type": "array",
+                        "default": [],
+                        "title": "The BLG Schema",
+                        "items": {
+                            "type": "object",
+                            "default": {},
+                            "title": "A Schema",
+                            "required": [],
+                            "properties": {},
+                            "examples": [{}]
+                        },
+                        "examples": [
+                            [{}]
+                        ]
+                    }
+                },
+                "examples": [{
+                    "ORC": [{
+                        "order_control": "NW",
+                        "placer_order_number_reps": {
+                            "entity_identifier": "123456",
+                            "namespace_id": "",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "filler_order_number": {
+                            "entity_identifier": "789012",
+                            "namespace_id": "",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "placer_group_number": {
+                            "entity_identifier": "Test",
+                            "namespace_id": "Test Description",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "response_flag": "1^Once^202310101234"
+                    }],
+                    "ORDER_DETAIL": [{
+                        "OBR": [{
+                            "set_idobservation_request": "1",
+                            "placer_order_number": {
+                                "entity_identifier": "123456",
+                                "namespace_id": "",
+                                "universal_id": "",
+                                "universal_idtype": ""
+                            },
+                            "filler_order_number": {
+                                "entity_identifier": "789012",
+                                "namespace_id": "",
+                                "universal_id": "",
+                                "universal_idtype": ""
+                            },
+                            "universal_service_identifier": {
+                                "identifier": "Test",
+                                "text": "Test Description",
+                                "name_of_coding_system": "",
+                                "alternate_identifier": "",
+                                "alternate_text": "",
+                                "name_of_alternate_coding_system": ""
+                            },
+                            "requested_date_time": {
+                                "time_of_an_event": "2023-10-10 12:34:00",
+                                "degree_of_precision": ""
+                            },
+                            "observation_date_time": {
+                                "time_of_an_event": "2023-10-10 12:34:00",
+                                "degree_of_precision": ""
+                            },
+                            "placer_field1": "202310101234"
+                        }],
+                        "RQD": [{}],
+                        "RQ1": [{}],
+                        "RXO": [{}],
+                        "ODS": [{}],
+                        "ODT": [{}],
+                        "NTE": [],
+                        "DG1": [],
+                        "OBSERVATION": [{
+                            "OBX": [{}],
+                            "NTE": []
+                        }]
+                    }],
+                    "CTI": [{}],
+                    "BLG": [{}]
+                }]
+            },
+            "examples": [
+                [{
+                    "ORC": [{
+                        "order_control": "NW",
+                        "placer_order_number_reps": {
+                            "entity_identifier": "123456",
+                            "namespace_id": "",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "filler_order_number": {
+                            "entity_identifier": "789012",
+                            "namespace_id": "",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "placer_group_number": {
+                            "entity_identifier": "Test",
+                            "namespace_id": "Test Description",
+                            "universal_id": "",
+                            "universal_idtype": ""
+                        },
+                        "response_flag": "1^Once^202310101234"
+                    }],
+                    "ORDER_DETAIL": [{
+                        "OBR": [{
+                            "set_idobservation_request": "1",
+                            "placer_order_number": {
+                                "entity_identifier": "123456",
+                                "namespace_id": "",
+                                "universal_id": "",
+                                "universal_idtype": ""
+                            },
+                            "filler_order_number": {
+                                "entity_identifier": "789012",
+                                "namespace_id": "",
+                                "universal_id": "",
+                                "universal_idtype": ""
+                            },
+                            "universal_service_identifier": {
+                                "identifier": "Test",
+                                "text": "Test Description",
+                                "name_of_coding_system": "",
+                                "alternate_identifier": "",
+                                "alternate_text": "",
+                                "name_of_alternate_coding_system": ""
+                            },
+                            "requested_date_time": {
+                                "time_of_an_event": "2023-10-10 12:34:00",
+                                "degree_of_precision": ""
+                            },
+                            "observation_date_time": {
+                                "time_of_an_event": "2023-10-10 12:34:00",
+                                "degree_of_precision": ""
+                            },
+                            "placer_field1": "202310101234"
+                        }],
+                        "RQD": [{}],
+                        "RQ1": [{}],
+                        "RXO": [{}],
+                        "ODS": [{}],
+                        "ODT": [{}],
+                        "NTE": [],
+                        "DG1": [],
+                        "OBSERVATION": [{
+                            "OBX": [{}],
+                            "NTE": []
+                        }]
+                    }],
+                    "CTI": [{}],
+                    "BLG": [{}]
+                }]
+            ]
+        }
+    },
+    "examples": [{
+        "MSH": [{
+            "field_separator": "\\F\\",
+            "encoding_characters": "\\S\\\\R\\\\E\\\\T\\",
+            "sending_application": {
+                "namespace_id": "SendingApp",
+                "universal_id": "",
+                "universal_idtype": ""
+            },
+            "sending_facility": {
+                "namespace_id": "SendingFac",
+                "universal_id": "",
+                "universal_idtype": ""
+            },
+            "receiving_application": {
+                "namespace_id": "ReceivingApp",
+                "universal_id": "",
+                "universal_idtype": ""
+            },
+            "receiving_facility": {
+                "namespace_id": "ReceivingFac",
+                "universal_id": "",
+                "universal_idtype": ""
+            },
+            "date_time_of_message": {
+                "time_of_an_event": "2023-10-10 12:34:00",
+                "degree_of_precision": ""
+            },
+            "message_type": {
+                "msg1": "ORM",
+                "msg2": "O01"
+            },
+            "message_control_id": "123456",
+            "processing_id": {
+                "processing_id": "P",
+                "processing_mode": ""
+            },
+            "version_id": "2.3"
+        }],
+        "NTE": [{}],
+        "PATIENT": [{
+            "patients": [{
+                "set_idpatient_id": "1",
+                "patient_idinternal_id": {
+                    "id": "123456",
+                    "check_digit": "",
+                    "code_identifying_the_check_digit_scheme_employed": "",
+                    "identifier_type_code": "MR"
+                },
+                "patient_name": {
+                    "family_name": "Doe",
+                    "given_name": "John",
+                    "middle_initial_or_name": "",
+                    "suffix_eg_jror_iii": "",
+                    "prefix_eg_dr": "",
+                    "degree_eg_md": "",
+                    "name_type_code": "",
+                    "name_representation_code": ""
+                },
+                "date_of_birth": {
+                    "time_of_an_event": "1980-01-01",
+                    "degree_of_precision": ""
+                },
+                "sex": "M",
+                "race": "C",
+                "patient_address": {
+                    "street_address": "123 Main St",
+                    "other_designation": "",
+                    "city": "Springfield",
+                    "state_or_province": "IL",
+                    "zip_or_postal_code": "62701",
+                    "country": "",
+                    "address_type": "",
+                    "other_geographic_designation": "",
+                    "county_parish_code": "",
+                    "census_tract": ""
+                },
+                "phone_number_home": {
+                    "9999999x99999cany_text": "(217)555-0123",
+                    "telecommunication_use_code": "",
+                    "telecommunication_equipment_type": "",
+                    "email_address": "",
+                    "country_code": "",
+                    "area_city_code": "",
+                    "phone_number": "",
+                    "extension": "",
+                    "any_text": ""
+                }
+            }],
+            "PD1": [{}],
+            "NTE": [{}],
+            "PATIENT_VISIT": [{
+                "PV1": [{
+                    "set_idpatient_visit": "1",
+                    "patient_class": "I",
+                    "assigned_patient_location": {
+                        "point_of_care": "2000",
+                        "room": "2012",
+                        "bed": "01",
+                        "location_status": "",
+                        "person_location_type": "",
+                        "building": "",
+                        "floor": "",
+                        "location_type": ""
+                    },
+                    "attending_doctor": {
+                        "idnumber": "1234",
+                        "family_name": "PrimaryCare",
+                        "given_name": "Doctor",
+                        "middle_initial_or_name": "",
+                        "suffix_eg_jror_iii": "",
+                        "prefix_eg_dr": "MD",
+                        "degree_eg_md": "",
+                        "source_table": "",
+                        "name_type": "",
+                        "identifier_check_digit": "",
+                        "code_identifying_the_check_digit_scheme_employed": "",
+                        "identifier_type_code": ""
+                    },
+                    "admit_source": "A",
+                    "ambulatory_status": "1",
+                    "vipindicator": "123456",
+                    "admitting_doctor": {
+                        "idnumber": "202310101234",
+                        "family_name": "",
+                        "given_name": "",
+                        "middle_initial_or_name": "",
+                        "suffix_eg_jror_iii": "",
+                        "prefix_eg_dr": "",
+                        "degree_eg_md": "",
+                        "source_table": "",
+                        "name_type": "",
+                        "identifier_check_digit": "",
+                        "code_identifying_the_check_digit_scheme_employed": "",
+                        "identifier_type_code": ""
+                    }
+                }],
+                "PV2": [{}]
+            }],
+            "INSURANCE": [{
+                "IN1": [{}],
+                "IN2": [{}],
+                "IN3": [{}]
+            }],
+            "GT1": [{}],
+            "AL1": [{}]
+        }],
+        "ORDER": [{
+            "ORC": [{
+                "order_control": "NW",
+                "placer_order_number_reps": {
+                    "entity_identifier": "123456",
+                    "namespace_id": "",
+                    "universal_id": "",
+                    "universal_idtype": ""
+                },
+                "filler_order_number": {
+                    "entity_identifier": "789012",
+                    "namespace_id": "",
+                    "universal_id": "",
+                    "universal_idtype": ""
+                },
+                "placer_group_number": {
+                    "entity_identifier": "Test",
+                    "namespace_id": "Test Description",
+                    "universal_id": "",
+                    "universal_idtype": ""
+                },
+                "response_flag": "1^Once^202310101234"
+            }],
+            "ORDER_DETAIL": [{
+                "OBR": [{
+                    "set_idobservation_request": "1",
+                    "placer_order_number": {
+                        "entity_identifier": "123456",
+                        "namespace_id": "",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "filler_order_number": {
+                        "entity_identifier": "789012",
+                        "namespace_id": "",
+                        "universal_id": "",
+                        "universal_idtype": ""
+                    },
+                    "universal_service_identifier": {
+                        "identifier": "Test",
+                        "text": "Test Description",
+                        "name_of_coding_system": "",
+                        "alternate_identifier": "",
+                        "alternate_text": "",
+                        "name_of_alternate_coding_system": ""
+                    },
+                    "requested_date_time": {
+                        "time_of_an_event": "2023-10-10 12:34:00",
+                        "degree_of_precision": ""
+                    },
+                    "observation_date_time": {
+                        "time_of_an_event": "2023-10-10 12:34:00",
+                        "degree_of_precision": ""
+                    },
+                    "placer_field1": "202310101234"
+                }],
+                "RQD": [{}],
+                "RQ1": [{}],
+                "RXO": [{}],
+                "ODS": [{}],
+                "ODT": [{}],
+                "NTE": [],
+                "DG1": [],
+                "OBSERVATION": [{
+                    "OBX": [{}],
+                    "NTE": []
+                }]
+            }],
+            "CTI": [{}],
+            "BLG": [{}]
+        }]
+    }]
+}

@@ -219,7 +219,7 @@ public class AxanaHL7ToJsonExtracter_1_0_8 extends AbstractProcessor {
                  * }
                  */
 
-                if (messageType.equals("SIU") || (messageType.equals("ORU") && triggerEvent.equals("R01"))) {
+                if (messageType.equals("SIU") || messageType.equals("ORM") || (messageType.equals("ORU") && triggerEvent.equals("R01"))) {
 
                     logger.info("FlowFile in Else loop, MsgType : " + messageType + ", Event Trigger" + triggerEvent);
                     jsonOutput = HL7toJson(hl7Message, context);
@@ -234,7 +234,10 @@ public class AxanaHL7ToJsonExtracter_1_0_8 extends AbstractProcessor {
                             out -> out.write(jsonOutput.toString().getBytes(StandardCharsets.UTF_8)));
 
                 } else {
-                    jsonOutput = ParseHL7Messages.parseMessageToJson(hl7Message, context, messageType, triggerEvent);
+                    String segmentMappingProperty = context.getProperty(SEGMENT_MAPPING).getValue();
+                 //   Map<String, String> segmentMapping = parseSegmentMapping(segmentMappingProperty);
+            
+                    jsonOutput = ParseHL7Messages.parseMessageToJson(hl7Message, context, messageType, triggerEvent,segmentMapping);
 
                     // Check if jsonOutput is empty or null
                     if (jsonOutput == null || jsonOutput.size() == 0) {
@@ -520,77 +523,109 @@ public class AxanaHL7ToJsonExtracter_1_0_8 extends AbstractProcessor {
                 processSegment(parsedMessage.getSCH(), "SCH", jsonOutput);
                 processSegment(parsedMessage.getPATIENT().getPID(), "PID", jsonOutput);
             } 
-            else if ((messageType.equals("ORU") && triggerEvent.equals("R01")) ) {
-                logger.info("We are in ORU-R01 loop");
-                ORU_R01 parsedMessage = (ORU_R01) message;
-                // JsonObject jsonOutput = new JsonObject();
-                logger.info("Inside ORU_R01");
-                processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
-                logger.info("MSH Finished ");
-                processSegment(parsedMessage.getRESPONSE().getPATIENT().getPID(), "PID", jsonOutput);
-                logger.info("PID Finished");
-                processSegment(parsedMessage.getRESPONSE().getPATIENT().getVISIT().getPV1(), "PV1",
-                        jsonOutput);
-                logger.info("PV1 Finished");
-                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getORC(), "ORC",
-                        jsonOutput);
-                logger.info("ORC Finished");
-                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBR(), "OBR",
-                        jsonOutput);
-                logger.info("OBR Finished");
+        else if (messageType.equals("ORU") && triggerEvent.equals("R01")) {
+            ORU_R01 parsedMessage = (ORU_R01) message;
+            // JsonObject jsonOutput = new JsonObject();
 
-                JsonArray obxArray = new JsonArray();
-                for (int i = 0; i < parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATIONReps(); i++) {
-                    JsonObject obxSegmentJson = new JsonObject();
-                    processSegment(
-                            parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATION(i).getOBX(), "OBX",
-                            obxSegmentJson);
-                    obxArray.add(obxSegmentJson);
-                }
-                jsonOutput.add("Observations", obxArray);
-                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getNTE(), "NTE",
-                        jsonOutput);
+            //segmentProcessClass.processSegment(message.getMSH(), "MSH", jsonOutput);
+            //segmentProcessClass.processSegment(message.getRESPONSE().getPATIENT().getPID(), "PID", jsonOutput);
+            //segmentProcessClass.processSegment(message.getRESPONSE().getPATIENT().getVISIT().getPV1(), "PV1",
+              //      jsonOutput);
+        //    segmentProcessClass.processSegment(message.getRESPONSE().getORDER_OBSERVATION().getORC(), "ORC",
+            //        jsonOutput);
+          //  segmentProcessClass.processSegment(message.getRESPONSE().getORDER_OBSERVATION().getOBR(), "OBR",
+              //      jsonOutput);
 
-                // System.out.println(new
-                // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
-                // logger.info("ORUOutput : " + new
-                // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
+//
 
+processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getPID(), "PID", jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getPD1(), "PD1", jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getNTE(), "NTE", jsonOutput);
+
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getVISIT().getPV1(), "PV1",jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getVISIT().getPV2(), "PV2",jsonOutput);
+
+processSegment(parsedMessage.getRESPONSE().getPATIENT().getVISIT().getPV2(), "PV2",jsonOutput);
+
+processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getORC(), "ORC",jsonOutput);
+
+processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBR(), "OBR",jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getNTE(), "NTE",jsonOutput);
+
+//segmentProcessClass.processSegment(message.getRESPONSE().getORDER_OBSERVATION(0).getOBR(), "OBR", jsonOutput);
+//segmentProcessClass.processSegment(message.getRESPONSE().getORDER_OBSERVATION(0).getNTE(), "NTE",jsonOutput);
+processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION(0).getCTI(), "CTI",jsonOutput);
+processSegment(parsedMessage.getDSC(), "DSC",jsonOutput);
+
+
+
+
+//
+
+
+
+            JsonArray obxArray = new JsonArray();
+            for (int i = 0; i < parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATIONReps(); i++) {
+                JsonObject obxSegmentJson = new JsonObject();
+                processSegment(
+                    parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATION(i).getOBX(), "OBX",
+                        obxSegmentJson);
+                obxArray.add(obxSegmentJson);
             }
-            else if ((messageType.equals("ORM") && triggerEvent.equals("O01")) ) {
-                logger.info("We are in ORU-R01 loop");
-                ORM_O01 parsedMessage = (ORM_O01) message;
-                // JsonObject jsonOutput = new JsonObject();
-                
-                processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
-                
-                processSegment(parsedMessage.getPATIENT().getPID(), "PID", jsonOutput);
-                
-                processSegment(parsedMessage.getORDER().getORC(), "ORC",
-                        jsonOutput);
-                logger.info("PV1 Finished");
-                processSegment(parsedMessage.getORDER().getORDER_DETAIL().getOBR(), "OBR",
-                        jsonOutput);
-                logger.info("ORC Finished");
+            jsonOutput.add("Observations", obxArray);
+            processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getNTE(), "NTE",
+                    jsonOutput);
 
-                JsonArray obxArray = new JsonArray();
-/*                 for (int i = 0; i < parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATIONReps(); i++) {
-                    JsonObject obxSegmentJson = new JsonObject();
-                    processSegment(
-                            parsedMessage.getRESPONSE().getORDER_OBSERVATION().getOBSERVATION(i).getOBX(), "OBX",
-                            obxSegmentJson);
-                    obxArray.add(obxSegmentJson);
-                }
-                jsonOutput.add("Observations", obxArray);
-                processSegment(parsedMessage.getRESPONSE().getORDER_OBSERVATION().getNTE(), "NTE",
-                        jsonOutput); */
+            // System.out.println(new
+            // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
+        }
 
-                // System.out.println(new
-                // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
-                // logger.info("ORUOutput : " + new
-                // GsonBuilder().setPrettyPrinting().create().toJson(jsonOutput));
+//ORM^O01
+ 
+else if (messageType.equals("ORM") && triggerEvent.equals("O01")) {
+    ORM_O01 parsedMessage = (ORM_O01) message;
+logger.info("ORM Loop");
+processSegment(parsedMessage.getMSH(), "MSH", jsonOutput);
+processSegment(parsedMessage.getNTE(), "NTE", jsonOutput);
 
-            }
+processSegment(parsedMessage.getPATIENT().getPID(), "PID", jsonOutput);
+processSegment(parsedMessage.getPATIENT().getPD1(), "PD1", jsonOutput);
+processSegment(parsedMessage.getPATIENT().getNTE(), "NTE", jsonOutput);
+
+processSegment(parsedMessage.getPATIENT().getPATIENT_VISIT().getPV1(), "PV1",jsonOutput);
+processSegment(parsedMessage.getPATIENT().getPATIENT_VISIT().getPV2(), "PV2",jsonOutput);
+
+processSegment(parsedMessage.getPATIENT().getINSURANCE().getIN1(), "IN1",jsonOutput);
+processSegment(parsedMessage.getPATIENT().getINSURANCE().getIN2(), "IN2",jsonOutput);
+processSegment(parsedMessage.getPATIENT().getINSURANCE().getIN3(), "IN3",jsonOutput);
+
+
+processSegment(parsedMessage.getPATIENT().getGT1(), "GT1",jsonOutput);
+processSegment(parsedMessage.getPATIENT().getAL1(), "AL1",jsonOutput);
+
+processSegment(parsedMessage.getORDER().getORC(), "ORC",jsonOutput);
+
+processSegment(parsedMessage.getORDER().getORDER_DETAIL().getNTE(), "NTE",jsonOutput);
+processSegment(parsedMessage.getORDER().getORDER_DETAIL().getDG1(), "DG1",jsonOutput);
+
+
+    JsonArray nteArray = new JsonArray();
+    JsonArray obxArray = new JsonArray();
+    for (int i = 0; i < parsedMessage.getORDER().getORDER_DETAIL().getOBSERVATIONReps(); i++) {
+        JsonObject obxSegmentJson = new JsonObject();
+        JsonObject nteSegmentJson = new JsonObject();
+        processSegment(parsedMessage.getORDER().getORDER_DETAIL().getOBSERVATION(i).getOBX(), "OBX",obxSegmentJson);
+        processSegment(parsedMessage.getORDER().getORDER_DETAIL().getOBSERVATION(i).getNTE(), "NTE",nteSegmentJson);
+        obxArray.add(obxSegmentJson);
+        nteArray.add(nteSegmentJson);
+    }
+    jsonOutput.add("Observations", obxArray);
+    jsonOutput.add("Observations", nteArray);
+ 
+}
+
+            
             // Process each structure in the message (segments or groups)
             for (String structureName : message.getNames()) {
                 String customSegmentName = segmentMapping.getOrDefault(structureName, structureName);

@@ -19,7 +19,7 @@
     <parent>
         <groupId>com.axana.nifi</groupId>
         <artifactId>axana-processor-bundle</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <artifactId>nifi-axana-nifi-hl7-processors</artifactId>
@@ -57,7 +57,16 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- NiFi Test Framework -->
+    
 <!--HAPI LIB-->
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
@@ -87,7 +96,7 @@
 
 
 
-
+    <!-- NiFi API -->
 
 
 

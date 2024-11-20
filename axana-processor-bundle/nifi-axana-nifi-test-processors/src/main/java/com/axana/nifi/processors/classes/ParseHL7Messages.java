@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.nifi.processor.ProcessContext;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import ca.uhn.hl7v2.HL7Exception;
@@ -18,9 +19,9 @@ import ca.uhn.hl7v2.parser.PipeParser;
 public class ParseHL7Messages {
 
     public static JsonObject parseMessageToJson(String hl7message, ProcessContext context, String msg_type,
-            String trigger_event) throws ClassNotFoundException, HL7Exception {
+            String trigger_event,Map segmentMapping) throws ClassNotFoundException, HL7Exception {
 
-                JsonObject jsonObject = new JsonObject();
+        JsonObject jsonObject = new JsonObject();
         Parser parser = new PipeParser();
         Message message = parser.parse(hl7message);
 
@@ -133,13 +134,45 @@ public class ParseHL7Messages {
         }
         // If there are no instances, you can choose to skip adding the segment to jsonObject.
     }
+    //JsonObject resultJson = gson.toJsonTree(jsonObject).getAsJsonObject();
 
-    return jsonObject;
+    return applyMappingRecursively(jsonObject, segmentMapping);
+
+   // return jsonObject;
 }
 
+    // Recursive method to apply mapping to nested JSON objects
+    private static JsonObject applyMappingRecursively(JsonObject jsonObject, Map<String, String> segmentMapping) {
+        JsonObject mappedJson = new JsonObject();
+
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            String key = entry.getKey();
+            JsonElement value = entry.getValue();
+
+            String mappedKey = segmentMapping.getOrDefault(key, key);
+
+            if (value.isJsonObject()) {
+                mappedJson.add(mappedKey, applyMappingRecursively(value.getAsJsonObject(), segmentMapping));
+            } else if (value.isJsonArray()) {
+                JsonArray mappedArray = new JsonArray();
+                for (JsonElement element : value.getAsJsonArray()) {
+                    if (element.isJsonObject()) {
+                        mappedArray.add(applyMappingRecursively(element.getAsJsonObject(), segmentMapping));
+                    } else {
+                        mappedArray.add(element);
+                    }
+                }
+                mappedJson.add(mappedKey, mappedArray);
+            } else {
+                mappedJson.add(mappedKey, value);
+            }
+        }
+
+        return mappedJson;
+    }
 
 
-    public static JsonObject oooparseMessageToJson(Message message, String msg_type, String trigger_event)
+    public static JsonObject oooparseMessageToJson(Message message, String msg_type, String trigger_event, String segmentMapping)
             throws HL7Exception {
         JsonObject jsonObject = new JsonObject();
         String msg_version = message.getVersion();
