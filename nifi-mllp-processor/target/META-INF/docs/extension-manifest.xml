@@ -1,0 +1,1 @@
+<extensionManifest><groupId>com.axana.nifi</groupId><artifactId>mllp-nifi-processor</artifactId><version>1.0-SNAPSHOT</version><systemApiVersion>2.0.0-M4</systemApiVersion><buildInfo></buildInfo><extensions></extensions></extensionManifest>
