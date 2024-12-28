@@ -1,1 +1,1 @@
-com.axana.nifi.MLLPProcessor
+com.axana.nifi.TcpListenerProcessor
