@@ -1,4 +1,4 @@
 /home/andrew/work/nifiproject/git/nifi-custom-processor/nifi-mllp-processor/src/main/java/com/axana/nifi/TcpListenerProcessor.java
 /home/andrew/work/nifiproject/git/nifi-custom-processor/nifi-mllp-processor/src/main/java/com/axana/nifi/CustomReceivingApplication.java
-/home/andrew/work/nifiproject/git/nifi-custom-processor/nifi-mllp-processor/src/main/java/com/axana/nifi/OldTcpListenerProcessor.java
+/home/andrew/work/nifiproject/git/nifi-custom-processor/nifi-mllp-processor/src/main/java/com/axana/nifi/HL7TcpListenerProcessor.java
 /home/andrew/work/nifiproject/git/nifi-custom-processor/nifi-mllp-processor/src/main/java/com/axana/nifi/MLLPProcessor.java

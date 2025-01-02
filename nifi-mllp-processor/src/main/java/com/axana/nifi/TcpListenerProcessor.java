@@ -33,7 +33,6 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.model.v23.segment.MSA;
 import ca.uhn.hl7v2.model.v23.segment.MSH;
 import ca.uhn.hl7v2.parser.PipeParser;
 import ca.uhn.hl7v2.validation.DefaultValidator;
@@ -48,6 +47,8 @@ public class TcpListenerProcessor extends AbstractProcessor {
     private final BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
     private ServerSocket serverSocket;
     private ExecutorService executorService;
+    String errorDescription = "";
+    boolean isValid=false;
 
     public static final PropertyDescriptor PORT = new PropertyDescriptor.Builder()
             .name("Port")
@@ -83,17 +84,17 @@ public class TcpListenerProcessor extends AbstractProcessor {
     public synchronized void start(final ProcessContext context) {
         int port = context.getProperty(PORT).asInteger();
         running.set(true);
-        getLogger().info("Starting TCP Listener on port {}", new Object[] { port });
+        getLogger().info("Starting TCP Listener on port {}", port);
 
-        executorService = Executors.newSingleThreadExecutor();
+        executorService = Executors.newCachedThreadPool(); // Use cached thread pool for handling multiple clients
 
         executorService.submit(() -> {
             try (ServerSocket serverSocket = new ServerSocket(port)) {
                 this.serverSocket = serverSocket;
-                getLogger().info("TCP Listener started on port {}", new Object[] { port });
+                getLogger().info("TCP Listener started on port {}", port);
                 while (running.get()) {
                     Socket clientSocket = serverSocket.accept();
-                    handleClient(clientSocket);
+                    executorService.submit(() -> handleClient(clientSocket)); // Submit to the pool
                 }
             } catch (IOException e) {
                 if (running.get()) {
@@ -102,8 +103,8 @@ public class TcpListenerProcessor extends AbstractProcessor {
             }
         });
     }
-
     private void handleClient(Socket clientSocket) {
+        boolean validate_result = false;
         try {
             byte[] buffer = new byte[1024];
             int read = clientSocket.getInputStream().read(buffer);
@@ -114,21 +115,34 @@ public class TcpListenerProcessor extends AbstractProcessor {
 
                 PipeParser parser = new PipeParser();
                 try {
-                    Message inboundMessage;
-                    inboundMessage = parser.parse(receivedData);
-                    // Create a default ACK message dynamically for the inbound message
+                    Message inboundMessage = parser.parse(receivedData);
 
-                    // Send ACK
-                    sendAck(clientSocket, receivedData);
+                    // Message hl7Message = parser.parse(receivedData);
+                    // MSH mshSegment = (MSH) inboundMessage.get("MSH");
+                    // validate_result = isMSHValid(mshSegment);
+                getLogger().info("ISVALID_HANDLECLIENT : " + isValid);
+                    if (isValid == true) {
+                        // Process the message and send ACK
+                        sendAck(clientSocket, receivedData);
+
+                    } else {
+                        getLogger().info("ELSE_HANDLECLIENT : " + isValid);
+
+                        // String messageControlID = extractMessageControlId(receivedData);
+                        // getLogger().info("MSG_ID : " + messageControlID);
+                        // String[] split_emsg = e.getMessage().split(":");
+                        // String errorDescription = split_emsg[2];
+                        sendNAck(clientSocket, receivedData, errorDescription);
+
+                    }
 
                 } catch (HL7Exception e) {
-                     String messageControlID = extractMessageControlId(receivedData);
-                     getLogger().info("MSG_ID : " + messageControlID);
+                    String messageControlID = extractMessageControlId(receivedData);
+                    getLogger().info("MSG_ID : " + messageControlID);
                      String[] split_emsg = e.getMessage().split(":");
                      String errorDescription = split_emsg[2];
-                   sendNAck(clientSocket, receivedData,messageControlID,errorDescription);
+                    sendNAck(clientSocket, receivedData, errorDescription);
                 }
-
             }
         } catch (IOException e) {
             getLogger().error("Error handling client connection", e);
@@ -141,18 +155,16 @@ public class TcpListenerProcessor extends AbstractProcessor {
         }
     }
 
-    private void sendNAck(Socket clientSocket, String receivedMessage, String messageControlId, String errorDescription) {
+    private void sendNAck(Socket clientSocket, String receivedMessage, String errorDescription) {
+        String messageControlId = extractMessageControlId(receivedMessage);
         getLogger().info("NACK OUTPU : " + receivedMessage);
         // Wrap the ACK message with MLLP delimiters
-        
+
         String nackMessage = "MSH|^~\\&|SendingSystem|SendingFacility|ReceivingSystem|ReceivingFacility|"
-        + getCurrentDateTime() + "||ACK|" + messageControlId + "|P|2.3|\n"
-        + "MSA|AE|" + messageControlId + "|" + errorDescription + "|\n"
-        + "ERR|" + errorDescription + "|\n";
-getLogger().info("NackMethod : " + nackMessage);
-
-
-
+                + getCurrentDateTime() + "||ACK|" + messageControlId + "|P|2.3|\n"
+                + "MSA|AE|" + messageControlId + "|" + errorDescription + "|\n"
+                + "ERR|" + errorDescription + "|\n";
+        getLogger().info("NackMethod : " + nackMessage);
 
         String ackWithMLLP = "\u000B" + nackMessage + "\u001C\r";
 
@@ -171,59 +183,48 @@ getLogger().info("NackMethod : " + nackMessage);
 
     }
 
-    private void sendAck(Socket clientSocket, String receivedMessage) {
-        String messageControlID = "";
 
-        try {
-            // boolean isValid = validateHL7Message(receivedMessage);
-            // if (isValid) {
-            // throw new IllegalArgumentException("HL7 validation failed for the message.");
+    private void sendAck(Socket clientSocket, String receivedData) throws HL7Exception {
+        PipeParser parser = new PipeParser();
 
-            // Parse the incoming HL7 message dynamically
-            PipeParser parser = new PipeParser();
-            Message inboundMessage = parser.parse(receivedMessage);
+        Message inboundMessage = parser.parse(receivedData);
+        String messageControlID = extractMessageControlId(receivedData);
+        if (messageControlID == null) {
+            getLogger().error("Incomplete MSH segment: ");
 
-            // Create a default ACK message dynamically for the inbound message
-            Message ackMessage = inboundMessage.generateACK();
+        } else {
 
-            // Extract the MSH fields from the inbound message
-            MSH inboundMSH = (MSH) inboundMessage.get("MSH");
-            String fieldSeparator = inboundMSH.getFieldSeparator().getValue();
-            String encodingCharacters = inboundMSH.getEncodingCharacters().getValue();
-            messageControlID = inboundMSH.getMessageControlID().getValue();
-            String versionID = inboundMSH.getVersionID().getValue();
-
-            // Set ACK message MSH fields dynamically based on the inbound message
-            MSH ackMSH = (MSH) ackMessage.get("MSH");
-            ackMSH.getFieldSeparator().setValue(fieldSeparator);
-            ackMSH.getEncodingCharacters().setValue(encodingCharacters);
-            ackMSH.getVersionID().setValue(versionID);
-            ackMSH.getMessageControlID().setValue(messageControlID);
-
-            // Set MSA fields dynamically
-            MSA msa = (MSA) ackMessage.get("MSA");
-            msa.getMessageControlID().setValue(messageControlID);
-
-            // Encode the ACK message to a string
-            String ackMessageString = parser.encode(ackMessage);
+            String ackMessage = generateAckMessage(inboundMessage, messageControlID);
 
             // Wrap the ACK message with MLLP delimiters
-            String ackWithMLLP = "\u000B" + ackMessageString + "\u001C\r";
-
-            // Send the ACK back to the client
-            clientSocket.getOutputStream().write(ackWithMLLP.getBytes(StandardCharsets.UTF_8));
-            clientSocket.getOutputStream().flush();
-
-            // Log the ACK message being sent
-            getLogger().info("Sent ACK message: {}", ackMessageString);
-
-        } catch (Exception e) {
-
-            // Log the ACK message being sent
-            getLogger().error("Error generating or sending NACK", e);
-
+            String ackWithMLLP = "\u000B" + ackMessage + "\u001C\r";
+            try {
+                clientSocket.getOutputStream().write(ackWithMLLP.getBytes(StandardCharsets.UTF_8));
+                clientSocket.getOutputStream().flush();
+                getLogger().info("Sent ACK message: {}", ackMessage);
+            } catch (IOException e) {
+                getLogger().error("Error sending ACK", e);
+            }
         }
+
     }
+
+    private String generateAckMessage(Message inboundMessage, String messageControlID) {
+        // Build your ACK message here based on inbound message and messageControlID
+        // This is an example template, adjust as per your needs
+        return "MSH|^~\\&|SendingSystem|SendingFacility|ReceivingSystem|ReceivingFacility|"
+                + getCurrentDateTime() + "||ACK|" + messageControlID + "|P|2.3|\n"
+                + "MSA|AA|" + messageControlID + "|\n";
+    }
+
+    private String generateNackMessage(String messageControlId, String errorDescription) {
+        // Similar to ACK generation but for NACK
+        return "MSH|^~\\&|SendingSystem|SendingFacility|ReceivingSystem|ReceivingFacility|"
+                + getCurrentDateTime() + "||ACK|" + messageControlId + "|P|2.3|\n"
+                + "MSA|AE|" + messageControlId + "|" + errorDescription + "|\n"
+                + "ERR|" + errorDescription + "|\n";
+    }
+
 
     @OnStopped
     public synchronized void stop() {
@@ -245,112 +246,154 @@ getLogger().info("NackMethod : " + nackMessage);
         String message = messageQueue.poll();
         if (message != null) {
             FlowFile flowFile = session.create();
-
             try {
-                // Write the message to the FlowFile
                 flowFile = session.write(flowFile, out -> out.write(message.getBytes(StandardCharsets.UTF_8)));
+                 isValid = validateHL7Message(message, flowFile, session);
+                getLogger().info("IsValidated : " + isValid);
+                if (isValid == true) {
+                    getLogger().info("TRUE CONDITION : " + isValid);
+                    session.transfer(flowFile, REL_SUCCESS);
 
-                // Validate the message
-                 boolean isValid = validateHL7Message(message,flowFile,session);
-                
-                 if (!isValid) {
-                 
-                 throw new IllegalArgumentException("HL7 validation failed for the message.");
-                 }
-                 
-
-                // Transfer the FlowFile to the success relationship
-                session.transfer(flowFile, REL_SUCCESS);
+                } else {
+                    getLogger().info("ELSE-FALSE CONDITION : " + isValid);
+                    flowFile = session.penalize(flowFile); // Penalize first
+                    session.transfer(flowFile, REL_FAILURE); // Then transfer
+                }
             } catch (Exception e) {
-               // getLogger().error("Failed to process or validate the message: " + message, e);
+                getLogger().error("Failed to process or validate the message: " + message, e);
+                if (flowFile != null) {
+                    getLogger().error("FlowFile details: " + flowFile.getAttribute("uuid"));
+                }
             }
         }
     }
 
-    /**
-     * Validates an HL7 message.
-     * 
-     * @param message The HL7 message to validate.
-     * @return true if the message is valid, false otherwise.
-     */
+
+    private boolean isMSHValid(MSH msh, FlowFile flowFile, ProcessSession session) {
+        try {
+            // Validate required fields in MSH segment
+            String msh1 = msh.getMsh1_FieldSeparator().getValue();
+            String msh2 = msh.getMsh2_EncodingCharacters().getValue();
+            String msh3 = msh.getMsh3_SendingApplication().encode();
+            String msh4 = msh.getMsh4_SendingFacility().encode();
+            String msh5 = msh.getMsh5_ReceivingApplication().encode();
+            String msh6 = msh.getMsh6_ReceivingFacility().encode();
+            String msh7 = msh.getMsh7_DateTimeOfMessage().getTimeOfAnEvent().getValue();
+            String msh9_1 = msh.getMsh9_MessageType().getCm_msg1_MessageType().getValue();
+            String msh9_2 = msh.getMsh9_MessageType().getCm_msg1_MessageType().getValue();
+            String msh10 = msh.getMsh10_MessageControlID().getValue();
+            String msh11 = msh.getMsh11_ProcessingID().encode();
+            String msh12 = msh.getMsh12_VersionID().encode();
+
+            getLogger().info("msh_1: " + msh1 + "msg_id : " + msh10);
+            if (msh1 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_1 is empty");
+
+                throw new IllegalArgumentException("MSH_1 is empty");
+                // return false;
+            } else if (msh2 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_2 is empty");
+                throw new IllegalArgumentException("MSH_2 is empty");
+            } else if (msh3 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_3 is empty");
+                throw new IllegalArgumentException("MSH_3 is empty");
+
+            } else if (msh4 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_4 is empty");
+                throw new IllegalArgumentException("MSH_4 is empty");
+
+            } else if (msh5 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_5 is empty");
+                throw new IllegalArgumentException("MSH_5 is empty");
+
+            } else if (msh6 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_6 is empty");
+                throw new IllegalArgumentException("MSH_6 is empty");
+
+            } else if (msh7 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_7 is empty");
+                throw new IllegalArgumentException("MSH_7 is empty");
+
+            } else if (msh9_1 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_9_1 is empty");
+                throw new IllegalArgumentException("MSH_9_1 is empty");
+
+            } else if (msh9_2 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_9_2 is empty");
+                throw new IllegalArgumentException("MSH_9_2 is empty");
+
+            }
+
+            else if (msh11 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_11 is empty");
+                throw new IllegalArgumentException("MSH_11 is empty");
+
+            } else if (msh12 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_12 is empty");
+                throw new IllegalArgumentException("MSH_12 is empty");
+
+            } else if (msh10 == null) {
+                flowFile = session.putAttribute(flowFile, "validation.error", "MSH_10 is empty");
+                throw new IllegalArgumentException("MSH_10 is empty");
+                
+
+            } else {
+                isValid=true;
+                getLogger().info("TRUE : msh10: " + msh10);
+                return true; // MSH is valid if all required fields are present
+
+            }
+
+        } catch (Exception e) {
+            getLogger().error("Error validating MSH segment", e);
+            errorDescription=e.getMessage();
+            return false; // Return false if there is an exception during validation
+        }
+    }
+
     private boolean validateHL7Message(String message, FlowFile flowFile, ProcessSession session)
             throws ValidationException {
+        boolean validate_result = false;
         try {
-            // Create HAPI context and parser
             HapiContext context = new DefaultHapiContext();
             PipeParser parser = context.getPipeParser();
-
-            // Parse the HL7 message
             Message hl7Message = parser.parse(message);
-
-            // Create the validator
-            DefaultValidator validator = new DefaultValidator(context);
-
-            // Perform the validation
-            validator.validate(hl7Message);
-            flowFile = session.write(flowFile, out -> out.write(message.getBytes(StandardCharsets.UTF_8)));
-
-            // If no exceptions are thrown, the message is valid
-            return true;
+            MSH mshSegment = (MSH) hl7Message.get("MSH");
+            validate_result = isMSHValid(mshSegment, flowFile, session);
+            getLogger().info("validate_result : " + validate_result);
+            return validate_result;
+            // DefaultValidator validator = new DefaultValidator(context);
+            // validator.validate(hl7Message);
+            // return true;
         } catch (Exception e) {
-            // Handle other exceptions, like HL7Exception
-            if (flowFile != null) {
-                // ca.uhn.hl7v2.validation.ValidationException: Validation failed: Primitive
-                // value 'F' requires to be empty or a HL7 datetime string at OBR-22(0)
-                String error_msg = e.getMessage().toString();
-                String[] errorMessage = error_msg.split(":");
-                getLogger().info("ErrMSG >>-0 : " + errorMessage[0]);
-                getLogger().info("ErrMSG -1 : " + errorMessage[1]);
-                getLogger().info("ErrMSG>>> -2 : " + errorMessage[2]);
-
-                flowFile = session.putAttribute(flowFile, "validation.error", errorMessage[2]);
-                flowFile = session.penalize(flowFile);
-
-                session.transfer(flowFile, REL_FAILURE);
-            }
+            flowFile = session.putAttribute(flowFile, "validation.error", e.getMessage());
+            errorDescription=e.getMessage();
+            // flowFile = session.penalize(flowFile);
+            // session.transfer(flowFile, REL_FAILURE);
             getLogger().error("Error parsing or validating HL7 message: " + e.getMessage(), e);
-            return false;
+            validate_result = false;
+            return validate_result;
         }
-    }
-
-    private String createNackMessage(String messageControlId, String errorDescription) {
-        String nackMessage = "MSH|^~\\&|SendingSystem|SendingFacility|ReceivingSystem|ReceivingFacility|"
-                + getCurrentDateTime() + "||ACK|" + messageControlId + "|P|2.3|\n"
-                + "MSA|AE|" + messageControlId + "|" + errorDescription + "|\n"
-                + "ERR|" + errorDescription + "|\n";
-        getLogger().info("NackMethod : " + nackMessage);
-        return nackMessage;
     }
 
     private String getCurrentDateTime() {
-        // Return the current timestamp in HL7 format (e.g., "yyyyMMddHHmmss")
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         return dateFormat.format(new Date());
     }
 
     public static String extractMessageControlId(String hl7Message) {
-        // Split the message into segments using the newline character
+        // Extract Message Control ID from the MSH segment
         String[] segments = hl7Message.split("\n");
-
-        // Find the MSH segment (typically the first segment)
         for (String segment : segments) {
             if (segment.startsWith("MSH|")) {
-                // Split the MSH segment into fields using the pipe character "|"
                 String[] fields = segment.split("\\|");
-
-                // Ensure there are enough fields in the MSH segment (10th field is the Message
-                // Control ID)
-                if (fields.length >= 10) {
-                    // MSH-10 is the Message Control ID (10th field, index 9)
+                if (fields.length > 9) {
                     return fields[9]; // Return the Message Control ID
                 } else {
-                    // If there aren't enough fields, return an error message
-                    return "Error: MSH-10 field is missing or invalid.";
+                    return null;
                 }
             }
         }
-
-        // If no MSH segment is found
         return "Error: MSH segment not found.";
     }
 
